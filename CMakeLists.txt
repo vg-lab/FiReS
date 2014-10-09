@@ -79,7 +79,16 @@ set_target_properties(fires
   PROPERTIES VERSION ${fires_VERSION} SOVERSION ${fires_VERSION}
 )
 
-install(TARGETS fires DESTINATION lib)
+
+set(INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+set(INSTALL_LIB_DIR ${CMAKE_INSTALL_PREFIX}/lib)
+set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_PREFIX}/share/CMake)
+
+
+install(TARGETS fires 
+  EXPORT firesTargets
+  DESTINATION ${INSTALL_LIB_DIR}
+  COMPONENT dev)
 
 
 # Doxygen documentation generation
@@ -108,3 +117,42 @@ endif()
 
 
 add_subdirectory(examples)
+
+
+
+
+# Add all targets to the build-tree export set
+export(TARGETS fires
+  FILE "${PROJECT_BINARY_DIR}/firesTargets.cmake")
+ 
+# Export the package for use from the build-tree
+# (this registers the build-tree with a global CMake-registry)
+export(PACKAGE fires)
+ 
+message(${INSTALL_CMAKE_DIR} "---"
+   ${INSTALL_INCLUDE_DIR})
+
+# Create the firesConfig.cmake and firesConfigVersion files
+file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
+   "${INSTALL_INCLUDE_DIR}")
+# ... for the build tree
+set(CONF_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}" "${PROJECT_BINARY_DIR}")
+configure_file(firesConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/firesConfig.cmake" @ONLY)
+# ... for the install tree
+set(CONF_INCLUDE_DIRS "\${FOOBAR_CMAKE_DIR}/${REL_INCLUDE_DIR}")
+configure_file(firesConfig.cmake.in
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/firesConfig.cmake" @ONLY)
+# ... for both
+configure_file(firesConfigVersion.cmake.in
+  "${PROJECT_BINARY_DIR}/firesConfigVersion.cmake" @ONLY)
+ 
+# Install the FooBarConfig.cmake and FooBarConfigVersion.cmake
+install(FILES
+  "${PROJECT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/firesConfig.cmake"
+  "${PROJECT_BINARY_DIR}/firesConfigVersion.cmake"
+  DESTINATION "${INSTALL_CMAKE_DIR}" COMPONENT dev)
+ 
+# Install the export set for use with the install-tree
+install(EXPORT firesTargets DESTINATION
+  "${INSTALL_CMAKE_DIR}" COMPONENT dev)
