@@ -13,5 +13,8 @@ if(NOT TARGET fires AND NOT fires_BINARY_DIR)
 endif()
  
 # These are IMPORTED targets created by firesTargets.cmake
-set(FOOBAR_LIBRARIES fires)
+set(FIRES_LIBRARIES fires)
+
+
+message(STATUS "Using fires @fires_VERSION@ from @fires_ ")
 

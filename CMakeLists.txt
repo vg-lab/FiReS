@@ -30,12 +30,6 @@ set(CMAKE_CXX_FLAGS_DEBUG
   "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 
 
-include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/ 
-  ${CMAKE_CURRENT_BINARY_DIR}
-) 
-
-
 # # # # # # # # # # # # # # # # # # # #  # # # # # # # # # # # # # # # # #
 # Find files to install 
 # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # 
@@ -59,7 +53,6 @@ install( FILES ${CMAKE_CURRENT_BINARY_DIR}/fires/FiresConfig.h
 install( DIRECTORY ${DIRS_TO_DEPLOY} DESTINATION include/fires )
 # # # # # # # # # # # # # # # # # # # # # #  # # # # # # # # # # # # # # #
 
-
 # Configure file 
 configure_file (
   "${CMAKE_CURRENT_SOURCE_DIR}/fires/FiresConfig.h.in"
@@ -79,11 +72,9 @@ set_target_properties(fires
   PROPERTIES VERSION ${fires_VERSION} SOVERSION ${fires_VERSION}
 )
 
-
 set(INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
 set(INSTALL_LIB_DIR ${CMAKE_INSTALL_PREFIX}/lib)
-set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_PREFIX}/share/CMake)
-
+set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_PREFIX}/share/fires/CMake)
 
 install(TARGETS fires 
   EXPORT firesTargets
@@ -107,7 +98,6 @@ if(DOXYGEN_FOUND)
   configure_file(${CMAKE_SOURCE_DIR}/doc/Doxyfile
     ${CMAKE_BINARY_DIR}/doc/Doxyfile @ONLY)
 
-
   add_custom_target(doc
     COMMAND ${DOXYGEN_EXECUTABLE} 
     WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/doc"
@@ -116,8 +106,8 @@ if(DOXYGEN_FOUND)
 endif()
 
 
+# Add exaples subdirectory
 add_subdirectory(examples)
-
 
 
 
@@ -129,9 +119,6 @@ export(TARGETS fires
 # (this registers the build-tree with a global CMake-registry)
 export(PACKAGE fires)
  
-message(${INSTALL_CMAKE_DIR} "---"
-   ${INSTALL_INCLUDE_DIR})
-
 # Create the firesConfig.cmake and firesConfigVersion files
 file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
    "${INSTALL_INCLUDE_DIR}")
