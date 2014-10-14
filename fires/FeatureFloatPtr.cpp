@@ -12,16 +12,10 @@
 namespace fires
 {
 
-  FeatureFloatPtr::FeatureFloatPtr( float *floatPtr )
-  {
-    _value = floatPtr;
-  }
-  
-  float * FeatureFloatPtr::value( void )
-  {
-    return _value;
-  }
- 
+  // FeatureFloatPtr::FeatureFloatPtr( float * pointer ) 
+  //   : FeaturePtr< float >( pointer )
+  // {
+  // } 
 
 }
 

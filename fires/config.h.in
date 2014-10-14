@@ -3,4 +3,5 @@
 #define fires_VERSION_PATCH @fires_VERSION_PATCH@
 #define fires_VERSION @fires_VERSION@
 
+#define FIRES_WITH_VMMLIB @FIRES_WITH_VMMLIB@
 

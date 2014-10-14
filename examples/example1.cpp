@@ -1,9 +1,11 @@
 
 
-#include <fires/fires.h>
+#include "../fires/fires.h"
 
 #include <iostream>
 #include <math.h>
+
+
 
 class Test
 {
@@ -22,8 +24,10 @@ public:
 
   TestObject () 
   {
-    this->addFeature(std::string("feature1"), new fires::FeatureFloatPtr(&this->attr1));
-    this->addFeature(std::string("feature2"), new fires::FeatureFloatPtr(&this->attr2));
+    this->addFeature(std::string("feature1"), 
+		     new fires::FeatureFloatPtr(&this->attr1));
+    this->addFeature(std::string("feature2"), 
+		     new fires::FeatureFloatPtr(&this->attr2));
   }
  
 
@@ -105,6 +109,8 @@ int main ()
 
   std::cout << std::endl;
 
+
+  // Change parameters of a custom comparer
   comparer2.factor = 0.5f;
 
   sys.query();
@@ -114,6 +120,42 @@ int main ()
   {
     std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
   }
+
+  comparer2.factor = 1.0f;
+
+  std::cout << std::endl;
+
+
+  // Change some attribute and due to the use of feature pointers 
+  // no need of update is needed 
+  obj1.attr2+= 1.3;
+
+  sys.query();
+
+  for (fires::System::Results::const_iterator it = sys.results().begin();
+     it != sys.results().end(); it++)
+  {
+    std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
+  }
+
+  std::cout << std::endl;
+
+
+  // Take parameters to their original values
+  obj1.attr2-= 1.3;
+
+  sys.query();
+
+  for (fires::System::Results::const_iterator it = sys.results().begin();
+     it != sys.results().end(); it++)
+  {
+    std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
+  }
+
+  std::cout << std::endl;
+
+
+
 
 
 }

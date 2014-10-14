@@ -15,7 +15,10 @@
 
 // Features includes 
 #include "Feature.h"
+#include "FeaturePtr.h"
 #include "FeatureFloatPtr.h"
+#include "FeatureVectorPtr.h"
 
 // Comparer features
 #include "FeatureFloatPtrComparer.h"
+#include "FeatureVectorPtrComparer.h"

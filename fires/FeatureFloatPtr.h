@@ -10,7 +10,7 @@
 #define __FIRES__FEATURE_FLOAT_PTR_H__
 
 
-#include "Feature.h"
+#include "FeaturePtr.h"
 
 namespace fires
 {
@@ -18,20 +18,18 @@ namespace fires
   /*! \class FeatureFloatPtr
    \brief Feature class that has a pointer to a float value
    */
-  class FeatureFloatPtr : public Feature
-  {
+  // class FeatureFloatPtr 
+  //   : public FeaturePtr< float >
+  // {
 
-  public:
+  // public:
 
-    FeatureFloatPtr( float *floatPtr );
+  //   FeatureFloatPtr( float * pointer ); 
+  
 
-    float * value( void );
+  // };
 
-  protected:
-
-    float * _value;
-
-  };
+  typedef FeaturePtr< float > FeatureFloatPtr;
 
 }
 

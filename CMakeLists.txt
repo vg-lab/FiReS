@@ -13,6 +13,17 @@ cmake_minimum_required(VERSION 2.8)
 list(APPEND CMAKE_MODULE_PATH 
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 
+# Option to build with shared pointers or raw pointers
+option(WITH_VMMLIB "WITH_VMMLIB" ON)
+set(FIRES_WITH_VMMLIB 0)
+if (WITH_VMMLIB)
+  find_package(vmmlib)
+  if (VMMLIB_FOUND)
+    set(FIRES_WITH_VMMLIB 1)
+    include_directories(${VMMLIB_INCLUDE_DIRS})
+  endif()
+endif()
+
 # Version numbers
 set(${PROJECT_NAME}_VERSION_MAJOR 0)
 set(${PROJECT_NAME}_VERSION_MINOR 1)
@@ -34,7 +45,9 @@ set(CMAKE_CXX_FLAGS_DEBUG
 add_library (${PROJECT_NAME} SHARED
 ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/Comparer.cpp  
 ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/FeatureFloatPtrComparer.cpp  
+#${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/FeatureVectorPtrComparer.cpp  
 ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/FeatureFloatPtr.cpp  
+${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/FeaturePtr.cpp  
 ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/Object.cpp  
 ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/System.cpp
 )
