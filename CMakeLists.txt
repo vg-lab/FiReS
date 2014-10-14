@@ -14,11 +14,11 @@ list(APPEND CMAKE_MODULE_PATH
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 
 # Version numbers
-set(fires_VERSION_MAJOR 0)
-set(fires_VERSION_MINOR 1)
-set(fires_VERSION_PATCH 0)
-set(fires_VERSION
-    ${fires_VERSION_MAJOR}.${fires_VERSION_MINOR}.${fires_VERSION_PATCH})
+set(${PROJECT_NAME}_VERSION_MAJOR 0)
+set(${PROJECT_NAME}_VERSION_MINOR 1)
+set(${PROJECT_NAME}_VERSION_PATCH 0)
+set(${PROJECT_NAME}_VERSION
+    ${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}.${${PROJECT_NAME}_VERSION_PATCH})
 
 # Standard configs like version, debug as default
 include(StandardConfig)
@@ -31,21 +31,23 @@ set(CMAKE_CXX_FLAGS_DEBUG
 
 
 # Build library
-add_library (fires SHARED
-${CMAKE_CURRENT_SOURCE_DIR}/fires/Comparer.cpp  
-${CMAKE_CURRENT_SOURCE_DIR}/fires/FeatureFloatPtrComparer.cpp  
-${CMAKE_CURRENT_SOURCE_DIR}/fires/FeatureFloatPtr.cpp  
-${CMAKE_CURRENT_SOURCE_DIR}/fires/Object.cpp  
-${CMAKE_CURRENT_SOURCE_DIR}/fires/System.cpp
-)
-set_target_properties(fires
-  PROPERTIES VERSION ${fires_VERSION} SOVERSION ${fires_VERSION}
+add_library (${PROJECT_NAME} SHARED
+${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/Comparer.cpp  
+${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/FeatureFloatPtrComparer.cpp  
+${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/FeatureFloatPtr.cpp  
+${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/Object.cpp  
+${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}/System.cpp
 )
 
-# Install rules
+set_target_properties(${PROJECT_NAME}
+  PROPERTIES VERSION ${${PROJECT_NAME}_VERSION} 
+  SOVERSION ${${PROJECT_NAME}_VERSION}
+)
+
 # Find files to install 
 file(GLOB DEPLOY_FILES_AND_DIRS 
 "${CMAKE_CURRENT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}/*")
+
 include(InstallLibrary)
 
 # Doxygen documentation generation
@@ -56,7 +58,6 @@ add_subdirectory(test)
 
 # Examples subdirectory 
 add_subdirectory(examples)
-
 
 # Export library
 include(ExportLibrary)

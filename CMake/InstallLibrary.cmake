@@ -10,7 +10,6 @@ foreach(ITEM ${DEPLOY_FILES_AND_DIRS})
    endif()
 endforeach()
 
-
 # Install rules
 install( FILES ${FILES_TO_DEPLOY} DESTINATION include/${PROJECT_NAME} )
 install( FILES ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}/config.h 
