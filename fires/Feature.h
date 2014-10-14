@@ -14,7 +14,6 @@
 namespace fires
 {
 
-
   /*! \class Feature
    \brief Feature class from which real features have to be derived
    */
@@ -25,7 +24,6 @@ namespace fires
     virtual ~Feature( ) {};
 
   };
-
 
 }
 

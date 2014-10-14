@@ -12,43 +12,85 @@
 
 #include "Feature.h"
 
-#include <map>
-
+#include <string>
 
 namespace fires
 {
+  namespace detail
+  {
+    class Object;
+  }
 
+  /*! \class Object
+    \brief A class to represent objects that can be used in fires.
+
+    This class provides access to object properties and features
+  */
   class Object
   {
 
   public:
 
-    class Features : public std::map<std::string, Feature *>
-    {
-    
-    public:
+    /**
+     * Default constructor 
+     */
+    Object( );
 
-      void add(std::string label, Feature *feature); 
-
-    };
-
+    /**
+     * Destructor 
+     */
+    ~Object( );
  
+    /**
+     * Add a feature to this object
+     * @param label label string for the feature
+     * @param feature feature to be added
+     */   
     void addFeature( std::string label, Feature *feature );
 
-    Feature * getFeature( std::string label );
+    /**
+     * Get a feature of this object
+     * @param label label string to retrieve the feature
+     * @return the feature if found or nullptr otherwise
+     */   
+    Feature * getFeature( std::string label ) const;
 
-    Features & features( void );
+    /**
+     * Get a feature of this object
+     * @param label label string to retrieve the feature
+     * @param feature feature to be setted
+     * @return true in case feature was setted, false otherwise
+     */   
+    bool setFeature( std::string label, Feature * feature);
 
-    std::string label( void );
+    /**
+     * Get a feature of this object
+     * @param label label of the feature to be deleted
+     * @return true if the feature could be deleted
+     */   
+    bool delFeature( std::string label );
 
-    void label(std::string label);
+    /**
+     * Clears the features of this object (no memory freeing)
+     */   
+    void clearFeatures( void );
 
+
+    /**
+     * Get a reference to the label of the object
+     * @return reference to label
+     */   
+    std::string & label( void );
+
+    /**
+     * Get the label of the object
+     * @return label of the object
+     */   
+    std::string label( void ) const;
 
   protected:
-  
-    Features _features;
-    std::string _label;
-
+    
+    detail::Object * _impl;
     
   };
   

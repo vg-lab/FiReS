@@ -14,6 +14,7 @@
 #include "Comparer.h"
 
 #include <vector>
+#include <map>
 
 
 namespace fires

@@ -80,8 +80,8 @@ int main ()
   obj2.attr1 = 3.2f;
   obj2.attr2 = 2.1f;
 
-  obj1.label("Object 1");
-  obj2.label("Object 2");
+  obj1.label( ) = "Object 1";
+  obj2.label( ) = "Object 2";
   
   fires::FeatureFloatPtrComparer comparer1;
   CustomFeatureFloatPtrComparer comparer2;
