@@ -13,8 +13,8 @@ set(INSTALL_CMAKE_DIR ${CMAKE_INSTALL_PREFIX}/share/${PROJECT_NAME}/CMake)
 
 # Include directories
 include_directories(
-  ${CMAKE_CURRENT_SOURCE_DIR}/ 
   ${CMAKE_CURRENT_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/ 
 ) 
 
 # Configure file 

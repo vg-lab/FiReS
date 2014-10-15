@@ -5,6 +5,7 @@
 #include <math.h>
 
 
+#if (FIRES_WITH_VMMLIB == 1)
 
 
 class Test
@@ -177,3 +178,17 @@ int main ( )
 
 
 }
+
+#else 
+
+
+int main ( void )
+{
+
+  std::cerr << "This example need vmmlib" << std::endl;
+
+  return -1;
+
+}
+
+#endif 

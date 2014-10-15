@@ -9,6 +9,8 @@
 #ifndef __FIRES_COMPARER_FEATURE_VECTOR_PTR_H__
 #define __FIRES_COMPARER_FEATURE_VECTOR_PTR_H__
 
+#if (FIRES_WITH_VMMLIB == 1)
+
 #include "Comparer.h"
 #include <vmmlib/util.hpp>
 
@@ -185,4 +187,8 @@ namespace fires
   
 } // namespace fires
 
+#endif // (FIRES_WITH_VMMLIB == 1)
+
+
 #endif
+

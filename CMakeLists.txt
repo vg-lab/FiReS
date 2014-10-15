@@ -9,10 +9,6 @@
 project(fires)
 cmake_minimum_required(VERSION 2.8)
 
-# Add CMake dir to the module path
-list(APPEND CMAKE_MODULE_PATH 
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
-
 # Option to build with shared pointers or raw pointers
 option(WITH_VMMLIB "WITH_VMMLIB" ON)
 set(FIRES_WITH_VMMLIB 0)
@@ -20,9 +16,13 @@ if (WITH_VMMLIB)
   find_package(vmmlib)
   if (VMMLIB_FOUND)
     set(FIRES_WITH_VMMLIB 1)
-    include_directories(${VMMLIB_INCLUDE_DIRS})
   endif()
 endif()
+
+
+# Add CMake dir to the module path
+list(APPEND CMAKE_MODULE_PATH 
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 
 # Version numbers
 set(${PROJECT_NAME}_VERSION_MAJOR 0)
@@ -33,6 +33,12 @@ set(${PROJECT_NAME}_VERSION
 
 # Standard configs like version, debug as default
 include(StandardConfig)
+
+# Include vmmlib include dirs if needing
+if (${FIRES_WITH_VMMLIB} MATCHES 1)
+  include_directories(${VMMLIB_INCLUDE_DIRS})
+endif()  
+
 
 # Custom flags for Release and Debug
 set(CMAKE_CXX_FLAGS 

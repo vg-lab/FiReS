@@ -7,6 +7,8 @@
  *          Do not distribute without further notice.
  */
 
+#include <fires/config.h>
+
 // Object related includes 
 #include "Object.h"
 

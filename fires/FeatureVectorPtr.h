@@ -9,6 +9,10 @@
 #ifndef __FIRES__FEATURE_VECTOR_PTR_H__
 #define __FIRES__FEATURE_VECTOR_PTR_H__
 
+#include <fires/config.h>
+
+#if (FIRES_WITH_VMMLIB == 1)
+
 
 #include "Feature.h"
 
@@ -66,4 +70,10 @@ typedef FeatureVectorPtr< 4, int > FeatureVec4iPtr;
 
 
 } // namespace fires
-#endif
+
+#endif // (FIRES_WITH_VMMLIB == 1)
+
+#endif // __FIRES__FEATURE_VECTOR_PTR_H__
+
+//EOF 
+
