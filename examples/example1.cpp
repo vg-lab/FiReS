@@ -48,8 +48,10 @@ public:
   virtual float distance(fires::Feature *f1, fires::Feature *f2)
   {
 
-    fires::FeatureFloatPtr *ffp1 = static_cast<fires::FeatureFloatPtr *>(f1);
-    fires::FeatureFloatPtr *ffp2 = static_cast<fires::FeatureFloatPtr *>(f2);
+    fires::FeatureFloatPtr *ffp1 = 
+      static_cast<fires::FeatureFloatPtr *>(f1);
+    fires::FeatureFloatPtr *ffp2 = 
+      static_cast<fires::FeatureFloatPtr *>(f2);
 
     if (!ffp1 || !ffp2)
       {
@@ -58,10 +60,6 @@ public:
 		  << std::endl;
 	return 0.0f;
       }
-
-
-    //      std::cout << "Compare " << *ffp1->value() << " to " << *ffp2->value() << std::endl;
-
 
     return factor * fabs((*ffp1->value()) - (*ffp2->value()));
 
@@ -77,15 +75,25 @@ public:
 int main () 
 {
 
-  TestObject obj1, obj2;
+  TestObject obj1, obj2, obj3, obj4;
 
   obj1.attr1 = 3.4f;
   obj1.attr2 = 4.3f;
+
   obj2.attr1 = 3.2f;
   obj2.attr2 = 2.1f;
 
+  obj3.attr1 = 1.4f;
+  obj3.attr2 = 2.2f;
+
+  obj4.attr1 = 4.1f;
+  obj4.attr2 = 1.8f;
+
+
   obj1.label( ) = "Object 1";
   obj2.label( ) = "Object 2";
+  obj3.label( ) = "Object 3";
+  obj4.label( ) = "Object 4";
   
   fires::FeatureFloatPtrComparer comparer1;
   CustomFeatureFloatPtrComparer comparer2;
@@ -93,8 +101,11 @@ int main ()
 
   sys.addObject(&obj1);
   sys.addObject(&obj2);
+  sys.addObject(&obj3);
+  sys.addObject(&obj4);
 
   sys.addQueryObject(&obj1);
+  sys.addQueryObject(&obj2);
 
   sys.addFeature(std::string("feature1"), 1.0, &comparer1);
   sys.addFeature(std::string("feature2"), 1.0, &comparer2);
@@ -127,7 +138,7 @@ int main ()
 
 
   // Change some attribute and due to the use of feature pointers 
-  // no need of update is needed 
+  // no need of an update step needed 
   obj1.attr2+= 1.3;
 
   sys.query();

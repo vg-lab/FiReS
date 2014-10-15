@@ -78,7 +78,7 @@ namespace fires
 	_features.add(label,feature);
       }
   
-      Feature * getFeature( std::string label )
+      Feature * getFeature( const std::string label )
       {
 	return _features.get( label );
       }
@@ -143,7 +143,7 @@ namespace fires
     _impl->addFeature( label, feature );
   }
   
-  Feature * Object::getFeature( std::string label ) const
+  Feature * Object::getFeature( const std::string label ) const
   {
     return _impl->getFeature( label );
   }

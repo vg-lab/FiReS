@@ -12,6 +12,8 @@
 
 #include "Feature.h"
 
+#include <iostream>
+
 namespace fires
 {
 
@@ -29,10 +31,39 @@ namespace fires
 
     virtual ~FeaturePtr( ) {};
 
-    virtual TYPE * value( void )
+    virtual TYPE * value( void ) const
     {
       return _value;      
     };
+
+    virtual Feature * newFeature( void ) const
+    {
+      return new FeaturePtr( new TYPE );
+    }
+
+
+    virtual FeaturePtr & operator +=( const Feature & rhs) 
+    {
+      if ( this != & rhs ) 
+      {	
+	const FeaturePtr< TYPE > * feat = 
+	  static_cast< const FeaturePtr< TYPE > * >( & rhs );
+
+	TYPE * rhsValue = feat->value( );
+	( * this->_value ) += ( * rhsValue );
+
+      }
+      return * this;
+    }
+
+
+    virtual FeaturePtr & operator /= ( const int & rhs ) 
+    {
+      ( * this->_value ) /= rhs;
+      return * this;
+
+    }
+
 
   protected:
 

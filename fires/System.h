@@ -81,6 +81,9 @@ class System
  
  protected:
 
+  void _computeAverageQueryObject( Object & avgObj  );
+
+
   Objects _objs;
   QueryObjects _queryObjs; 
   QueryFeatures _features;

@@ -24,3 +24,4 @@
 // Comparer features
 #include "FeatureFloatPtrComparer.h"
 #include "FeatureVectorPtrComparer.h"
+#include "FeatureVectorOfPointersPtrComparer.h"

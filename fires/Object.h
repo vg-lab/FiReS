@@ -53,7 +53,7 @@ namespace fires
      * @param label label string to retrieve the feature
      * @return the feature if found or nullptr otherwise
      */   
-    Feature * getFeature( std::string label ) const;
+    Feature * getFeature( const std::string label ) const;
 
     /**
      * Get a feature of this object

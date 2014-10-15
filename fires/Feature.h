@@ -9,6 +9,7 @@
 #ifndef __FIRES__FEATURE_H__
 #define __FIRES__FEATURE_H__
 
+#include <stdexcept> // runtime_error
 
 
 namespace fires
@@ -22,6 +23,23 @@ namespace fires
 
   public:
     virtual ~Feature( ) {};
+
+    virtual Feature * newFeature( void ) const 
+    { 
+      return nullptr;
+    };
+
+
+    virtual Feature & operator +=( const Feature & rhs) 
+    {
+      throw std::runtime_error("Error: += operator not implemented");
+    }
+
+    virtual Feature & operator /= ( const int & rhs ) 
+    {
+      throw std::runtime_error("Error: += operator not implemented");
+    }
+
 
   };
 

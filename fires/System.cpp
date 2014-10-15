@@ -8,12 +8,22 @@
  */
 
 #include "System.h" 
+#include "fires.h" 
 
 #include <iostream>
+#include <assert.h>
 #include <math.h>
+#include <algorithm>    // std::sort
 
 namespace fires
 {
+
+  bool ResultsElementSortFunction( System::ResultsElement res1, 
+				   System::ResultsElement res2 )
+  {
+    return ( res1.score < res2.score );
+  }
+
 
   void System::Objects::add(Object *object) 
   {
@@ -46,7 +56,9 @@ namespace fires
     _queryObjs.add(obj);
   }
 
-  void System::addFeature(std::string label, float weight, Comparer *comparer) {
+  void System::addFeature(std::string label, float weight, 
+			  Comparer *comparer) 
+  {
     _features.add(label,weight,comparer);
   }
 
@@ -54,6 +66,47 @@ namespace fires
   const System::Results & System::results( void )
   {
     return _results;
+  }
+
+  void System::_computeAverageQueryObject( Object & avgObj  ) 
+  {
+
+    for (QueryFeatures::iterator sysFeatIter = _features.begin(); 
+	 sysFeatIter != _features.end(); sysFeatIter++)
+    {
+      Feature * forig = _queryObjs[0]->getFeature( sysFeatIter->first );
+      Feature * fnew =  forig->newFeature( );
+
+      avgObj.addFeature( sysFeatIter->first , fnew );
+    }
+
+    for (QueryFeatures::iterator sysFeatIter = _features.begin(); 
+	 sysFeatIter != _features.end(); sysFeatIter++)
+    {
+      
+      std::string label = sysFeatIter->first;
+
+      Feature * avgFeat = avgObj.getFeature( label );
+      
+      assert( static_cast< FeatureFloatPtr * >( avgFeat ));
+
+      for ( QueryObjects::iterator queryObjIt = _queryObjs.begin( );
+	    queryObjIt != _queryObjs.end( ); queryObjIt++ )
+      {
+
+
+	Feature * queryFeat = 
+	  ( ( * queryObjIt )->getFeature( label ) );
+
+	assert( static_cast< FeatureFloatPtr * >( queryFeat ));
+
+	(* avgFeat ) += ( * queryFeat );
+      }
+
+      (* avgFeat ) /= _queryObjs.size();
+      
+    }
+
   }
 
   void System::query( void ) 
@@ -67,17 +120,13 @@ namespace fires
 
     _results.clear();
 
-    // TODO: compute the average object
 
+    // If the distance to the query set is done using the average
     Object avgObj;
-    for (QueryFeatures::iterator sysFeatIter = _features.begin(); 
-	 sysFeatIter != _features.end(); sysFeatIter++)
-    {
-      
-    }
+    _computeAverageQueryObject( avgObj );
+    
 
-
-    Object *queryObj = _queryObjs[0];
+    Object *queryObj = & avgObj; // _queryObjs[0];
 
     for (Objects::iterator obj = _objs.begin(); obj != _objs.end(); obj++)
     {      
@@ -88,9 +137,10 @@ namespace fires
 	   sysFeatIter != _features.end(); sysFeatIter++)
       {
 	Feature *f1 = queryObj->getFeature(sysFeatIter->first);
-	// TODO check f1 is not NULL
 	Feature *f2 = (*obj)->getFeature(sysFeatIter->first);
-	// TODO check f2 is not NULL
+
+	if ( !f1 || !f2 )
+	  throw std::runtime_error( "features not definen in the object" );
 
 	Comparer *comparer = sysFeatIter->second.comparer;
 
@@ -99,9 +149,7 @@ namespace fires
 	dist += fabs(sysFeatIter->second.weight) * d * d;
 
       }
-      dist = sqrtf(dist);
-      //      std::cout << (*obj)->label() << ": " << dist << std::endl; 
-      //std::cout << dist << std::endl;
+      dist = sqrtf(dist);    
 
       // TODO: change push_backs to more generic method
       _results.push_back(ResultsElement{(*obj), dist});
@@ -109,6 +157,9 @@ namespace fires
     }
 
     // TODO: sort results
+    std::sort( _results.begin( ), 
+	       _results.end( ),
+	       ResultsElementSortFunction );
 
   }
 
