@@ -18,10 +18,11 @@
 // Features includes 
 #include "Feature.h"
 #include "FeaturePtr.h"
-#include "FeatureFloatPtr.h"
-#include "FeatureVectorPtr.h"
+#include "FeaturePtrToFloat.h"
+#include "FeaturePtrToVector.h"
+#include "FeaturePtrToVectorOfPtrs.h"
 
 // Comparer features
-#include "FeatureFloatPtrComparer.h"
-#include "FeatureVectorPtrComparer.h"
-#include "FeatureVectorOfPointersPtrComparer.h"
+#include "FeaturePtrToFloatComparer.h"
+#include "FeaturePtrToVectorComparer.h"
+#include "FeaturePtrToVectorOfPtrsComparer.h"

@@ -25,21 +25,23 @@ public:
   TestObject () 
   {
     this->addFeature(std::string("feature1"), 
-		     new fires::FeatureFloatPtr(&this->attr1));
+		     new fires::FeaturePtrToFloat(&this->attr1));
     this->addFeature(std::string("feature2"), 
-		     new fires::FeatureFloatPtr(&this->attr2));
+		     new fires::FeaturePtrToFloat(&this->attr2));
   }
  
+  // createFeatures();
+
 
 };
 
 
-class CustomFeatureFloatPtrComparer : public fires::Comparer
+class CustomFeaturePtrToFloatComparer : public fires::Comparer
 {
   
 public:
 
-  CustomFeatureFloatPtrComparer(void)
+  CustomFeaturePtrToFloatComparer(void)
   {
     factor = 1.0f;
   }
@@ -48,14 +50,14 @@ public:
   virtual float distance(fires::Feature *f1, fires::Feature *f2)
   {
 
-    fires::FeatureFloatPtr *ffp1 = 
-      static_cast<fires::FeatureFloatPtr *>(f1);
-    fires::FeatureFloatPtr *ffp2 = 
-      static_cast<fires::FeatureFloatPtr *>(f2);
+    fires::FeaturePtrToFloat *ffp1 = 
+      static_cast<fires::FeaturePtrToFloat *>(f1);
+    fires::FeaturePtrToFloat *ffp2 = 
+      static_cast<fires::FeaturePtrToFloat *>(f2);
 
     if (!ffp1 || !ffp2)
       {
-	std::cerr << "Error casting to FeatureFloatPtr " 
+	std::cerr << "Error casting to FeaturePtrToFloat " 
 		  << "for distance computation" 
 		  << std::endl;
 	return 0.0f;
@@ -95,8 +97,8 @@ int main ()
   obj3.label( ) = "Object 3";
   obj4.label( ) = "Object 4";
   
-  fires::FeatureFloatPtrComparer comparer1;
-  CustomFeatureFloatPtrComparer comparer2;
+  fires::FeaturePtrToFloatComparer comparer1;
+  CustomFeaturePtrToFloatComparer comparer2;
   fires::System sys;
 
   sys.addObject(&obj1);

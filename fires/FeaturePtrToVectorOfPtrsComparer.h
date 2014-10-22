@@ -18,12 +18,12 @@ namespace fires
 {
 
   template< size_t M, typename T  >
-  class FeatureVectorOfPointersPtrComparer 
+  class FeaturePtrToVectorOfPtrsComparer 
     : public FeatureVectorComparer
   {
   public:
 
-    FeatureVectorOfPointersPtrComparer( void )
+    FeaturePtrToVectorOfPtrsComparer( void )
       : FeatureVectorComparer( )
     {
     }
@@ -37,16 +37,16 @@ namespace fires
     virtual float distance(Feature *f1, Feature *f2)
     {
 
-      FeatureVectorPtr< M, T > * ffp1 = 
-	dynamic_cast< FeatureVectorPtr< M, T > * >( f1 );
-      FeatureVectorPtr< M, T > * ffp2 = 
-	dynamic_cast< FeatureVectorPtr< M, T > * >( f2 );
+      FeaturePtrToVectorOfPtrs< M, T > * ffp1 = 
+	dynamic_cast< FeaturePtrToVectorOfPtrs< M, T > * >( f1 );
+      FeaturePtrToVectorOfPtrs< M, T > * ffp2 = 
+	dynamic_cast< FeaturePtrToVectorOfPtrs< M, T > * >( f2 );
       
       if ( !ffp1 || !ffp2 )
       {
-	std::cerr << "Error casting to FeatureVectorPtr " 
+	std::cerr << "Error casting to FeaturePtrToVectorOfPtrs " 
 		  << "for distance computation" 
-		<< std::endl;
+		  << std::endl;
 	return 0.0f;
       }
       
@@ -54,8 +54,20 @@ namespace fires
       // vmml::vector< M, T > * v2 = ffp2->value( );
 
       // Convert to float to compute distances
-      vmml::vector< M, float > v1f( * ( * ffp1->value( )));
+      vmml::vector< M, float > v1f;
+      for ( int i = 0; i < M ; i++ )
+      {
+	vmml::vector< M, T * > v = ( * ffp1->value( ));
+	v1f( i ) = * v( i );
+      }
+
       vmml::vector< M, float > v2f( * ( * ffp2->value( )));
+      for ( int i = 0; i < M ; i++ )
+      {
+	vmml::vector< M, T * > v = ( * ffp2->value( ));
+	v2f( i ) = * v( i );
+      }
+
 
       switch ( _type )
       {
@@ -76,19 +88,20 @@ namespace fires
 
   }; 
 
-  typedef FeatureVectorOfPointersPtrComparer< 2, float * > 
-  FeatureVec2pfPtrComparer;
-  typedef FeatureVectorOfPointersPtrComparer< 3, float * > 
-  FeatureVec3pfPtrComparer;
-  typedef FeatureVectorOfPointersPtrComparer< 4, float * > 
-  FeatureVec4pfPtrComparer;
 
-  typedef FeatureVectorOfPointersPtrComparer< 2, int * > 
-  FeatureVec2piPtrComparer;
-  typedef FeatureVectorOfPointersPtrComparer< 3, int * > 
-  FeatureVec3piPtrComparer;
-  typedef FeatureVectorOfPointersPtrComparer< 4, int * > 
-  FeatureVec4piPtrComparer;
+  typedef FeaturePtrToVectorOfPtrsComparer< 2, float > 
+  FeaturePtrToVec2pfComparer;
+  typedef FeaturePtrToVectorOfPtrsComparer< 3, float > 
+  FeaturePtrToVec3pfComparer;
+  typedef FeaturePtrToVectorOfPtrsComparer< 4, float > 
+  FeaturePtrToVec4pfComparer;
+
+  typedef FeaturePtrToVectorOfPtrsComparer< 2, int > 
+  FeaturePtrToVec2piComparer;
+  typedef FeaturePtrToVectorOfPtrsComparer< 3, int > 
+  FeaturePtrToVec3piComparer;
+  typedef FeaturePtrToVectorOfPtrsComparer< 4, int > 
+  FeaturePtrToVec4piComparer;
 
   
   

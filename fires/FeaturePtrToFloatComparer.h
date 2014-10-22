@@ -1,5 +1,5 @@
 /**
- * @file    ComparerFeatureFloatPtr.h
+ * @file    ComparerFeaturePtrToFloat.h
  * @brief   
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date    
@@ -14,12 +14,12 @@
 namespace fires
 {
 
-  /*! \class FeatureFloatPtrComparer
+  /*! \class FeaturePtrToFloatComparer
     \brief Comparer specific to compute distance between two 
-    FeatureFloatPtr features
+    FeaturePtrToFloat features
 
   */
-  class FeatureFloatPtrComparer : public Comparer
+  class FeaturePtrToFloatComparer : public Comparer
   {
   public:
 

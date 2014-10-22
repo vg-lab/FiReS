@@ -7,12 +7,12 @@
  *          Do not distribute without further notice.
  */
 
-#include "FeatureFloatPtr.h"
+#include "FeaturePtrToFloat.h"
 
 namespace fires
 {
 
-  // FeatureFloatPtr::FeatureFloatPtr( float * pointer ) 
+  // FeaturePtrToFloat::FeaturePtrToFloat( float * pointer ) 
   //   : FeaturePtr< float >( pointer )
   // {
   // } 

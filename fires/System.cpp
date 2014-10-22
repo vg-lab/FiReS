@@ -77,6 +77,7 @@ namespace fires
       Feature * forig = _queryObjs[0]->getFeature( sysFeatIter->first );
       Feature * fnew =  forig->newFeature( );
 
+      //std::cout << "New " << fnew << std::endl;
       avgObj.addFeature( sysFeatIter->first , fnew );
     }
 
@@ -88,7 +89,7 @@ namespace fires
 
       Feature * avgFeat = avgObj.getFeature( label );
       
-      assert( static_cast< FeatureFloatPtr * >( avgFeat ));
+      assert( static_cast< FeaturePtrToFloat * >( avgFeat ));
 
       for ( QueryObjects::iterator queryObjIt = _queryObjs.begin( );
 	    queryObjIt != _queryObjs.end( ); queryObjIt++ )
@@ -98,7 +99,7 @@ namespace fires
 	Feature * queryFeat = 
 	  ( ( * queryObjIt )->getFeature( label ) );
 
-	assert( static_cast< FeatureFloatPtr * >( queryFeat ));
+	assert( static_cast< FeaturePtrToFloat * >( queryFeat ));
 
 	(* avgFeat ) += ( * queryFeat );
       }
@@ -155,6 +156,21 @@ namespace fires
       _results.push_back(ResultsElement{(*obj), dist});
 
     }
+
+
+    // Free memory for average object features
+    for (QueryFeatures::iterator sysFeatIter = _features.begin(); 
+	 sysFeatIter != _features.end(); sysFeatIter++)
+    {
+      Feature * feat = avgObj.getFeature( sysFeatIter->first );
+      feat->deleteFeature( );
+      delete feat;
+      //  std::cout << "Delete " << feat << std::endl;
+    }
+
+
+
+
 
     // TODO: sort results
     std::sort( _results.begin( ), 

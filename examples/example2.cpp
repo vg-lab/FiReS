@@ -66,10 +66,10 @@ public:
     vector3 = fires::Vec3pf( & attr31, & attr32, & attr33 );
 
     // Create the features
-    f1 = new fires::FeatureVec2fPtr( & vector1 );
-    f2 = new fires::FeatureVec3iPtr( & vector2 );
-    f3 = new fires::FeatureVec3pfPtr( & vector3 );
-    f4 = new fires::FeatureFloatPtr( & this->attr1);
+    f1 = new fires::FeaturePtrToVec2f( & vector1 );
+    f2 = new fires::FeaturePtrToVec3i( & vector2 );
+    f3 = new fires::FeaturePtrToVec3pf( & vector3 );
+    f4 = new fires::FeaturePtrToFloat( & this->attr1);
 
     // Add the different features of different types, giving a name
     // and the feature itself
@@ -98,33 +98,49 @@ int main ( )
 {
 
   // Two test objects
-  TestObject obj1, obj2;
+  TestObject obj1, obj2, obj3, obj4;
 
   // Set values to their attributes 
   obj1.attr1 = 1.2f;
-  obj2.attr1 = 2.3f;
-
   obj1.attr11 = 3.4f;
   obj1.attr12 = 4.3f;
-
   obj1.attr21 = 3;
   obj1.attr22 = 2;
   obj1.attr23 = 2;
-
-  obj2.attr11 = 2.4f;
-  obj2.attr12 = 2.5f;
-
-  obj2.attr21 = 4;
-  obj2.attr22 = 1;
-  obj2.attr23 = 2;
-
   obj1.attr31 = 4.4;
   obj1.attr32 = 1.2;
   obj1.attr33 = 2.6;
 
+  obj2.attr1 = 2.3f;
+  obj2.attr11 = 2.4f;
+  obj2.attr12 = 2.5f;
+  obj2.attr21 = 4;
+  obj2.attr22 = 1;
+  obj2.attr23 = 2;
   obj2.attr31 = 2.2;
   obj2.attr32 = 2.4;
   obj2.attr33 = 3.1;
+
+  obj3.attr1 = 2.1f;
+  obj3.attr11 = 5.1f;
+  obj3.attr12 = 3.3f;
+  obj3.attr21 = 4;
+  obj3.attr22 = 5;
+  obj3.attr23 = 1;
+  obj3.attr31 = 2.1;
+  obj3.attr32 = 2.6;
+  obj3.attr33 = 2.3;
+
+  obj4.attr1 = 2.6f;
+  obj4.attr11 = 5.8f;
+  obj4.attr12 = 4.6f;
+  obj4.attr21 = 6;
+  obj4.attr22 = 2;
+  obj4.attr23 = 1;
+  obj4.attr31 = 1.2;
+  obj4.attr32 = 2.3;
+  obj4.attr33 = 3.8;
+
 
   // In case of using pointers to vectors of scalars their values 
   // have to be updated 
@@ -134,26 +150,38 @@ int main ( )
   obj2.vector1 = fires::Vec2f( obj2.attr11, obj2.attr12 );
   obj2.vector2 = fires::Vec3i( obj2.attr21, obj2.attr22, obj2.attr23 );
 
+  obj3.vector1 = fires::Vec2f( obj3.attr11, obj3.attr12 );
+  obj3.vector2 = fires::Vec3i( obj3.attr21, obj3.attr22, obj3.attr23 );
+
+  obj4.vector1 = fires::Vec2f( obj4.attr11, obj4.attr12 );
+  obj4.vector2 = fires::Vec3i( obj4.attr21, obj4.attr22, obj4.attr23 );
+
+
   // Asign labels
   obj1.label( ) = "Object 1";
   obj2.label( ) = "Object 2";
+  obj3.label( ) = "Object 3";
+  obj4.label( ) = "Object 4";
   
 
   // Set-up comparers
-  fires::FeatureVec2fPtrComparer comparer1;
-  fires::FeatureVec3iPtrComparer comparer2;
-  fires::FeatureVec3pfPtrComparer comparer3;
-  fires::FeatureFloatPtrComparer comparer4;
+  fires::FeaturePtrToVec2fComparer comparer1;
+  fires::FeaturePtrToVec3iComparer comparer2;
+  fires::FeaturePtrToVec3pfComparer comparer3;
+  fires::FeaturePtrToFloatComparer comparer4;
 
   // Set-up system
   fires::System sys;
 
   // Add objects to the system
-  sys.addObject( &obj1 );
-  sys.addObject( &obj2 );
+  sys.addObject( & obj1 );
+  sys.addObject( & obj2 );
+  sys.addObject( & obj3 );
+  sys.addObject( & obj4 );
 
   // Add query objects
-  sys.addQueryObject( &obj1 );
+  sys.addQueryObject( & obj1 );
+  sys.addQueryObject( & obj2 );
 
   // Add the features to the system
   sys.addFeature( "feature1", 1.0, & comparer1 );
@@ -170,10 +198,12 @@ int main ( )
     std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
   std::cout << std::endl;
 
+
   // Now show that comparer parameters can be changed. In this case the
   // type of distance is changed from default euclidean to manhattan
-  comparer1.distanceType() = fires::FeatureVec2fPtrComparer::MANHATTAN;
-  comparer2.distanceType() = fires::FeatureVec3iPtrComparer::MANHATTAN;
+  comparer1.distanceType() = fires::FeaturePtrToVec2fComparer::MANHATTAN;
+  comparer2.distanceType() = fires::FeaturePtrToVec3iComparer::MANHATTAN;
+  comparer3.distanceType() = fires::FeaturePtrToVec3fComparer::MANHATTAN;
 
   // Query again and print results
   sys.query();
@@ -185,8 +215,8 @@ int main ( )
 
   // Return the the distances to euclidean and print results. They 
   // should be the same as the first query
-  comparer1.distanceType() = fires::FeatureVec2fPtrComparer::EUCLIDEAN;
-  comparer2.distanceType() = fires::FeatureVec3iPtrComparer::EUCLIDEAN;
+  comparer1.distanceType() = fires::FeaturePtrToVec2fComparer::EUCLIDEAN;
+  comparer2.distanceType() = fires::FeaturePtrToVec3iComparer::EUCLIDEAN;
 
   sys.query();
 

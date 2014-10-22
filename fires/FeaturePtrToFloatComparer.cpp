@@ -1,5 +1,5 @@
 /**
- * @file    ComparerFeatureFloatPtr.cpp
+ * @file    ComparerFeaturePtrToFloat.cpp
  * @brief   
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date    
@@ -7,8 +7,8 @@
  *          Do not distribute without further notice.
  */
 
-#include "FeatureFloatPtr.h"
-#include "FeatureFloatPtrComparer.h"
+#include "FeaturePtrToFloat.h"
+#include "FeaturePtrToFloatComparer.h"
 
 #include <iostream>
 #include <math.h>
@@ -16,14 +16,14 @@
 namespace fires
 {
 
-  float FeatureFloatPtrComparer::distance( Feature *f1, Feature *f2 )
+  float FeaturePtrToFloatComparer::distance( Feature *f1, Feature *f2 )
   {
-    FeatureFloatPtr *ffp1 = dynamic_cast< FeatureFloatPtr * >( f1 );
-    FeatureFloatPtr *ffp2 = dynamic_cast< FeatureFloatPtr * >( f2 );
+    FeaturePtrToFloat *ffp1 = dynamic_cast< FeaturePtrToFloat * >( f1 );
+    FeaturePtrToFloat *ffp2 = dynamic_cast< FeaturePtrToFloat * >( f2 );
 
     if ( !ffp1 || !ffp2 )
     {
-      std::cerr << "Error casting to FeatureFloatPtr " 
+      std::cerr << "Error casting to FeaturePtrToFloat " 
 		<< "for distance computation" 
 		<< std::endl;
       return 0.0f;
