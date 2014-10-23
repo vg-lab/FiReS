@@ -22,6 +22,7 @@
 #include "FeaturePtrToVector.h"
 #include "FeaturePtrToVectorOfPtrs.h"
 
+
 // Comparer features
 #include "FeaturePtrToFloatComparer.h"
 #include "FeaturePtrToVectorComparer.h"

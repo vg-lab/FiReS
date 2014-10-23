@@ -12,7 +12,8 @@
 #if (FIRES_WITH_VMMLIB == 1)
 
 #include "FeatureVectorComparer.h"
-#include <vmmlib/util.hpp>
+
+#include <vmmlib/util.hpp> // manhattan
 
 namespace fires
 {
@@ -22,16 +23,14 @@ namespace fires
     FeaturePtrToVector features
 
   */
+
   template< size_t M, typename T  >
   class FeaturePtrToVectorComparer 
     : public FeatureVectorComparer
   {
   public:
 
-    FeaturePtrToVectorComparer( void )
-      : FeatureVectorComparer( )
-    {
-    }
+    FeaturePtrToVectorComparer( void );
 
     /**
      * Virtual method to compute distance between to vector pointers 
@@ -39,45 +38,7 @@ namespace fires
      * @param f2 Second feature to compare.
      * @return Distance between features
      */
-    virtual float distance(Feature *f1, Feature *f2)
-    {
-
-      FeaturePtrToVector< M, T > * ffp1 = 
-	dynamic_cast< FeaturePtrToVector< M, T > * >( f1 );
-      FeaturePtrToVector< M, T > * ffp2 = 
-	dynamic_cast< FeaturePtrToVector< M, T > * >( f2 );
-      
-      if ( !ffp1 || !ffp2 )
-      {
-	std::cerr << "Error casting to FeaturePtrToVector " 
-		  << "for distance computation" 
-		<< std::endl;
-	return 0.0f;
-      }
-      
-      // vmml::vector< M, T > * v1 = ffp1->value( );
-      // vmml::vector< M, T > * v2 = ffp2->value( );
-
-      // Convert to float to compute distances
-      vmml::vector< M, float > v1f( * ffp1->value( ));
-      vmml::vector< M, float > v2f( * ffp2->value( ));
-
-      switch ( _type )
-      {
-      case MANHATTAN:
-	return vmml::manhattan( v2f - v1f );
-	break;
-      case EUCLIDEAN:
-	return ( v1f - v2f ).length( );
-	break;
-      default:
-	throw std::runtime_error(
-	  "FeaturePtrToVectorComparer: distance not supported");
-      }
-      
-      return 0.0f;
-
-    }
+    virtual float distance(Feature *f1, Feature *f2);
 
 
   }; 
@@ -90,7 +51,53 @@ namespace fires
   typedef FeaturePtrToVectorComparer< 2, int > FeaturePtrToVec2iComparer;
   typedef FeaturePtrToVectorComparer< 3, int > FeaturePtrToVec3iComparer;
   typedef FeaturePtrToVectorComparer< 4, int > FeaturePtrToVec4iComparer;
+
   
+  template< size_t M, typename T  >
+  FeaturePtrToVectorComparer< M, T>::FeaturePtrToVectorComparer( void )
+    : FeatureVectorComparer( )
+  {
+  }
+
+  template< size_t M, typename T  > float 
+  FeaturePtrToVectorComparer< M, T >::distance( Feature *f1, Feature *f2 )
+  {
+
+    FeaturePtrToVector< M, T > * ffp1 = 
+      dynamic_cast< FeaturePtrToVector< M, T > * >( f1 );
+    FeaturePtrToVector< M, T > * ffp2 = 
+      dynamic_cast< FeaturePtrToVector< M, T > * >( f2 );
+      
+    if ( !ffp1 || !ffp2 )
+    {
+      std::cerr << "Error casting to FeaturePtrToVector " 
+		<< "for distance computation" 
+		<< std::endl;
+      return 0.0f;
+    }
+      
+    // Convert to float to compute distances
+    vmml::vector< M, float > v1f( * ffp1->value( ));
+    vmml::vector< M, float > v2f( * ffp2->value( ));
+
+    switch ( _type )
+    {
+    case MANHATTAN:
+      return vmml::manhattan( v2f - v1f );
+      break;
+    case EUCLIDEAN:
+      return ( v1f - v2f ).length( );
+      break;
+    default:
+      throw std::runtime_error(
+	"FeaturePtrToVectorComparer: distance not supported");
+    }
+      
+    return 0.0f;
+
+  }
+
+
   
 } // namespace fires
 
