@@ -42,7 +42,7 @@ endif()
 
 # Custom flags for Release and Debug
 set(CMAKE_CXX_FLAGS 
-  "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wno-unknown-pragmas")
+  "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wno-unknown-pragmas -fopenmp")
 set(CMAKE_CXX_FLAGS_DEBUG 
   "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 

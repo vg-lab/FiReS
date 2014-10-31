@@ -6,9 +6,19 @@ include_directories(
   ${CMAKE_BINARY_DIR}
 ) 
 
-add_executable(example1 example1.cpp)
-target_link_libraries(example1 fires)
+add_executable(floatFeatures floatFeatures.cpp)
+target_link_libraries(floatFeatures fires)
 
-add_executable(example2 example2.cpp)
-target_link_libraries(example2 fires)
+add_executable(vectorFeatures vectorFeatures.cpp)
+target_link_libraries(vectorFeatures fires)
+
+add_executable(floatFeaturesNormalization
+floatFeaturesNormalization.cpp)
+target_link_libraries(floatFeaturesNormalization fires)
+
+add_executable(largeNumberOfObjects
+largeNumberOfObjects.cpp)
+target_link_libraries(largeNumberOfObjects fires)
+
+
 

@@ -260,6 +260,23 @@ int main ( )
     std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
 
 
+  sys.query( fires::System::DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+
+  std::cout << std::endl;
+  for (fires::System::Results::const_iterator it = sys.results().begin();
+     it != sys.results().end(); it++)
+    std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
+
+
+  sys.query( fires::System::MINIMUM_DISTANCE_TO_QUERY_OBJECTS );
+
+  std::cout << std::endl;
+  for (fires::System::Results::const_iterator it = sys.results().begin();
+     it != sys.results().end(); it++)
+    std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
+
+
+
   return 0;
 
 

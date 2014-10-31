@@ -23,6 +23,13 @@ namespace fires
   {
   public:
 
+    FeaturePtrToFloatComparer( float minValue = 0, float maxValue = 0);
+
+    void setMaxValue( const float maxValue );
+
+    void setMinValue( const float minValue );
+
+
     /**
      * Virtual method to compute distance between to float pointers 
      * @param f1 First feature to compare.
@@ -30,6 +37,19 @@ namespace fires
      * @return Distance between features
      */
     virtual float distance(Feature *f1, Feature *f2);
+
+
+  protected:
+
+    //! Minimum possible value (used to normalize)
+    float _minValue;
+
+    //! Maximum possible value (used to normalize)
+    float _maxValue;
+
+    //! Value cached to speed up a bunch of distances coputations
+    float _invMaxMinDiff;
+
 
   }; 
 

@@ -26,6 +26,9 @@ class System
 
  public:
 
+  //
+  // System::Objects
+  //
   class Objects : public std::vector<Object *> 
   {
 
@@ -34,6 +37,9 @@ class System
 
   };
 
+  //
+  // System::QueryObjects
+  //
  class QueryObjects :  public std::vector<Object *> 
   {
 
@@ -42,17 +48,28 @@ class System
   };
 
 
-  typedef struct {
+  typedef struct 
+  {
     float weight;
+    // float minPossibleDist;
+    // float maxPossibleDist;
+    // float squaredInvMaxMinDiff;
     Comparer *comparer;
   } QueryFeatureData;
 
+  //
+  // System::QueryFeatures
+  //
   class QueryFeatures 
     : public std::map<std::string, QueryFeatureData>
   {
 
   public:
-    void add(std::string label, float weight, Comparer *comparer);
+    void add(std::string label, 
+	     float weight, 
+	     Comparer *comparer,
+	     float minPossibleDist = 0.0f,
+	     float maxPossibleDist = 1.0f);
 
   };
 
@@ -63,26 +80,42 @@ class System
     float score; 
   } ResultsElement;
 
+  //
+  // System::Results
+  //
   class Results : public std::vector<ResultsElement>
   {
   };
 
+
+
+  typedef enum 
+  { 
+    DISTANCE_TO_AVERAGE_QUERY_OBJECT,
+    MINIMUM_DISTANCE_TO_QUERY_OBJECTS 
+  } TDistanceToQuerySet;
+
   
-  void addObject(Object *obj);
+  void addObject(Object * obj);
 
-  void addQueryObject(Object *obj);
+  void addQueryObject(Object * obj);
 
-  void addFeature(std::string label, float weight, Comparer *comparer);
+  void addFeature(std::string label, 
+		  float weight, 
+		  Comparer * comparer,
+		  float minPossibleDist = 0.0f,
+		  float maxPossibleDist = 1.0f);
 
   const Results & results();
 
-  virtual void query();
+  virtual void query( TDistanceToQuerySet queryDistanceType 
+		      = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
 
  
  protected:
 
-  void _computeAverageQueryObject( Object & avgObj  );
-
+  float _distanceBetweenTwoObjects( Object *obj1, Object * obj2 );
+  virtual void _computeAverageQueryObject( Object & avgObj  );
 
   Objects _objs;
   QueryObjects _queryObjs; 
