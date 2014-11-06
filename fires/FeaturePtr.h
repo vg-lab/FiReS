@@ -44,28 +44,22 @@ namespace fires
 
     virtual FeaturePtr & operator +=( const Feature & rhs) 
     {
-      // if ( this != & rhs ) 
-      // {	
-      // 	const FeaturePtr< TYPE > * feat = 
-      // 	  static_cast< const FeaturePtr< TYPE > * >( & rhs );
-
-      // 	TYPE * rhsValue = feat->value( );
-      // 	( * this->_value ) += ( * rhsValue );
-
-      // }
       throw std::runtime_error(
-	"Error: += operator not implemented for FeaturePtr");
+	std::string( "Error: += operator not implemented for FeaturePtr" ) 
+	+ std::string( "rhs address = " + std::to_string( long( & rhs ))));
+
       return * this;
     }
 
 
     virtual FeaturePtr & operator /= ( const int & rhs ) 
     {
-      // ( * this->_value ) /=  rhs;
       throw std::runtime_error(
-	"Error: /= operator not implemented for FeaturePtr");
-      return * this;
+	std::string( "Error: /= operator not implemented FeaturePtr ") +
+	std::string( "( rhs = " ) + std::to_string( rhs ) + 
+	std::string( ")" ));
 
+      return * this;
     }
 
 

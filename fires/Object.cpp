@@ -73,24 +73,24 @@ namespace fires
       
     public:
 
-      void addFeature( std::string label, Feature * feature ) 
+      void addFeature( std::string featureLabel, Feature * feature ) 
       {
-	_features.add(label,feature);
+	_features.add( featureLabel, feature );
       }
   
-      Feature * getFeature( const std::string label )
+      Feature * getFeature( const std::string featureLabel )
       {
-	return _features.get( label );
+	return _features.get( featureLabel );
       }
 
-      bool setFeature( std::string label, Feature * feature)
+      bool setFeature( std::string featureLabel, Feature * feature)
       {
-	return _features.set( label, feature );
+	return _features.set( featureLabel, feature );
       }
 
-      bool delFeature( std::string label )
+      bool delFeature( std::string featureLabel )
       {
-	return _features.del( label );
+	return _features.del( featureLabel );
       }
 
       void clearFeatures( void )
@@ -138,24 +138,24 @@ namespace fires
   }
 
 
-  void Object::addFeature( std::string label, Feature * feature ) 
+  void Object::addFeature( std::string featureLabel, Feature * feature ) 
   {
-    _impl->addFeature( label, feature );
+    _impl->addFeature( featureLabel, feature );
   }
   
-  Feature * Object::getFeature( const std::string label ) const
+  Feature * Object::getFeature( const std::string featureLabel ) const
   {
-    return _impl->getFeature( label );
+    return _impl->getFeature( featureLabel );
   }
 
-  bool Object::setFeature( std::string label, Feature * feature)
+  bool Object::setFeature( std::string featureLabel, Feature * feature)
   {
-    return _impl->setFeature( label, feature );
+    return _impl->setFeature( featureLabel, feature );
   }
 
-  bool Object::delFeature( std::string label )
+  bool Object::delFeature( std::string featureLabel )
   {
-    return _impl->delFeature( label );
+    return _impl->delFeature( featureLabel );
   }
 
   void Object::clearFeatures( void )

@@ -26,6 +26,8 @@ namespace fires
   {
   public:
 
+    virtual ~Comparer( );
+
     /**
      * Virtual method to compute distance. 
        Has to be rewritten by the specific comparers.

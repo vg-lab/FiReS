@@ -1,6 +1,6 @@
 
 
-#include "../fires/fires.h"
+#include <fires/fires.h>
 
 #include <iostream>
 #include <math.h>
@@ -85,10 +85,10 @@ int main ()
   sys.addQueryObject( & objMax );
 
   sys.addFeature( std::string( "feature1" ), 1.0, 
-		  & comparer1, 0.0f, 4.1f );
+		  & comparer1 );
 
   sys.addFeature( std::string( "feature2" ), 1.0, 
-		  & comparer2, 0.0f, 4.3f );
+		  & comparer2 );
   
   sys.query();
 

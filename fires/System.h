@@ -35,7 +35,7 @@ class System
   public:
     void add(Object *object);
 
-  };
+  };  
 
   //
   // System::QueryObjects
@@ -65,29 +65,50 @@ class System
   {
 
   public:
-    void add(std::string label, 
-	     float weight, 
-	     Comparer *comparer,
-	     float minPossibleDist = 0.0f,
-	     float maxPossibleDist = 1.0f);
+    void add( std::string label, 
+	      float weight, 
+	      Comparer *comparer );
 
   };
 
 
-  typedef struct 
+  class ResultsElement 
   { 
+
+  public:
+    
     Object *obj; 
     float score; 
-  } ResultsElement;
+    
+    bool operator==(const ResultsElement & other ) const
+    {
+      return ( other.obj == this->obj && 
+	       other.score == this->score );
+    }
+  };
+
+
+
 
   //
   // System::Results
   //
-  class Results : public std::vector<ResultsElement>
+  class Results : public std::vector< ResultsElement >
   {
+
+    // bool operator==(const Results & other ) const
+    // {
+    //   return ( ( std::vector< ResultsElement >( other ) ) == 
+    // 	       ( std::vector< ResultsElement >( * this )));
+    // }
+
   };
 
 
+
+  // System methods
+
+  virtual ~System( );
 
   typedef enum 
   { 
@@ -102,14 +123,15 @@ class System
 
   void addFeature(std::string label, 
 		  float weight, 
-		  Comparer * comparer,
-		  float minPossibleDist = 0.0f,
-		  float maxPossibleDist = 1.0f);
+		  Comparer * comparer );
 
   const Results & results();
 
   virtual void query( TDistanceToQuerySet queryDistanceType 
 		      = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+
+  virtual void parallelQuery( TDistanceToQuerySet queryDistanceType 
+			      = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
 
  
  protected:

@@ -15,10 +15,17 @@
 namespace fires
 {
 
+  Comparer::~Comparer( )
+  {
+
+  }
+  
+
   float Comparer::distance(Feature *f1, Feature *f2)
   {
     std::cerr << "No distance function provided "
-	      << "in the comparer. Returning 0." 
+	      << "in the comparer. Returning 0."
+	      << "f1 = " << f1 << " f2 = " << f2 
 	      << std::endl;
     return 0.0f;
   }

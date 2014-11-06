@@ -60,12 +60,12 @@ namespace fires
       return 0.0f;
     }
 
-    float distance = fabs( ( *ffp1->value( ) ) - ( *ffp2->value( )));
+    float dist = fabs( ( *ffp1->value( ) ) - ( *ffp2->value( )));
 
     if ( ( _maxValue - _minValue ) != 0 )
-      distance *= _invMaxMinDiff;
+      dist *= _invMaxMinDiff;
 
-    return distance;
+    return dist;
 
   }
 

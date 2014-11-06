@@ -38,13 +38,20 @@ namespace fires
     virtual Feature & operator +=( const Feature & rhs) 
     {
       throw std::runtime_error(
-	"Error: += operator not implemented for Feature");
+	std::string( "Error: += operator not implemented for Feature." ) +
+	std::string( " rhs address = " + std::to_string( long( & rhs ))));
+
+      return *this;
     }
 
     virtual Feature & operator /= ( const int & rhs ) 
     {
       throw std::runtime_error(
-	"Error: /= operator not implemented Feature");
+	std::string( "Error: /= operator not implemented Feature ") +
+	std::string( "( rhs = " ) + std::to_string( rhs ) + 
+	std::string( ")" ));
+
+      return *this;
     }
 
 

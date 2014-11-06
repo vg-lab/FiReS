@@ -9,7 +9,7 @@
 #ifndef __FIRES__FEATURE_PTR_TO_VECTOR_OF_PTRS_H__ 
 #define __FIRES__FEATURE_PTR_TO_VECTOR_OF_PTRS_H__
 
-#include <fires/config.h>
+#include <fires/defines.h>
 
 #if (FIRES_WITH_VMMLIB == 1)
 

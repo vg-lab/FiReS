@@ -7,7 +7,7 @@
  *          Do not distribute without further notice.
  */
 
-#include "../fires/fires.h"
+#include <fires/fires.h>
 
 #include <iostream>
 #include <math.h>

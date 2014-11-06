@@ -12,7 +12,7 @@
 #include <limits.h>
 #include <gtest/gtest.h>
 
-#include "../fires/fires.h"
+#include <fires/fires.h>
 
 class ObjectTest : public ::testing::Test 
 {
