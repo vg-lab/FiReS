@@ -1,8 +1,8 @@
 /**
  * @file    Comparer.h
- * @brief   
+ * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
- * @date    
+ * @date
  * @remarks Copyright (c) GMRV/URJC. All rights reserved. Do not distribute without further notice.
  */
 #ifndef __FIRES_COMPARER_H__
@@ -15,21 +15,21 @@ namespace fires
 
   /*! \class Comparer
    \brief Parent comparer class that provides the distance computation
-   virtual method. 
+   virtual method.
 
    Parent comparer class that provides the distance computation
    virtual method. This method has to be rewritten by the actual comparer
-   which have to be derived from this class. 
+   which have to be derived from this class.
 
    */
-  class Comparer 
+  class Comparer
   {
   public:
 
     virtual ~Comparer( );
 
     /**
-     * Virtual method to compute distance. 
+     * Virtual method to compute distance.
        Has to be rewritten by the specific comparers.
      * @param f1 First feature to compare.
      * @param f2 Second feature to compare.

@@ -1,9 +1,9 @@
 /**
  * @file    ComparerFeaturePtrToFloat.cpp
- * @brief   
+ * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
- * @date    
- * @remarks Copyright (c) GMRV/URJC. All rights reserved. 
+ * @date
+ * @remarks Copyright (c) GMRV/URJC. All rights reserved.
  *          Do not distribute without further notice.
  */
 
@@ -16,7 +16,7 @@
 namespace fires
 {
 
-  FeaturePtrToFloatComparer::FeaturePtrToFloatComparer( 
+  FeaturePtrToFloatComparer::FeaturePtrToFloatComparer(
     float minValue, float maxValue )
     : Comparer( )
     , _minValue( minValue )
@@ -54,9 +54,9 @@ namespace fires
 
     if ( !ffp1 || !ffp2 )
     {
-      std::cerr << "Error casting to FeaturePtrToFloat " 
-		<< "for distance computation" 
-		<< std::endl;
+      std::cerr << "Error casting to FeaturePtrToFloat "
+                << "for distance computation"
+                << std::endl;
       return 0.0f;
     }
 

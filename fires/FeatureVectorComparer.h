@@ -1,9 +1,9 @@
 /**
  * @file    FeatureVectorOfPointerPtrComparer.h
- * @brief   
+ * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
- * @date    
- * @remarks Copyright (c) GMRV/URJC. All rights reserved. 
+ * @date
+ * @remarks Copyright (c) GMRV/URJC. All rights reserved.
  *          Do not distribute without further notice.
  */
 #ifndef __FIRES_FEATURE_VECTOR_COMPARER_H__
@@ -15,7 +15,7 @@
 namespace fires
 {
 
-  class FeatureVectorComparer 
+  class FeatureVectorComparer
     : public Comparer
   {
 
@@ -26,7 +26,7 @@ namespace fires
     {
     }
 
-    typedef enum 
+    typedef enum
     {
       EUCLIDEAN,
       MANHATTAN
@@ -45,6 +45,4 @@ namespace fires
 
 }
 
-#endif 
-
-
+#endif

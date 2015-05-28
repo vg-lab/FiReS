@@ -1,9 +1,9 @@
 /**
  * @file    FeaturePtrToVector.h
- * @brief   
+ * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
- * @date    
- * @remarks Copyright (c) GMRV/URJC. All rights reserved. 
+ * @date
+ * @remarks Copyright (c) GMRV/URJC. All rights reserved.
  *          Do not distribute without further notice.
  */
 #ifndef __FIRES__FEATURE_VECTOR_PTR_H__
@@ -24,13 +24,13 @@ namespace fires
    \brief Feature class that has a pointer to a float value
    */
   template< size_t M, typename T  >
-  class FeaturePtrToVector 
+  class FeaturePtrToVector
     : public FeaturePtr< vmml::vector< M, T > >
   {
 
   public:
 
-    FeaturePtrToVector( vmml::vector< M, T > * vectorPtr ); 
+    FeaturePtrToVector( vmml::vector< M, T > * vectorPtr );
 
     virtual FeaturePtrToVector & operator +=( const Feature & rhs );
 
@@ -42,7 +42,7 @@ namespace fires
   };
 
 
-  // Define standard types 
+  // Define standard types
 
   typedef vmml::vector< 2, float > Vec2f;
   typedef vmml::vector< 2, float * > Vec2pf;
@@ -70,33 +70,33 @@ namespace fires
 
 
   template< size_t M, typename T  >
-  FeaturePtrToVector< M, T>::FeaturePtrToVector( 
-    vmml::vector< M, T > * vectorPtr ) 
+  FeaturePtrToVector< M, T>::FeaturePtrToVector(
+    vmml::vector< M, T > * vectorPtr )
     : FeaturePtr< vmml::vector< M, T > >( vectorPtr )
   {
   }
 
-  template< size_t M, typename T  > FeaturePtrToVector< M, T > & 
-  FeaturePtrToVector< M, T>::operator +=( const Feature & rhs ) 
+  template< size_t M, typename T  > FeaturePtrToVector< M, T > &
+  FeaturePtrToVector< M, T>::operator +=( const Feature & rhs )
   {
-    const FeaturePtrToVector< M, T > * feat = 
+    const FeaturePtrToVector< M, T > * feat =
       static_cast< const FeaturePtrToVector< M, T > * >( & rhs );
-      
+
     vmml::vector< M, T > * rhsValue =  feat->value( );
     ( * this->_value ) += ( * rhsValue );
 
     return * this;
   }
 
-  template< size_t M, typename T  > FeaturePtrToVector< M, T > & 
-  FeaturePtrToVector< M, T>::operator /= ( const int & rhs ) 
+  template< size_t M, typename T  > FeaturePtrToVector< M, T > &
+  FeaturePtrToVector< M, T>::operator /= ( const int & rhs )
   {
     ( * this->_value ) /= rhs;
     return * this;
-      
+
   }
 
-  template< size_t M, typename T  > Feature * 
+  template< size_t M, typename T  > Feature *
   FeaturePtrToVector< M, T>::newFeature( void ) const
   {
     return new FeaturePtrToVector( new vmml::vector< M, T >(T(0)) );
@@ -110,5 +110,4 @@ namespace fires
 
 #endif // __FIRES__FEATURE_VECTOR_PTR_H__
 
-//EOF 
-
+//EOF

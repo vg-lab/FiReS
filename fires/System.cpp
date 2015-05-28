@@ -25,33 +25,6 @@
 namespace fires
 {
 
-  // bool ResultsElementSortFunction( System::ResultsElement res1,
-  //                                  System::ResultsElement res2 )
-  // {
-  //   return ( res1.score < res2.score );
-  // }
-
-
-  // void System::Objects::add(Object *object)
-  // {
-  //   this->push_back(object);
-  // }
-
-  // void System::QueryObjects::add(Object *object)
-  // {
-  //   this->push_back(object);
-  // }
-
-
-  // void System::QueryFeatures::add(std::string label,
-  //                                 float weight,
-  //                                 Comparer * comparer)
-  // {
-  //   this->insert(std::pair<std::string,
-  //                QueryFeatureData>(label,
-  //                                  QueryFeatureData{weight,
-  //                                      comparer}));
-  // }
 
   //
   // System methods
