@@ -5,7 +5,7 @@ list(APPEND FIND_PACKAGES_DEFINES ${SYSTEM})
 find_package(PkgConfig)
 
 # Find package vmmlib which is required
-find_package(vmmlib REQUIRED)
+find_package(vmmlib)
 include_directories(${VMMLIB_INCLUDE_DIRS})
 if(VMMLIB_FOUND)
   set(vmmlib_name LIBVMMLIB)
@@ -30,7 +30,7 @@ if(PKG_CONFIG_EXECUTABLE)
     pkg_check_modules(Boost Boost>=1.41.0)
   endif()
   if((NOT Boost_FOUND) AND (NOT BOOST_FOUND))
-    message(FATAL_ERROR 
+    message(FATAL_ERROR
       "Could not find Boost COMPONENTS unit_test_framework")
   endif()
 else()
