@@ -26,14 +26,14 @@ namespace fires
       {
       }
 
-      void add( const std::string label,
-                Feature * feature )
+      void add( const std::string& label,
+                Feature* feature )
       {
         this->insert( std::pair< std::string, Feature * >
                       ( label, feature ));
       }
 
-      bool del( const std::string label )
+      bool del( const std::string& label )
       {
         ObjectFeatures::const_iterator it = this->find( label );
 
@@ -44,7 +44,7 @@ namespace fires
         return true;
       }
 
-      Feature * get( const std::string label ) const
+      Feature * get( const std::string& label ) const
       {
         ObjectFeatures::const_iterator it = this->find( label );
 
@@ -54,7 +54,7 @@ namespace fires
           return ( *it ).second;
       }
 
-      bool set( const std::string label, Feature * feature )
+      bool set( const std::string& label, Feature * feature )
       {
         ObjectFeatures::const_iterator it = this->find( label );
 
@@ -73,22 +73,34 @@ namespace fires
 
     public:
 
-      void addFeature( std::string featureLabel, Feature * feature )
+      Object( void )
+        : _features( )
+        , _label( "" )
+      {
+      }
+
+      Object( Object& object )
+        : _features( object._features )
+        , _label( object._label )
+      {
+      }
+
+      void addFeature( std::string featureLabel, Feature* feature )
       {
         _features.add( featureLabel, feature );
       }
 
-      Feature * getFeature( const std::string featureLabel )
+      Feature * getFeature( const std::string& featureLabel )
       {
         return _features.get( featureLabel );
       }
 
-      bool setFeature( std::string featureLabel, Feature * feature)
+      bool setFeature( std::string& featureLabel, Feature* feature)
       {
         return _features.set( featureLabel, feature );
       }
 
-      bool delFeature( std::string featureLabel )
+      bool delFeature( std::string& featureLabel )
       {
         return _features.del( featureLabel );
       }
@@ -98,7 +110,7 @@ namespace fires
         _features.clear( );
       }
 
-      ObjectFeatures & features( void )
+      ObjectFeatures& features( void )
       {
         return _features;
       }
@@ -137,13 +149,18 @@ namespace fires
     delete _impl;
   }
 
+  Object::Object( Object& object )
+    : _impl( new detail::Object( *object._impl ))
+  {
+  }
+
 
   void Object::addFeature( std::string featureLabel, Feature * feature )
   {
     _impl->addFeature( featureLabel, feature );
   }
 
-  Feature * Object::getFeature( const std::string featureLabel ) const
+  Feature* Object::getFeature( const std::string& featureLabel ) const
   {
     return _impl->getFeature( featureLabel );
   }

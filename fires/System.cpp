@@ -66,7 +66,7 @@ namespace fires
   {
 
     for (QueryFeatures::iterator sysFeatIter = features.begin();
-         sysFeatIter != features.end(); sysFeatIter++)
+         sysFeatIter != features.end(); ++sysFeatIter)
     {
       Feature * forig = queryObjects[0]->getFeature( sysFeatIter->first );
       Feature * fnew =  forig->newFeature( );
@@ -75,7 +75,7 @@ namespace fires
     }
 
     for (QueryFeatures::iterator sysFeatIter = features.begin();
-         sysFeatIter != features.end(); sysFeatIter++)
+         sysFeatIter != features.end(); ++sysFeatIter)
     {
 
       std::string label = sysFeatIter->first;
@@ -83,7 +83,7 @@ namespace fires
       Feature * avgFeat = avgObj.getFeature( label );
 
       for ( Objects::iterator queryObjIt = queryObjects.begin( );
-            queryObjIt != queryObjects.end( ); queryObjIt++ )
+            queryObjIt != queryObjects.end( ); ++queryObjIt )
       {
 
 
@@ -153,7 +153,7 @@ namespace fires
     float dist = 0;
 
     for (QueryFeatures::iterator sysFeatIter = features.begin( );
-         sysFeatIter != features.end( ); sysFeatIter++ )
+         sysFeatIter != features.end( ); ++sysFeatIter )
     {
       Feature *f1 = obj1->getFeature( sysFeatIter->first );
       Feature *f2 = obj2->getFeature( sysFeatIter->first );
@@ -197,7 +197,7 @@ namespace fires
       _computeAverageQueryObject( queryAvgObj, queryObjects, features );
 
 
-    for ( Objects::iterator obj = objects.begin(); obj != objects.end(); obj++ )
+    for ( Objects::iterator obj = objects.begin(); obj != objects.end(); ++obj )
     {
 
       float dist = std::numeric_limits< float >::max( );
@@ -208,7 +208,7 @@ namespace fires
         if (queryDistanceType == MINIMUM_DISTANCE_TO_QUERY_OBJECTS )
         {
           for ( auto queryObjIt = queryObjects.begin( );
-                queryObjIt != queryObjects.end( ); queryObjIt++ )
+                queryObjIt != queryObjects.end( ); ++queryObjIt )
           {
             dist =
               std::min( dist,
@@ -232,7 +232,7 @@ namespace fires
     // Free memory for average object features
     if ( queryDistanceType == System::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
       for (QueryFeatures::iterator sysFeatIter = features.begin();
-           sysFeatIter != features.end(); sysFeatIter++)
+           sysFeatIter != features.end(); ++sysFeatIter )
       {
         Feature * feat = queryAvgObj.getFeature( sysFeatIter->first );
         feat->deleteFeature( );
@@ -273,11 +273,11 @@ namespace fires
 
     // System::Results tmpResults[NUM_THREADS];
 
-    int tid;
+    int tid = 0;
     ((void )tid);
 
 #pragma omp parallel for  num_threads(NUM_THREADS) schedule(static) private(tid)
-    for (size_t i = 0; i < objects.size(); i++)
+    for (size_t i = 0; i < objects.size(); ++i )
     {
 
       auto obj = & objects[i];
@@ -290,7 +290,7 @@ namespace fires
         if (queryDistanceType == MINIMUM_DISTANCE_TO_QUERY_OBJECTS )
         {
           for ( auto queryObjIt = queryObjects.begin( );
-                queryObjIt != queryObjects.end( ); queryObjIt++ )
+                queryObjIt != queryObjects.end( ); ++queryObjIt )
           {
             dist =
               std::min( dist,
@@ -302,7 +302,7 @@ namespace fires
         else
           throw std::runtime_error("System::query: no distance type known");
 
-      tid = omp_get_thread_num();
+      // tid = omp_get_thread_num();
       ( *obj )->addFeature( resultsFeatureLabel,
                             new FeatureScalar< float >( dist ));
 
@@ -324,7 +324,7 @@ namespace fires
     // Free memory for average object features
     if ( queryDistanceType == System::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
       for (QueryFeatures::iterator sysFeatIter = features.begin();
-           sysFeatIter != features.end(); sysFeatIter++)
+           sysFeatIter != features.end(); ++sysFeatIter )
       {
         Feature * feat = queryAvgObj.getFeature( sysFeatIter->first );
         feat->deleteFeature( );

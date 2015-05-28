@@ -12,8 +12,10 @@ class Test
 {
 
 public:
-  Test ( )
+  Test ( void )
   {
+    for ( unsigned int i = 0; i < NUM_ATTRIBS; ++i )
+      attrs[i] = 0;
   }
 
   float attrs[NUM_ATTRIBS];

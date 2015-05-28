@@ -35,12 +35,12 @@ option(WITH_OPENMP "WITH_OPENMP" ON)
 
 
 include(Common)
-include(FindPackages) 
+include(FindPackages)
 
-# library subdirectory 
+# library subdirectory
 add_subdirectory(fires)
 
-# tests subdirectory 
+# tests subdirectory
 add_subdirectory(tests)
 
 # examples subdirectory
@@ -48,5 +48,3 @@ add_subdirectory(examples)
 
 include(CPackConfig)
 include(DoxygenRule)
-
-

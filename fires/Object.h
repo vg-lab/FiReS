@@ -37,6 +37,11 @@ namespace fires
     Object( );
 
     /**
+     * Copy constructor
+     */
+    Object( Object& object );
+
+    /**
      * Destructor
      */
     ~Object( );
@@ -53,7 +58,7 @@ namespace fires
      * @param label label string to retrieve the feature
      * @return the feature if found or nullptr otherwise
      */
-    Feature* getFeature( const std::string label ) const;
+    Feature* getFeature( const std::string& label ) const;
 
     /**
      * Get a feature of this object
