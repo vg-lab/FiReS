@@ -1,9 +1,20 @@
-
-
 #include <fires/fires.h>
 
 #include <iostream>
 #include <math.h>
+
+
+void printResults( fires::Objects& objects, std::string scoreLabel )
+{
+  for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
+  {
+    fires::FeatureScalar< float >* fs =
+      dynamic_cast< fires::FeatureScalar< float >* >(
+        ( *obj )->getFeature( scoreLabel ));
+    std::cout << ( *obj )->label( ) << ": "
+              << fs->value( ) << std::endl;
+  }
+}
 
 
 
@@ -15,31 +26,31 @@ public:
 
 };
 
-class TestObject 
+class TestObject
   : public Test
   , public fires::Object
 {
 
 public:
 
-  TestObject () 
+  TestObject ()
   {
-    this->addFeature(std::string("feature1"), 
-		     new fires::FeaturePtrToFloat(&this->attr1));
-    this->addFeature(std::string("feature2"), 
-		     new fires::FeaturePtrToFloat(&this->attr2));
+    this->addFeature(std::string("feature1"),
+                     new fires::FeaturePtrToFloat(&this->attr1));
+    this->addFeature(std::string("feature2"),
+                     new fires::FeaturePtrToFloat(&this->attr2));
   }
- 
+
   // createFeatures();
 
 
 };
 
 
-class CustomFeaturePtrToFloatComparer 
+class CustomFeaturePtrToFloatComparer
   : public fires::FeaturePtrToFloatComparer
 {
-  
+
 public:
 
   CustomFeaturePtrToFloatComparer(void)
@@ -51,20 +62,20 @@ public:
   float distance(fires::Feature *f1, fires::Feature *f2)
   {
 
-    
+
     return factor * FeaturePtrToFloatComparer::distance( f1, f2 );
 
-    // fires::FeaturePtrToFloat *ffp1 = 
+    // fires::FeaturePtrToFloat *ffp1 =
     //   static_cast<fires::FeaturePtrToFloat *>(f1);
-    // fires::FeaturePtrToFloat *ffp2 = 
+    // fires::FeaturePtrToFloat *ffp2 =
     //   static_cast<fires::FeaturePtrToFloat *>(f2);
 
     // if (!ffp1 || !ffp2)
     //   {
-    // 	std::cerr << "Error casting to FeaturePtrToFloat " 
-    // 		  << "for distance computation" 
-    // 		  << std::endl;
-    // 	return 0.0f;
+    //         std::cerr << "Error casting to FeaturePtrToFloat "
+    //                   << "for distance computation"
+    //                   << std::endl;
+    //         return 0.0f;
     //   }
 
     // return factor * fabs((*ffp1->value()) - (*ffp2->value()));
@@ -72,12 +83,12 @@ public:
   }
 
   float factor;
-  
-
-}; 
 
 
-int main () 
+};
+
+
+int main ()
 {
 
   TestObject obj1, obj2, obj3, obj4;
@@ -99,31 +110,29 @@ int main ()
   obj2.label( ) = "Object 2";
   obj3.label( ) = "Object 3";
   obj4.label( ) = "Object 4";
-  
+
   fires::FeaturePtrToFloatComparer comparer1( 0, 4.1f );
   CustomFeaturePtrToFloatComparer comparer2;
   comparer2.setMaxValue( 42.1 );
 
   fires::System sys;
 
-  sys.addObject(&obj1);
-  sys.addObject(&obj2);
-  sys.addObject(&obj3);
-  sys.addObject(&obj4);
+  fires::Objects objects;
+  objects.add(&obj1);
+  objects.add(&obj2);
+  objects.add(&obj3);
+  objects.add(&obj4);
 
-  sys.addQueryObject(&obj1);
-  sys.addQueryObject(&obj2);
+  fires::Objects queryObjects;
+  queryObjects.add(&obj1);
+  queryObjects.add(&obj2);
 
-  sys.addFeature( std::string("feature1"), 1.0, &comparer1 );
-  sys.addFeature( std::string("feature2"), 1.0, &comparer2 );
-  
-  sys.query();
+  fires::QueryFeatures features;
+  features.add( std::string("feature1"), 1.0, &comparer1 );
+  features.add( std::string("feature2"), 1.0, &comparer2 );
 
-  for (fires::System::Results::const_iterator it = sys.results().begin();
-     it != sys.results().end(); it++)
-  {
-    std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
-  }
+  sys.query( objects, queryObjects, features );
+  printResults( objects, "fires::score" );
 
   std::cout << std::endl;
 
@@ -131,30 +140,19 @@ int main ()
   // Change parameters of a custom comparer
   comparer2.factor = 0.5f;
 
-  sys.query();
-
-  for (fires::System::Results::const_iterator it = sys.results().begin();
-     it != sys.results().end(); it++)
-  {
-    std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
-  }
+  sys.query( objects, queryObjects, features);
+  printResults( objects, "fires::score" );
 
   comparer2.factor = 1.0f;
 
   std::cout << std::endl;
 
-
-  // Change some attribute and due to the use of feature pointers 
-  // no need of an update step needed 
+  // Change some attribute and due to the use of feature pointers
+  // no need of an update step needed
   obj1.attr2+= 1.3;
 
-  sys.query();
-
-  for (fires::System::Results::const_iterator it = sys.results().begin();
-     it != sys.results().end(); it++)
-  {
-    std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
-  }
+  sys.query( objects, queryObjects, features );
+  printResults( objects, "fires::score" );
 
   std::cout << std::endl;
 
@@ -162,26 +160,17 @@ int main ()
   // Take parameters to their original values
   obj1.attr2-= 1.3;
 
-  sys.query( fires::System::DISTANCE_TO_AVERAGE_QUERY_OBJECT );
-
-  for (fires::System::Results::const_iterator it = sys.results().begin();
-     it != sys.results().end(); it++)
-  {
-    std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
-  }
+  sys.query( objects, queryObjects, features,
+             "fires::score",
+             fires::System::DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+  printResults( objects, "fires::score" );
 
   std::cout << std::endl;
 
-
-
   // Now query to the minimum object of the query set
-  sys.query( fires::System::MINIMUM_DISTANCE_TO_QUERY_OBJECTS );
-
-  for (fires::System::Results::const_iterator it = sys.results().begin();
-     it != sys.results().end(); it++)
-  {
-    std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
-  }
+  sys.query( objects, queryObjects, features, "fires::score",
+             fires::System::MINIMUM_DISTANCE_TO_QUERY_OBJECTS );
+  printResults( objects, "fires::score" );
 
   std::cout << std::endl;
 
@@ -190,4 +179,3 @@ int main ()
 
 
 }
-

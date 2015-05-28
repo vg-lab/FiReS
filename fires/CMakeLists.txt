@@ -1,5 +1,3 @@
-
-
 source_group(\\ FILES CMakeLists.txt)
 
 set(FIRES_PUBLIC_HEADERS ${COMMON_INCLUDES}
@@ -8,7 +6,10 @@ FeaturePtr.h
 FeaturePtrToFloat.h
 FeaturePtrToVector.h
 FeaturePtrToVectorOfPtrs.h
+FeatureScalar.h
 Object.h
+Objects.h
+QueryFeatures.h
 Feature.h
 FeaturePtrToFloatComparer.h
 FeaturePtrToVectorComparer.h
@@ -24,6 +25,8 @@ Comparer.cpp
 FeaturePtrToFloatComparer.cpp
 Object.cpp
 System.cpp
+Objects.cpp
+QueryFeatures.cpp
 )
 
 common_library(fires)

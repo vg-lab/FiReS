@@ -1,9 +1,9 @@
 /**
  * @file    Feature.h
- * @brief   
+ * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
- * @date    
- * @remarks Copyright (c) GMRV/URJC. All rights reserved. 
+ * @date
+ * @remarks Copyright (c) GMRV/URJC. All rights reserved.
  *          Do not distribute without further notice.
  */
 #ifndef __FIRES__FEATURE_PTR_H__
@@ -25,7 +25,7 @@ namespace fires
 
   public:
     FeaturePtr( TYPE * pointer )
-    { 
+    {
       _value = pointer;
     };
 
@@ -33,7 +33,7 @@ namespace fires
 
     virtual TYPE * value( void ) const
     {
-      return _value;      
+      return _value;
     };
 
     virtual Feature * newFeature( void ) const
@@ -42,22 +42,22 @@ namespace fires
     }
 
 
-    virtual FeaturePtr & operator +=( const Feature & rhs) 
+    virtual FeaturePtr & operator +=( const Feature & rhs)
     {
       throw std::runtime_error(
-	std::string( "Error: += operator not implemented for FeaturePtr" ) 
-	+ std::string( "rhs address = " + std::to_string( long( & rhs ))));
+        std::string( "Error: += operator not implemented for FeaturePtr" )
+        + std::string( "rhs address = " + std::to_string( long( & rhs ))));
 
       return * this;
     }
 
 
-    virtual FeaturePtr & operator /= ( const int & rhs ) 
+    virtual FeaturePtr & operator /= ( const int & rhs )
     {
       throw std::runtime_error(
-	std::string( "Error: /= operator not implemented FeaturePtr ") +
-	std::string( "( rhs = " ) + std::to_string( rhs ) + 
-	std::string( ")" ));
+        std::string( "Error: /= operator not implemented FeaturePtr ") +
+        std::string( "( rhs = " ) + std::to_string( rhs ) +
+        std::string( ")" ));
 
       return * this;
     }

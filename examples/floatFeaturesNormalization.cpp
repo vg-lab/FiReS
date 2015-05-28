@@ -1,5 +1,3 @@
-
-
 #include <fires/fires.h>
 
 #include <iostream>
@@ -15,28 +13,26 @@ public:
 
 };
 
-class TestObject 
+class TestObject
   : public Test
   , public fires::Object
 {
 
 public:
 
-  TestObject () 
+  TestObject ()
   {
-    this->addFeature(std::string("feature1"), 
-		     new fires::FeaturePtrToFloat(&this->attr1));
-    this->addFeature(std::string("feature2"), 
-		     new fires::FeaturePtrToFloat(&this->attr2));
+    this->addFeature(std::string("feature1"),
+                     new fires::FeaturePtrToFloat(&this->attr1));
+    this->addFeature(std::string("feature2"),
+                     new fires::FeaturePtrToFloat(&this->attr2));
   }
- 
-  // createFeatures();
 
 
 };
 
 
-int main () 
+int main ()
 {
 
   TestObject objMin, objMax;
@@ -69,32 +65,35 @@ int main ()
   objMin.label( ) = "Object Min";
   objMax.label( ) = "Object Max";
 
-  
+
   fires::FeaturePtrToFloatComparer comparer1( 0, 4.1f );
   fires::FeaturePtrToFloatComparer comparer2( 0, 42.1f );
 
   fires::System sys;
 
-  sys.addObject( & objMin );
-  sys.addObject( & objMax );
-  sys.addObject( & obj1 );
-  sys.addObject( & obj2 );
-  sys.addObject( & obj3 );
-  sys.addObject( & obj4 );
+  fires::Objects objects;
+  objects.add( & objMin );
+  objects.add( & objMax );
+  objects.add( & obj1 );
+  objects.add( & obj2 );
+  objects.add( & obj3 );
+  objects.add( & obj4 );
 
-  sys.addQueryObject( & objMax );
+  fires::Objects queryObjects;
+  queryObjects.add( & objMax );
 
-  sys.addFeature( std::string( "feature1" ), 1.0, 
-		  & comparer1 );
+  fires::QueryFeatures features;
+  features.add( std::string( "feature1" ), 1.0,
+           &comparer1 );
 
-  sys.addFeature( std::string( "feature2" ), 1.0, 
-		  & comparer2 );
-  
-  sys.query();
+  features.add( std::string( "feature2" ), 1.0,
+                &comparer2 );
 
-  for (fires::System::Results::const_iterator it = sys.results().begin();
-     it != sys.results().end(); it++)
-    std::cout << (*it).obj->label() << ": " << (*it).score << std::endl;
+  sys.query( objects, queryObjects, features );
+
+  for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
+    std::cout << ( *obj )->label( ) << ": "
+              << ( *obj )->getFeature( "fires::score" );
 
   std::cout << std::endl;
 
@@ -105,4 +104,3 @@ int main ()
 
 
 }
-

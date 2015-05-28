@@ -1,17 +1,19 @@
 /**
  * @file    System.h
- * @brief   
+ * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
- * @date    
- * @remarks Copyright (c) GMRV/URJC. All rights reserved. 
+ * @date
+ * @remarks Copyright (c) GMRV/URJC. All rights reserved.
  *          Do not distribute without further notice.
  */
 #ifndef __FIRES__SYSTEM_H__
 #define __FIRES__SYSTEM_H__
 
 
-#include "Object.h"
 #include "Comparer.h"
+#include "Object.h"
+#include "Objects.h"
+#include "QueryFeatures.h"
 
 #include <vector>
 #include <map>
@@ -20,132 +22,77 @@
 namespace fires
 {
 
- 
-class System
-{
+  /*! \class System
+    \brief FiReS system
 
- public:
-
-  //
-  // System::Objects
-  //
-  class Objects : public std::vector<Object *> 
+    Provides the entry point for objects, comparers and results
+  */
+  class System
   {
 
   public:
-    void add(Object *object);
 
-  };  
+    /**
+     * Default destructor
+     **/
+    virtual ~System( );
 
-  //
-  // System::QueryObjects
-  //
- class QueryObjects :  public std::vector<Object *> 
-  {
-
-  public:
-    void add(Object *object);
-  };
-
-
-  typedef struct 
-  {
-    float weight;
-    // float minPossibleDist;
-    // float maxPossibleDist;
-    // float squaredInvMaxMinDiff;
-    Comparer *comparer;
-  } QueryFeatureData;
-
-  //
-  // System::QueryFeatures
-  //
-  class QueryFeatures 
-    : public std::map<std::string, QueryFeatureData>
-  {
-
-  public:
-    void add( std::string label, 
-	      float weight, 
-	      Comparer *comparer );
-
-  };
-
-
-  class ResultsElement 
-  { 
-
-  public:
-    
-    Object *obj; 
-    float score; 
-    
-    bool operator==(const ResultsElement & other ) const
+    /// Type of distance used when multiple objects on the query set
+    typedef enum
     {
-      return ( other.obj == this->obj && 
-	       other.score == this->score );
-    }
+      /// Distance is computed agains the average query object
+      DISTANCE_TO_AVERAGE_QUERY_OBJECT,
+      /// Distance is computed using the minimum distance to all
+      /// objects in the query set
+      MINIMUM_DISTANCE_TO_QUERY_OBJECTS
+    } TDistanceToQuerySet;
+
+
+    // /**
+    //  * Adds a new feature to the container
+    //  * @param obj pointer object to be added to the objects container
+    //  */
+    // void addObject( Object*  obj );
+
+    // /**
+    //  * Adds a new feature to the container
+    //  * @param obj pointer object to be added to the query objects container
+    //  */
+    // void addQueryObject( Object*  obj );
+
+    // void addFeature( std::string label,
+    //                  float weight,
+    //                  Comparer*  comparer );
+
+    // const Results & results();
+
+    // virtual void query( TDistanceToQuerySet queryDistanceType
+    //                     = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+
+    virtual void query( Objects& objects,
+                        Objects& queryObjects,
+                        QueryFeatures& features,
+                        std::string resultsFeatureLabel = "fires::score",
+                        TDistanceToQuerySet queryDistanceType
+                        = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+
+    virtual void parallelQuery(
+      Objects& objects,
+      Objects& queryObjects,
+      QueryFeatures& features,
+      std::string resultsFeatureLabel = "fires::score",
+      TDistanceToQuerySet queryDistanceType
+      = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+
+  protected:
+
+    float _distanceBetweenTwoObjects( Object* obj1, Object* obj2,
+                                      QueryFeatures& features );
+    virtual void _computeAverageQueryObject( Object& avgObj,
+                                             Objects& queryObjects,
+                                             QueryFeatures& features );
+
   };
-
-
-
-
-  //
-  // System::Results
-  //
-  class Results : public std::vector< ResultsElement >
-  {
-
-    // bool operator==(const Results & other ) const
-    // {
-    //   return ( ( std::vector< ResultsElement >( other ) ) == 
-    // 	       ( std::vector< ResultsElement >( * this )));
-    // }
-
-  };
-
-
-
-  // System methods
-
-  virtual ~System( );
-
-  typedef enum 
-  { 
-    DISTANCE_TO_AVERAGE_QUERY_OBJECT,
-    MINIMUM_DISTANCE_TO_QUERY_OBJECTS 
-  } TDistanceToQuerySet;
-
-  
-  void addObject(Object * obj);
-
-  void addQueryObject(Object * obj);
-
-  void addFeature(std::string label, 
-		  float weight, 
-		  Comparer * comparer );
-
-  const Results & results();
-
-  virtual void query( TDistanceToQuerySet queryDistanceType 
-		      = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
-
-  virtual void parallelQuery( TDistanceToQuerySet queryDistanceType 
-			      = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
-
- 
- protected:
-
-  float _distanceBetweenTwoObjects( Object *obj1, Object * obj2 );
-  virtual void _computeAverageQueryObject( Object & avgObj  );
-
-  Objects _objs;
-  QueryObjects _queryObjs; 
-  QueryFeatures _features;
-  Results _results;
-
-
-};
 
 
 }
