@@ -188,10 +188,10 @@ int main ( )
   // Add the features to the system
   fires::QueryFeatures features;
 
-  features.add( "feature1", 1.0, & comparer1 );
-  features.add( "feature2", 1.0, & comparer2 );
-  features.add( "feature3", 1.0, & comparer3 );
-  features.add( "feature4", 1.0, & comparer4 );
+  features.add( "feature1", &comparer1 );
+  features.add( "feature2", &comparer2 );
+  features.add( "feature3", &comparer3 );
+  features.add( "feature4", &comparer4 );
 
   // Perform a query
   sys.query( objects, queryObjects, features );

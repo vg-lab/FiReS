@@ -31,6 +31,11 @@ namespace fires
 
     virtual ~FeatureScalar( ) {};
 
+    virtual void value( const TYPE value_ )
+    {
+      _value = value_;
+    };
+
     virtual TYPE value( void ) const
     {
       return _value;
@@ -40,7 +45,6 @@ namespace fires
     {
       return new FeatureScalar( );
     }
-
 
     virtual FeatureScalar & operator +=( const Feature& rhs)
     {

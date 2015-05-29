@@ -15,43 +15,19 @@ namespace fires
 {
 
   /*! \class Feature
-   \brief Feature class from which real features have to be derived
+   \brief Feature generic class from which real features have to be derived
    */
   class Feature
   {
 
   public:
-    virtual ~Feature( ) {};
 
-    virtual Feature * newFeature( void ) const
-    {
-      return nullptr;
-    };
-
-    virtual void deleteFeature( void ) const
-    {
-      return;
-    };
-
-
-    virtual Feature & operator +=( const Feature & rhs)
-    {
-      throw std::runtime_error(
-        std::string( "Error: += operator not implemented for Feature." ) +
-        std::string( " rhs address = " + std::to_string( long( & rhs ))));
-
-      return *this;
-    }
-
-    virtual Feature & operator /= ( const int & rhs )
-    {
-      throw std::runtime_error(
-        std::string( "Error: /= operator not implemented Feature ") +
-        std::string( "( rhs = " ) + std::to_string( rhs ) +
-        std::string( ")" ));
-
-      return *this;
-    }
+    Feature( void );
+    virtual ~Feature( );
+    virtual Feature* newFeature( void ) const;
+    virtual void deleteFeature( void ) const;
+    virtual Feature& operator +=( const Feature& rhs);
+    virtual Feature& operator /= ( const int& rhs );
 
 
     // virtual FeatureScalar<float>* asFloat( void )

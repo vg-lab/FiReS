@@ -22,11 +22,12 @@ set(FIRES_HEADERS )
 
 set(FIRES_SOURCES ${COMMON_SOURCES}
 Comparer.cpp
+Feature.cpp
 FeaturePtrToFloatComparer.cpp
 Object.cpp
-System.cpp
 Objects.cpp
 QueryFeatures.cpp
+System.cpp
 )
 
 common_library(fires)

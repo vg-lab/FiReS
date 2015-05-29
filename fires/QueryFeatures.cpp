@@ -3,14 +3,14 @@
 
 namespace fires
 {
-  void QueryFeatures::add(std::string label,
-                          float weight,
-                          Comparer * comparer)
+  void QueryFeatures::add( std::string label,
+                           Comparer * comparer,
+                           float weight )
   {
-    this->insert(std::pair<std::string,
-                 QueryFeatureData>(label,
-                                   QueryFeatureData{weight,
-                                       comparer}));
+    this->insert(
+      std::pair< std::string, QueryFeatureData >(
+        label,
+        QueryFeatureData( comparer, weight )));
   }
 
 } // namespace fires

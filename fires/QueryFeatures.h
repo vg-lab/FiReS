@@ -14,11 +14,43 @@
 
 namespace fires
 {
-  typedef struct
+  class QueryFeatureData
   {
-    float weight;
-    Comparer* comparer;
-  } QueryFeatureData;
+  public:
+
+    QueryFeatureData( Comparer* comparer_, const float weight_ = 1.0f )
+      : _comparer( comparer_ )
+      , _weight( weight_ )
+    {
+    }
+
+    const Comparer* comparer( void )
+    {
+      return _comparer;
+    }
+
+    void comparer( Comparer* comparer_ )
+    {
+      _comparer = comparer_;
+    }
+
+    const float& weight( void )
+    {
+      return _weight;
+    }
+
+    void weight( const float weight_ )
+    {
+      _weight = weight_;
+    }
+
+  protected:
+
+    Comparer* _comparer;
+    float _weight;
+
+
+  };
 
   /*! \class System::QueryFeatures
       \brief Container of the features for query
@@ -41,8 +73,8 @@ namespace fires
      *        with this feature
      */
     void add( std::string label,
-              float weight,
-              Comparer* comparer );
+              Comparer* comparer,
+              float weight = 1.0f );
 
   }; // class QueryFeatures
 

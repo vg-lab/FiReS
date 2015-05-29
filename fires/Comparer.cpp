@@ -21,7 +21,7 @@ namespace fires
   }
 
 
-  float Comparer::distance(Feature *f1, Feature *f2)
+  float Comparer::distance(Feature *f1, Feature *f2) const
   {
     std::cerr << "No distance function provided "
               << "in the comparer. Returning 0."

@@ -128,8 +128,8 @@ int main ()
   queryObjects.add(&obj2);
 
   fires::QueryFeatures features;
-  features.add( std::string("feature1"), 1.0, &comparer1 );
-  features.add( std::string("feature2"), 1.0, &comparer2 );
+  features.add( std::string("feature1"), &comparer1 );
+  features.add( std::string("feature2"), &comparer2 );
 
   sys.query( objects, queryObjects, features );
   printResults( objects, "fires::score" );

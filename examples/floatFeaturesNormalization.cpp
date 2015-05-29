@@ -83,10 +83,10 @@ int main ()
   queryObjects.add( & objMax );
 
   fires::QueryFeatures features;
-  features.add( std::string( "feature1" ), 1.0,
+  features.add( std::string( "feature1" ),
            &comparer1 );
 
-  features.add( std::string( "feature2" ), 1.0,
+  features.add( std::string( "feature2" ),
                 &comparer2 );
 
   sys.query( objects, queryObjects, features );

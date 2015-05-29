@@ -80,7 +80,7 @@ int main ()
   fires::QueryFeatures features;
   for ( int i = 0; i < NUM_ATTRIBS; i++ )
     features.add( std::string( "feature" ) + std::to_string( i ),
-                  1.0, & comparer );
+                  &comparer );
 
 
 

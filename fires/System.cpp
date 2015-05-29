@@ -134,7 +134,7 @@ namespace fires
       if ( !f1 || !f2 )
         throw std::runtime_error( "features not defined in the object" );
 
-      Comparer *comparer = sysFeatIter->second.comparer;
+      const Comparer* comparer = sysFeatIter->second.comparer( );
 
       if ( ! comparer )
         throw std::runtime_error(
@@ -144,7 +144,7 @@ namespace fires
 
       float d = comparer->distance( f1, f2 );
 
-      dist += fabs( sysFeatIter->second.weight ) * d * d;
+      dist += fabs( sysFeatIter->second.weight( )) * d * d;
 
     }
     dist = sqrtf(dist) / sqrt( features.size( ));
