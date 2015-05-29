@@ -53,6 +53,9 @@ BOOST_AUTO_TEST_CASE( test_feature )
   BOOST_CHECK( ff2->value( ) == 4.5f );
   BOOST_CHECK( fi2->value( ) == 4 );
 
+  BOOST_CHECK( fd1.value( ) != fd2->value( ));
+  BOOST_CHECK( ff1.value( ) != ff2->value( ));
+  BOOST_CHECK( fi1.value( ) != fi2->value( ));
 
   // Delete feature should't do anything
   fd1.deleteFeature( );
@@ -62,23 +65,33 @@ BOOST_AUTO_TEST_CASE( test_feature )
   ff2->deleteFeature( );
   fi2->deleteFeature( );
 
-  // fires::FeatureScalar< float >* ff2 = ff1.newFeature( );
-  // fires::FeatureScalar< int >*  ff2 = fi1.newFeature( );
+  BOOST_CHECK( fd2->value( ) == 4.5 );
+  BOOST_CHECK( ff2->value( ) == 4.5f );
+  BOOST_CHECK( fi2->value( ) == 4 );
 
-  // fires::FeatureScalar< double >* fd2 = fd1.newFeature( );
-  // fires::FeatureScalar< float >* ff2 = ff1.newFeature( );
-  // fires::FeatureScalar< int >*  ff2 = fi1.newFeature( );
+  fd1 += *fd2;
+  ff1 += *ff2;
+  fi1 += *fi2;
 
-  // BOOST_CHECK( ff->newFeature( ) == nullptr );
-  // BOOST_CHECK( f2.newFeature( ) == nullptr );
+  BOOST_CHECK( fd1.value( ) == 3.4 + 4.5 );
+  BOOST_CHECK( ff1.value( ) == 3.4f + 4.5f );
+  BOOST_CHECK( fi1.value( ) == 3 + 4 );
 
-  // f1->deleteFeature( );
-  // f2.deleteFeature( );
+  fires::Feature f2;
 
-  // BOOST_REQUIRE_THROW( f2 += *f1, std::runtime_error );
-  // BOOST_REQUIRE_THROW( f2 /= 2.0f, std::runtime_error );
-  // BOOST_REQUIRE_THROW( *f1 /= 2.0f, std::runtime_error );
+  BOOST_REQUIRE_THROW( fd1 += f2, std::runtime_error );
 
-  //delete f1;
+  fd1 /= 3.0;
+  ff1 /= 3.0f;
+  fi1 /= 3;
+
+  BOOST_CHECK( fd1.value( ) == ( 3.4 + 4.5 ) / 3.0 );
+  BOOST_CHECK( ff1.value( ) == ( 3.4f + 4.5f ) / 3.0f );
+  BOOST_CHECK( fi1.value( ) == ( 3 + 4 ) / 3 );
+
+  delete fd2;
+  delete ff2;
+  delete fi2;
+
 
 }

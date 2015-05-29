@@ -24,23 +24,27 @@ namespace fires
   {
 
   public:
-    FeaturePtr( TYPE * pointer )
+    FeaturePtr( TYPE* value_ )
     {
-      _value = pointer;
-    };
+      _value = value_;
+    }
 
-    virtual ~FeaturePtr( ) {};
+    virtual ~FeaturePtr( void ) {};
 
-    virtual TYPE * value( void ) const
+    virtual TYPE* value( void ) const
     {
       return _value;
-    };
+    }
+
+    virtual void value( TYPE* value_ )
+    {
+      _value = value_;
+    }
 
     virtual Feature * newFeature( void ) const
     {
       return new FeaturePtr( new TYPE );
     }
-
 
     virtual FeaturePtr & operator +=( const Feature & rhs)
     {
@@ -50,7 +54,6 @@ namespace fires
 
       return * this;
     }
-
 
     virtual FeaturePtr & operator /= ( const int & rhs )
     {
@@ -62,11 +65,9 @@ namespace fires
       return * this;
     }
 
-
   protected:
 
-    TYPE * _value;
-
+    TYPE* _value;
 
   };
 

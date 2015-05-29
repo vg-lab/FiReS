@@ -29,7 +29,7 @@ namespace fires
       _value = value_;
     };
 
-    virtual ~FeatureScalar( ) {};
+    virtual ~FeatureScalar( void ) {};
 
     virtual void value( const TYPE value_ )
     {
