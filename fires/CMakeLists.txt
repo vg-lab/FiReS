@@ -14,6 +14,7 @@ Feature.h
 FeaturePtrToFloatComparer.h
 FeaturePtrToVectorComparer.h
 FeaturePtrToVectorOfPtrsComparer.h
+FeatureScalarComparer.h
 FeatureVectorComparer.h
 System.h
 )
