@@ -46,6 +46,12 @@ namespace fires
       return new FeaturePtr( new TYPE );
     }
 
+    virtual void deleteFeature( void )
+    {
+      delete _value;
+      _value = nullptr;
+    }
+
     virtual FeaturePtr & operator +=( const Feature & rhs)
     {
       throw std::runtime_error(

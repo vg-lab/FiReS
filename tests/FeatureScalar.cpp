@@ -10,7 +10,7 @@
 #include "firesTests.h"
 
 
-BOOST_AUTO_TEST_CASE( test_feature )
+BOOST_AUTO_TEST_CASE( test_feature_scalar )
 {
 
   fires::FeatureScalar< double > fd1;

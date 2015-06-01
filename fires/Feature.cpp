@@ -17,7 +17,7 @@ namespace fires
     return nullptr;
   };
 
-  void Feature::deleteFeature( void ) const
+  void Feature::deleteFeature( void )
   {
     return;
   };

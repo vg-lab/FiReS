@@ -29,33 +29,39 @@ namespace fires
     {
     }
 
-    virtual FeaturePtrToScalar & operator +=( const Feature & rhs )
+    virtual FeaturePtrToScalar &operator +=( const Feature& rhs )
     {
       if ( this != & rhs )
       {
         const FeaturePtrToScalar< TYPE >* feat =
-          static_cast< const FeaturePtrToScalar * >( & rhs );
+          dynamic_cast< const FeaturePtrToScalar* >( & rhs );
 
-        TYPE * rhsValue = feat->value( );
-        ( * this->_value ) += ( * rhsValue );
+        if ( !feat )
+          throw std::runtime_error(
+            std::string( "Error: FeaturePtrToScalar operator += right " ) +
+            std::string( "hand side type not valid" ));
+        else
+        {
+          TYPE * rhsValue = feat->value( );
+          ( *this->_value ) += ( *rhsValue );
+        }
 
       }
       return * this;
     }
 
 
-    virtual FeaturePtrToScalar & operator /= ( const int & rhs )
+    virtual FeaturePtrToScalar & operator /= ( const int& rhs )
     {
-      ( * this->_value ) /=  rhs;
-      return * this;
+      ( *this->_value ) /=  rhs;
+      return *this;
 
     }
 
-    virtual Feature * newFeature( void ) const
+    virtual Feature* newFeature( void ) const
     {
       return new FeaturePtrToScalar( new TYPE );
     }
-
 
 
   };

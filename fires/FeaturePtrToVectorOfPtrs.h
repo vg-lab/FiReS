@@ -34,7 +34,7 @@ namespace fires
     virtual FeaturePtrToVectorOfPtrs & operator /= ( const int & rhs );
 
     virtual Feature * newFeature( void ) const;
-    virtual void deleteFeature( void ) const;
+    virtual void deleteFeature( void );
 
 
   };
@@ -107,7 +107,7 @@ namespace fires
   }
 
   template< size_t M, typename T  > void
-  FeaturePtrToVectorOfPtrs< M, T >::deleteFeature( void ) const
+  FeaturePtrToVectorOfPtrs< M, T >::deleteFeature( void )
   {
     for ( int i = 0 ; i < M ; i++ )
       delete (* this->_value )(i);

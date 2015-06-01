@@ -25,7 +25,7 @@ namespace fires
     Feature( void );
     virtual ~Feature( );
     virtual Feature* newFeature( void ) const;
-    virtual void deleteFeature( void ) const;
+    virtual void deleteFeature( void );
     virtual Feature& operator +=( const Feature& rhs);
     virtual Feature& operator /= ( const int& rhs );
 
