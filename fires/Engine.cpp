@@ -252,7 +252,6 @@ namespace fires
 
     int tid = 0;
     ((void )tid);
-    tid;
 
 #pragma omp parallel for  num_threads(NUM_THREADS) schedule(static) private(tid)
     for ( int i = 0; i < int( objects.size( )); ++i )
