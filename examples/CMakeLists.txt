@@ -1,13 +1,11 @@
-
-
-# Include directories 
+# Include directories
 include_directories(
-  ${CMAKE_SOURCE_DIR}/ 
+  ${CMAKE_SOURCE_DIR}/
   ${CMAKE_BINARY_DIR}
-) 
+)
 
-add_executable(floatFeatures floatFeatures.cpp)
-target_link_libraries(floatFeatures fires)
+add_executable( scalarFeatures scalarFeatures.cpp )
+target_link_libraries( scalarFeatures fires )
 
 add_executable(vectorFeatures vectorFeatures.cpp)
 target_link_libraries(vectorFeatures fires)
@@ -19,6 +17,3 @@ target_link_libraries(floatFeaturesNormalization fires)
 add_executable(largeNumberOfObjects
 largeNumberOfObjects.cpp)
 target_link_libraries(largeNumberOfObjects fires)
-
-
-

@@ -1,13 +1,13 @@
 /**
- * @file    System.h
+ * @file    Engine.h
  * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date
  * @remarks Copyright (c) GMRV/URJC. All rights reserved.
  *          Do not distribute without further notice.
  */
-#ifndef __FIRES__SYSTEM_H__
-#define __FIRES__SYSTEM_H__
+#ifndef __FIRES__ENGINE_H__
+#define __FIRES__ENGINE_H__
 
 
 #include "Comparer.h"
@@ -22,12 +22,12 @@
 namespace fires
 {
 
-  /*! \class System
-    \brief FiReS system
+  /*! \class Engine
+    \brief FiReS engine
 
     Provides the entry point for objects, comparers and results
   */
-  class System
+  class Engine
   {
 
   public:
@@ -35,7 +35,7 @@ namespace fires
     /**
      * Default destructor
      **/
-    virtual ~System( );
+    virtual ~Engine( );
 
     /// Type of distance used when multiple objects on the query set
     typedef enum

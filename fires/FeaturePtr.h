@@ -41,7 +41,7 @@ namespace fires
       _value = value_;
     }
 
-    virtual Feature * newFeature( void ) const
+    virtual Feature* newFeature( void ) const
     {
       return new FeaturePtr( new TYPE );
     }

@@ -1,5 +1,5 @@
 /**
- * @file    System.cpp
+ * @file    Engine.cpp
  * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date
@@ -12,7 +12,7 @@
 #include <stdlib.h>
 
 
-#include <fires/System.h>
+#include <fires/Engine.h>
 #include <fires/fires.h>
 
 #include <iostream>
@@ -27,13 +27,13 @@ namespace fires
 
 
   //
-  // System methods
+  // Engine methods
   //
-  System::~System( )
+  Engine::~Engine( )
   {
   }
 
-  void System::_computeAverageQueryObject( Object& avgObj,
+  void Engine::_computeAverageQueryObject( Object& avgObj,
                                            Objects& queryObjects,
                                            QueryFeatures& features  )
   {
@@ -63,7 +63,7 @@ namespace fires
         Feature * queryFeat =
           ( ( * queryObjIt )->getFeature( label ) );
 
-        assert( static_cast< FeaturePtrToFloat * >( queryFeat ));
+        assert( static_cast< FeaturePtrToScalar< float >* >( queryFeat ));
 
         (* avgFeat ) += ( * queryFeat );
       }
@@ -76,7 +76,7 @@ namespace fires
 
 
 
-  // void System::_computeMaxAndMiniObject( Object & minObj  )
+  // void Engine::_computeMaxAndMiniObject( Object & minObj  )
   // {
 
   //   for (QueryFeatures::iterator sysFeatIter = _features.begin();
@@ -120,7 +120,7 @@ namespace fires
 
 
 
-  float System::_distanceBetweenTwoObjects( Object *obj1, Object * obj2,
+  float Engine::_distanceBetweenTwoObjects( Object *obj1, Object * obj2,
                                             QueryFeatures& features )
   {
     float dist = 0;
@@ -138,7 +138,7 @@ namespace fires
 
       if ( ! comparer )
         throw std::runtime_error(
-          std::string( "System::_distanceBetweenTwoObjects: " ) +
+          std::string( "Engine::_distanceBetweenTwoObjects: " ) +
           std::string( "no comparer defined for feature" ) +
                        sysFeatIter->first );
 
@@ -153,11 +153,11 @@ namespace fires
 
   }
 
-  void System::query( Objects& objects,
+  void Engine::query( Objects& objects,
                       Objects& queryObjects,
                       QueryFeatures& features,
                       std::string resultsFeatureLabel,
-                      System::TDistanceToQuerySet queryDistanceType )
+                      Engine::TDistanceToQuerySet queryDistanceType )
   {
 
     // If no objects in the query return
@@ -166,7 +166,7 @@ namespace fires
 
     // If the distance to the query set is done using the average
     Object queryAvgObj;
-    if ( queryDistanceType == System::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
+    if ( queryDistanceType == Engine::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
       _computeAverageQueryObject( queryAvgObj, queryObjects, features );
 
 
@@ -175,7 +175,7 @@ namespace fires
 
       float dist = std::numeric_limits< float >::max( );
 
-      if ( queryDistanceType == System::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
+      if ( queryDistanceType == Engine::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
         dist = _distanceBetweenTwoObjects( &queryAvgObj, *obj, features );
       else
         if (queryDistanceType == MINIMUM_DISTANCE_TO_QUERY_OBJECTS )
@@ -192,7 +192,7 @@ namespace fires
           }
         }
         else
-          throw std::runtime_error("System::query: no distance type known");
+          throw std::runtime_error("Engine::query: no distance type known");
 
 
       ( *obj )->addFeature(  resultsFeatureLabel,
@@ -203,7 +203,7 @@ namespace fires
 
 
     // Free memory for average object features
-    if ( queryDistanceType == System::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
+    if ( queryDistanceType == Engine::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
       for (QueryFeatures::iterator sysFeatIter = features.begin();
            sysFeatIter != features.end(); ++sysFeatIter )
       {
@@ -223,11 +223,11 @@ namespace fires
 
 
 
-  void System::parallelQuery( Objects& objects,
+  void Engine::parallelQuery( Objects& objects,
                               Objects& queryObjects,
                               QueryFeatures& features,
                               std::string resultsFeatureLabel,
-                              System::TDistanceToQuerySet queryDistanceType )
+                              Engine::TDistanceToQuerySet queryDistanceType )
   {
 
     // If no objects in the query return
@@ -239,12 +239,12 @@ namespace fires
 
     // If the distance to the query set is done using the average
     Object queryAvgObj;
-    if ( queryDistanceType == System::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
+    if ( queryDistanceType == Engine::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
       _computeAverageQueryObject( queryAvgObj, queryObjects, features );
 
 #define NUM_THREADS 6
 
-    // System::Results tmpResults[NUM_THREADS];
+    // Engine::Results tmpResults[NUM_THREADS];
 
     int tid = 0;
     ((void )tid);
@@ -257,7 +257,7 @@ namespace fires
 
       float dist = std::numeric_limits< float >::max( );
 
-      if ( queryDistanceType == System::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
+      if ( queryDistanceType == Engine::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
         dist = _distanceBetweenTwoObjects( &queryAvgObj, *obj, features );
       else
         if (queryDistanceType == MINIMUM_DISTANCE_TO_QUERY_OBJECTS )
@@ -273,7 +273,7 @@ namespace fires
           }
         }
         else
-          throw std::runtime_error("System::query: no distance type known");
+          throw std::runtime_error("Engine::query: no distance type known");
 
       // tid = omp_get_thread_num();
       ( *obj )->addFeature( resultsFeatureLabel,
@@ -295,7 +295,7 @@ namespace fires
 
 
     // Free memory for average object features
-    if ( queryDistanceType == System::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
+    if ( queryDistanceType == Engine::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
       for (QueryFeatures::iterator sysFeatIter = features.begin();
            sysFeatIter != features.end(); ++sysFeatIter )
       {

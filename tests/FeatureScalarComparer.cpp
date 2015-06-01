@@ -36,6 +36,14 @@ BOOST_AUTO_TEST_CASE( test_feature_scalar_comparer )
                      comparerD.distance( &fd2, &fd1 ));
 
 
+  fires::Comparer* comparer = &comparerD;
+
+  BOOST_CHECK_EQUAL( comparer->distance( &fd1, &fd2 ),
+                     ( float ) fabs( 3.5 - 4.7 ));
+  BOOST_CHECK_EQUAL( comparer->distance( &fd1, &fd2 ),
+                     comparer->distance( &fd2, &fd1 ));
+
+
   // Float
   // If types are not consistent then 0 should be returned
   BOOST_CHECK_EQUAL( comparerF.distance( &f1, &f2 ), 0.0f );
@@ -50,6 +58,14 @@ BOOST_AUTO_TEST_CASE( test_feature_scalar_comparer )
                      comparerF.distance( &ff2, &ff1 ));
 
 
+  comparer = &comparerF;
+
+  BOOST_CHECK_EQUAL( comparer->distance( &ff1, &ff2 ),
+                     ( float ) fabs( 3.5f - 4.7f ));
+  BOOST_CHECK_EQUAL( comparer->distance( &ff1, &ff2 ),
+                     comparer->distance( &ff2, &ff1 ));
+
+
   // Int
   // If types are not consistent then 0 should be returned
   BOOST_CHECK_EQUAL( comparerI.distance( &f1, &f2 ), 0.0f );
@@ -62,6 +78,16 @@ BOOST_AUTO_TEST_CASE( test_feature_scalar_comparer )
                      ( float ) fabs( 3 - 4 ));
   BOOST_CHECK_EQUAL( comparerI.distance( &fi1, &fi2 ),
                      comparerI.distance( &fi2, &fi1 ));
+
+
+  comparer = &comparerI;
+
+  BOOST_CHECK_EQUAL( comparer->distance( &fi1, &fi2 ),
+                     ( float ) fabs( 3 - 4 ));
+  BOOST_CHECK_EQUAL( comparer->distance( &fi1, &fi2 ),
+                     comparer->distance( &fi2, &fi1 ));
+
+
 
 
 }

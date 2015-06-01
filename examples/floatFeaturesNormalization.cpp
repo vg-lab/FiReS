@@ -23,9 +23,9 @@ public:
   TestObject ()
   {
     this->addFeature(std::string("feature1"),
-                     new fires::FeaturePtrToFloat(&this->attr1));
+                     new fires::FeaturePtrToScalar< float >(&this->attr1));
     this->addFeature(std::string("feature2"),
-                     new fires::FeaturePtrToFloat(&this->attr2));
+                     new fires::FeaturePtrToScalar< float >(&this->attr2));
   }
 
 
@@ -66,10 +66,10 @@ int main ()
   objMax.label( ) = "Object Max";
 
 
-  fires::FeaturePtrToFloatComparer comparer1( 0, 4.1f );
-  fires::FeaturePtrToFloatComparer comparer2( 0, 42.1f );
+  fires::FeaturePtrToScalarComparer< float > comparer1( 0, 4.1f );
+  fires::FeaturePtrToScalarComparer< float > comparer2( 0, 42.1f );
 
-  fires::System sys;
+  fires::Engine engine;
 
   fires::Objects objects;
   objects.add( & objMin );
@@ -89,7 +89,7 @@ int main ()
   features.add( std::string( "feature2" ),
                 &comparer2 );
 
-  sys.query( objects, queryObjects, features );
+  engine.query( objects, queryObjects, features );
 
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
     std::cout << ( *obj )->label( ) << ": "

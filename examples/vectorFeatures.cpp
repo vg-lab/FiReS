@@ -69,7 +69,7 @@ public:
     f1 = new fires::FeaturePtrToVec2f( & vector1 );
     f2 = new fires::FeaturePtrToVec3i( & vector2 );
     f3 = new fires::FeaturePtrToVec3pf( & vector3 );
-    f4 = new fires::FeaturePtrToFloat( & this->attr1);
+    f4 = new fires::FeaturePtrToScalar< float >( & this->attr1);
 
     // Add the different features of different types, giving a name
     // and the feature itself
@@ -168,10 +168,10 @@ int main ( )
   fires::FeaturePtrToVec2fComparer comparer1;
   fires::FeaturePtrToVec3iComparer comparer2;
   fires::FeaturePtrToVec3pfComparer comparer3;
-  fires::FeaturePtrToFloatComparer comparer4;
+  fires::FeaturePtrToScalarComparer< float > comparer4;
 
   // Set-up system
-  fires::System sys;
+  fires::Engine engine;
 
   // Add objects
   fires::Objects objects;
@@ -194,7 +194,7 @@ int main ( )
   features.add( "feature4", &comparer4 );
 
   // Perform a query
-  sys.query( objects, queryObjects, features );
+  engine.query( objects, queryObjects, features );
 
   // Print results
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
@@ -208,7 +208,7 @@ int main ( )
   comparer3.distanceType() = fires::FeaturePtrToVec3fComparer::MANHATTAN;
 
   // Query again and print results
-  sys.query( objects, queryObjects, features );
+  engine.query( objects, queryObjects, features );
 
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
     std::cout << ( *obj )->label( ) << ": "
@@ -219,7 +219,7 @@ int main ( )
   comparer1.distanceType() = fires::FeaturePtrToVec2fComparer::EUCLIDEAN;
   comparer2.distanceType() = fires::FeaturePtrToVec3iComparer::EUCLIDEAN;
 
-  sys.query( objects, queryObjects, features );
+  engine.query( objects, queryObjects, features );
 
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
     std::cout << ( *obj )->label( ) << ": "
@@ -231,7 +231,7 @@ int main ( )
   //
   obj1.attr11 = 13.4f;
 
-  sys.query( objects, queryObjects, features );
+  engine.query( objects, queryObjects, features );
 
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
     std::cout << ( *obj )->label( ) << ": "
@@ -240,7 +240,7 @@ int main ( )
   // Now update the vector and the result now is correctly computed
   obj1.vector1 = fires::Vec2f( obj1.attr11, obj1.attr12 );
 
-  sys.query( objects, queryObjects, features );
+  engine.query( objects, queryObjects, features );
 
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
     std::cout << ( *obj )->label( ) << ": "
@@ -249,21 +249,21 @@ int main ( )
   // If we use vectors of pointers to scalars in this case changing the
   // value of an attribute affects the result of the query
   obj1.attr31 = 20.0f;
-  sys.query( objects, queryObjects, features );
+  engine.query( objects, queryObjects, features );
 
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
     std::cout << ( *obj )->label( ) << ": "
               << ( *obj )->getFeature( "fires::score" );
 
-  sys.query( objects, queryObjects, features, "fires::score",
-             fires::System::DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+  engine.query( objects, queryObjects, features, "fires::score",
+             fires::Engine::DISTANCE_TO_AVERAGE_QUERY_OBJECT );
 
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
     std::cout << ( *obj )->label( ) << ": "
               << ( *obj )->getFeature( "fires::score" );
 
-  sys.query( objects, queryObjects, features, "fires::score",
-             fires::System::MINIMUM_DISTANCE_TO_QUERY_OBJECTS );
+  engine.query( objects, queryObjects, features, "fires::score",
+             fires::Engine::MINIMUM_DISTANCE_TO_QUERY_OBJECTS );
 
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
     std::cout << ( *obj )->label( ) << ": "

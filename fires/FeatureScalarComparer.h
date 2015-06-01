@@ -20,7 +20,7 @@ namespace fires
 
    */
   template < typename TYPE > class FeatureScalarComparer
-    : Comparer
+    : public Comparer
   {
   public:
 

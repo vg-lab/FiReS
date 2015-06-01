@@ -35,7 +35,7 @@ public:
 
     for ( int i = 0; i < NUM_ATTRIBS; i++ )
       this->addFeature( std::string( "feature" ) + std::to_string( i ),
-                        new fires::FeaturePtrToFloat( & this->attrs[i] ));
+                        new fires::FeaturePtrToScalar< float >( & this->attrs[i] ));
   }
 
 
@@ -44,10 +44,10 @@ public:
 #define NUM_OBJS 100000
 //3000000
 
-int main ()
+int main ( void )
 {
 
-  fires::System sys;
+  fires::Engine engine;
 
   srand(1);
 
@@ -67,7 +67,7 @@ int main ()
 
   }
 
-  fires::FeaturePtrToFloatComparer comparer( 0, 1.0f );
+  fires::FeaturePtrToScalarComparer< float > comparer( 0, 1.0f );
 
   TestObject* queryObj =  new TestObject( );
 
@@ -90,7 +90,7 @@ int main ()
     struct timeval startTime, endTime;
     long totalTime;
     gettimeofday(&startTime, NULL);
-    sys.query( objects, queryObjects, features, "fires::score::serial" );
+    engine.query( objects, queryObjects, features, "fires::score::serial" );
     gettimeofday(&endTime, NULL);
 
     totalTime =  (endTime.tv_sec - startTime.tv_sec) * 1000000L;
@@ -99,7 +99,7 @@ int main ()
     std::cout << "Serial elapsed: "
               << (totalTime/1000L) / 1000.0f << std::endl;
 
-    //resultSerial = sys.results( );
+    //resultSerial = engine.results( );
 
   }
 
@@ -107,7 +107,7 @@ int main ()
     struct timeval startTime, endTime;
     long totalTime;
     gettimeofday(&startTime, NULL);
-    sys.parallelQuery( objects, queryObjects, features,
+    engine.parallelQuery( objects, queryObjects, features,
                        "fires::score::parallel" );
     gettimeofday(&endTime, NULL);
 

@@ -17,7 +17,7 @@ namespace fires
   {
 
     class ObjectFeatures
-      : public std::map< std::string, Feature * >
+      : public std::map< std::string, Feature* >
     {
 
     public:
@@ -90,7 +90,7 @@ namespace fires
         _features.add( featureLabel, feature );
       }
 
-      Feature * getFeature( const std::string& featureLabel )
+      Feature* getFeature( const std::string& featureLabel )
       {
         return _features.get( featureLabel );
       }
