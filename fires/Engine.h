@@ -35,6 +35,7 @@ namespace fires
     /**
      * Default destructor
      **/
+    FIRES_API
     virtual ~Engine( );
 
     /// Type of distance used when multiple objects on the query set
@@ -69,6 +70,7 @@ namespace fires
     // virtual void query( TDistanceToQuerySet queryDistanceType
     //                     = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
 
+    FIRES_API
     virtual void query( Objects& objects,
                         Objects& queryObjects,
                         QueryFeatures& features,
@@ -76,6 +78,7 @@ namespace fires
                         TDistanceToQuerySet queryDistanceType
                         = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
 
+    FIRES_API
     virtual void parallelQuery(
       Objects& objects,
       Objects& queryObjects,
@@ -86,8 +89,10 @@ namespace fires
 
   protected:
 
+    FIRES_API
     float _distanceBetweenTwoObjects( Object* obj1, Object* obj2,
                                       QueryFeatures& features );
+    FIRES_API
     virtual void _computeAverageQueryObject( Object& avgObj,
                                              Objects& queryObjects,
                                              QueryFeatures& features );

@@ -1,3 +1,10 @@
+#ifdef Win32
+#include <iostream>
+int main( void )
+{
+  std::cerr << "Not implemented in Windows yet!" << std::endl;
+}
+#else
 #include <sys/time.h>
 
 #include <fires/fires.h>
@@ -133,3 +140,4 @@ int main ( void )
 
 
 }
+#endif

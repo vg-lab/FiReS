@@ -11,6 +11,8 @@
 
 #include <stdexcept> // runtime_error
 
+#include <fires/api.h>
+
 namespace fires
 {
 
@@ -22,11 +24,22 @@ namespace fires
 
   public:
 
+    FIRES_API
     Feature( void );
+
+    FIRES_API
     virtual ~Feature( );
+
+    FIRES_API
     virtual Feature* newFeature( void ) const;
+
+    FIRES_API
     virtual void deleteFeature( void );
+
+    FIRES_API
     virtual Feature& operator +=( const Feature& rhs);
+
+    FIRES_API
     virtual Feature& operator /= ( const int& rhs );
 
 

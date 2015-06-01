@@ -68,7 +68,7 @@ namespace fires
         (* avgFeat ) += ( * queryFeat );
       }
 
-      (* avgFeat ) /= queryObjects.size();
+      (* avgFeat ) /= int( queryObjects.size( ));
 
     }
 
@@ -229,7 +229,11 @@ namespace fires
                               std::string resultsFeatureLabel,
                               Engine::TDistanceToQuerySet queryDistanceType )
   {
+#ifdef Win32
 
+    std::runtime_error( "OpenMP not supported in Win32" );
+#else
+    
     // If no objects in the query return
     if ( queryObjects.size( ) == 0 )
       return;
@@ -248,9 +252,10 @@ namespace fires
 
     int tid = 0;
     ((void )tid);
+    tid;
 
 #pragma omp parallel for  num_threads(NUM_THREADS) schedule(static) private(tid)
-    for (size_t i = 0; i < objects.size(); ++i )
+    for ( int i = 0; i < int( objects.size( )); ++i )
     {
 
       auto obj = & objects[i];
@@ -310,7 +315,7 @@ namespace fires
     //            _results.end( ),
     //            ResultsElementSortFunction );
 
-
+#endif
   }
 
 

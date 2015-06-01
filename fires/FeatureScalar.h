@@ -24,28 +24,34 @@ namespace fires
   {
 
   public:
+    FIRES_API
     FeatureScalar( TYPE value_ = ( TYPE ) 0 )
     {
       _value = value_;
     };
 
+    FIRES_API
     virtual ~FeatureScalar( void ) {};
 
+    FIRES_API
     virtual void value( const TYPE value_ )
     {
       _value = value_;
     };
 
+    FIRES_API
     virtual TYPE value( void ) const
     {
       return _value;
     };
 
+    FIRES_API
     virtual Feature* newFeature( void ) const
     {
       return new FeatureScalar( );
     }
 
+    FIRES_API
     virtual FeatureScalar & operator +=( const Feature& rhs)
     {
       if ( this != & rhs )
@@ -64,6 +70,7 @@ namespace fires
     }
 
 
+    FIRES_API
     virtual FeatureScalar & operator /= ( const int& rhs )
     {
       this->_value /=  ( TYPE ) rhs;

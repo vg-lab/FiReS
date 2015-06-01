@@ -27,6 +27,7 @@ namespace fires
      * Add an object to the container
      * @param object pointer to the object to be added
      */
+    FIRES_API
     void add( Object* object );
 
   }; // class Objects

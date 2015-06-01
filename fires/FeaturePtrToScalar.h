@@ -24,11 +24,13 @@ namespace fires
 
   public:
 
+    FIRES_API
     FeaturePtrToScalar( TYPE* pointer )
       : FeaturePtr< TYPE >( pointer )
     {
     }
 
+    FIRES_API
     virtual FeaturePtrToScalar &operator +=( const Feature& rhs )
     {
       if ( this != & rhs )
@@ -51,6 +53,7 @@ namespace fires
     }
 
 
+    FIRES_API
     virtual FeaturePtrToScalar & operator /= ( const int& rhs )
     {
       ( *this->_value ) /=  rhs;
@@ -58,6 +61,7 @@ namespace fires
 
     }
 
+    FIRES_API
     virtual Feature* newFeature( void ) const
     {
       return new FeaturePtrToScalar( new TYPE );

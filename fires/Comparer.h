@@ -26,7 +26,7 @@ namespace fires
   class Comparer
   {
   public:
-
+    FIRES_API
     virtual ~Comparer( );
 
     /**
@@ -36,6 +36,7 @@ namespace fires
      * @param f2 Second feature to compare.
      * @return Distance between features
      */
+    FIRES_API
     virtual float distance( Feature* f1, Feature* f2 ) const;
 
   };

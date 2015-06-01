@@ -34,16 +34,19 @@ namespace fires
     /**
      * Default constructor
      */
+    FIRES_API
     Object( );
 
     /**
      * Copy constructor
      */
+    FIRES_API
     Object( Object& object );
 
     /**
      * Destructor
      */
+    FIRES_API
     ~Object( );
 
     /**
@@ -51,6 +54,7 @@ namespace fires
      * @param label label string for the feature
      * @param feature feature to be added
      */
+    FIRES_API
     void addFeature( std::string label, Feature* feature );
 
     /**
@@ -58,6 +62,7 @@ namespace fires
      * @param label label string to retrieve the feature
      * @return the feature if found or nullptr otherwise
      */
+    FIRES_API
     Feature* getFeature( const std::string& label ) const;
 
     /**
@@ -66,6 +71,7 @@ namespace fires
      * @param feature feature to be setted
      * @return true in case feature was setted, false otherwise
      */
+    FIRES_API
     bool setFeature( std::string label, Feature*  feature);
 
     /**
@@ -73,11 +79,13 @@ namespace fires
      * @param label label of the feature to be deleted
      * @return true if the feature could be deleted
      */
+    FIRES_API
     bool delFeature( std::string label );
 
     /**
      * Clears the features of this object (no memory freeing)
      */
+    FIRES_API
     void clearFeatures( void );
 
 
@@ -85,12 +93,14 @@ namespace fires
      * Get a reference to the label of the object
      * @return reference to label
      */
+    FIRES_API
     std::string& label( void );
 
     /**
      * Get the label of the object
      * @return label of the object
      */
+    FIRES_API
     std::string label( void ) const;
 
   protected:

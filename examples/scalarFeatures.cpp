@@ -101,7 +101,7 @@ int main ()
 
   obj2.attr1 = 3.2f;
   obj2.attr2 = 42.1f;
-  fires::asFloat( obj2.getFeature( "feature3" ) )->value( 2.4 );
+  fires::asFloat( obj2.getFeature( "feature3" ) )->value( 2.4f );
   fires::asInteger( obj2.getFeature( "feature4" ) )->value( 3 );
 
   obj3.attr1 = 1.4f;
@@ -124,7 +124,7 @@ int main ()
   // Create comparers
   fires::FeaturePtrToScalarComparer< float > comparer1( 0, 4.1f );
   CustomFeaturePtrToFloatComparer comparer2;
-  comparer2.setMaxValue( 42.1 );
+  comparer2.setMaxValue( 42.1f );
   fires::FeatureScalarComparer< float > comparer3;
   fires::FeatureScalarComparer< int > comparer4;
 
@@ -169,7 +169,7 @@ int main ()
   // Change some attribute and due to the use of feature pointers
   // no need of an update step needed, query and print results.
   std::cout << "-- Changing attribute registered as pointer " << std::endl;
-  obj1.attr2+= 1.3;
+  obj1.attr2+= 1.3f;
   engine.query( objects, queryObjects, features );
   printResults( objects, "fires::score" );
   std::cout << std::endl;
@@ -177,7 +177,7 @@ int main ()
   // Take parameters to their original values and query again. Same
   // output as before should be obtained
   std::cout << "-- Changing back the same attribute " << std::endl;
-  obj1.attr2-= 1.3;
+  obj1.attr2-= 1.3f;
   engine.query( objects, queryObjects, features,
              "fires::score",
              fires::Engine::DISTANCE_TO_AVERAGE_QUERY_OBJECT );

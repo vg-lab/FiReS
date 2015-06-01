@@ -24,9 +24,16 @@ namespace fires
   {
   public:
 
-    virtual ~FeatureScalarComparer( void )
+    FIRES_API
+    FeatureScalarComparer( void )
+      : Comparer( )
     {
     }
+
+    FIRES_API
+    virtual ~FeatureScalarComparer( void )
+    {
+    }    
 
     /**
      * Virtual method to compute distance.
@@ -35,6 +42,7 @@ namespace fires
      * @param f Second feature to compare.
      * @return Distance between features
      */
+    FIRES_API
     virtual float distance( Feature* f1, Feature* f2 ) const
     {
       FeatureScalar< TYPE >* fsp1 =
@@ -50,8 +58,9 @@ namespace fires
         return 0.0f;
       }
 
-      float dist = ( float ) fabs(( fsp1->value( ) ) -
-                                  ( fsp2->value( )));
+      // Has to be double to avoid VS errors for integer as TYPE
+      float dist = ( float ) fabs(( double ) ( fsp1->value( ) -
+					     fsp2->value( )));
 
       // if ( ( _maxValue - _minValue ) != 0 )
       //   dist *= _invMaxMinDiff;

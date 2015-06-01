@@ -1,5 +1,6 @@
 #include "Feature.h"
 
+#include <string>
 
 namespace fires
 {

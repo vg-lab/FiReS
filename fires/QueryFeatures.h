@@ -18,27 +18,32 @@ namespace fires
   {
   public:
 
+    FIRES_API
     QueryFeatureData( Comparer* comparer_, const float weight_ = 1.0f )
       : _comparer( comparer_ )
       , _weight( weight_ )
     {
     }
 
+    FIRES_API
     const Comparer* comparer( void )
     {
       return _comparer;
     }
 
+    FIRES_API
     void comparer( Comparer* comparer_ )
     {
       _comparer = comparer_;
     }
 
+    FIRES_API
     const float& weight( void )
     {
       return _weight;
     }
 
+    FIRES_API
     void weight( const float weight_ )
     {
       _weight = weight_;
@@ -72,6 +77,7 @@ namespace fires
      * @param comparer pointer to the comparer object to be used
      *        with this feature
      */
+    FIRES_API
     void add( std::string label,
               Comparer* comparer,
               float weight = 1.0f );
