@@ -37,8 +37,10 @@ namespace fires
      */
     virtual float distance( Feature* f1, Feature* f2 ) const
     {
-      FeaturePtrToFloat* fsp1 = dynamic_cast< FeatureScalar< TYPE >* >( f1 );
-      FeaturePtrToFloat* fsp2 = dynamic_cast< FeatureScalar< TYPE >* >( f2 );
+      FeatureScalar< TYPE >* fsp1 =
+        dynamic_cast< FeatureScalar< TYPE >* >( f1 );
+      FeatureScalar< TYPE >* fsp2 =
+        dynamic_cast< FeatureScalar< TYPE >* >( f2 );
 
       if ( !fsp1 || !fsp2 )
       {
@@ -48,8 +50,8 @@ namespace fires
         return 0.0f;
       }
 
-      float dist = fabs(( TYPE ) ( fsp1->value( ) ) -
-                        ( TYPE ) ( fsp2->value( )));
+      float dist = ( float ) fabs(( fsp1->value( ) ) -
+                                  ( fsp2->value( )));
 
       // if ( ( _maxValue - _minValue ) != 0 )
       //   dist *= _invMaxMinDiff;
