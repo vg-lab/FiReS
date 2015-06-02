@@ -57,7 +57,7 @@ namespace fires
      * @param f2 Second feature to compare.
      * @return Distance between features
      */
-    virtual TYPE distance( Feature* f1, Feature* f2 ) const
+    virtual float distance( Feature* f1, Feature* f2 ) const
     {
       FeaturePtrToScalar< TYPE >* fps1 =
         dynamic_cast< FeaturePtrToScalar< TYPE >* >( f1 );
