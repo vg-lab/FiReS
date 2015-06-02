@@ -10,6 +10,7 @@
 #define __FIRES_SCALAR_COMPARER_H__
 
 #include "Feature.h"
+#include <math.h>
 
 namespace fires
 {
@@ -33,7 +34,7 @@ namespace fires
     FIRES_API
     virtual ~FeatureScalarComparer( void )
     {
-    }    
+    }
 
     /**
      * Virtual method to compute distance.
@@ -59,8 +60,8 @@ namespace fires
       }
 
       // Has to be double to avoid VS errors for integer as TYPE
-      float dist = ( float ) fabs(( double ) ( fsp1->value( ) -
-					     fsp2->value( )));
+      float dist = ( float ) fabs((double) ( fsp1->value( ) -
+                                             fsp2->value( )));
 
       // if ( ( _maxValue - _minValue ) != 0 )
       //   dist *= _invMaxMinDiff;

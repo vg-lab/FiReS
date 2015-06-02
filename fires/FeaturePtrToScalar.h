@@ -11,6 +11,7 @@
 
 
 #include "FeaturePtr.h"
+#include <math.h>
 
 namespace fires
 {
