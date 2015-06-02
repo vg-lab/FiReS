@@ -66,15 +66,15 @@ namespace fires
     assert( feat );
 
     vmml::vector< M, T > lhsValues;
-    for ( int i = 0; i < M ; i++ )
+    for ( unsigned int i = 0; i < M ; i++ )
       lhsValues(i) = * ( ( * this->_value )(i) );
 
     vmml::vector< M, T > rhsValues;
-    for ( int i = 0; i < M ; i++ )
+    for ( unsigned int i = 0; i < M ; i++ )
       rhsValues[i] =  * ( ( * feat->value() )[i] );
 
     lhsValues += rhsValues;
-    for ( int i = 0; i < M ; i++ )
+    for ( unsigned int i = 0; i < M ; i++ )
       * ( ( * this->_value )[i] ) =  lhsValues[i];
 
     return * this;
@@ -85,12 +85,12 @@ namespace fires
   {
 
     vmml::vector< M, T > lhsValues;
-    for ( int i = 0; i < M ; i++ )
+    for ( unsigned int i = 0; i < M ; i++ )
       lhsValues(i) = * ( ( * this->_value )(i) );
 
     lhsValues /= rhs;
 
-    for ( int i = 0; i < M ; i++ )
+    for ( unsigned int i = 0; i < M ; i++ )
       * ( ( * this->_value )[i] ) =  lhsValues[i];
 
     return * this;
@@ -101,7 +101,7 @@ namespace fires
   FeaturePtrToVectorOfPtrs< M, T >::newFeature( void ) const
   {
     auto f = new FeaturePtrToVectorOfPtrs( new vmml::vector< M, T * > );
-    for ( int i = 0 ; i < M ; i++ )
+    for ( unsigned int i = 0 ; i < M ; i++ )
       (* f->_value )(i) = new T(0);
     return f;
   }
@@ -109,7 +109,7 @@ namespace fires
   template< size_t M, typename T  > void
   FeaturePtrToVectorOfPtrs< M, T >::deleteFeature( void )
   {
-    for ( int i = 0 ; i < M ; i++ )
+    for ( unsigned int i = 0 ; i < M ; i++ )
       delete (* this->_value )(i);
   }
 

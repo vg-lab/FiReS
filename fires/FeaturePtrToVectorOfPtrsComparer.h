@@ -34,7 +34,7 @@ namespace fires
      * @param f2 Second feature to compare.
      * @return Distance between features
      */
-    virtual float distance(Feature *f1, Feature *f2)
+    virtual float distance(Feature *f1, Feature *f2) const
     {
 
       FeaturePtrToVectorOfPtrs< M, T > * ffp1 =
@@ -55,14 +55,14 @@ namespace fires
 
       // Convert to float to compute distances
       vmml::vector< M, float > v1f;
-      for ( int i = 0; i < M ; i++ )
+      for ( unsigned int i = 0; i < M ; i++ )
       {
         vmml::vector< M, T * > v = ( * ffp1->value( ));
         v1f( i ) = * v( i );
       }
 
       vmml::vector< M, float > v2f( * ( * ffp2->value( )));
-      for ( int i = 0; i < M ; i++ )
+      for ( unsigned int i = 0; i < M ; i++ )
       {
         vmml::vector< M, T * > v = ( * ffp2->value( ));
         v2f( i ) = * v( i );

@@ -38,7 +38,7 @@ namespace fires
      * @param f2 Second feature to compare.
      * @return Distance between features
      */
-    virtual float distance(Feature *f1, Feature *f2);
+    virtual float distance(Feature *f1, Feature *f2) const;
 
 
   };
@@ -60,7 +60,7 @@ namespace fires
   }
 
   template< size_t M, typename T  > float
-  FeaturePtrToVectorComparer< M, T >::distance( Feature *f1, Feature *f2 )
+  FeaturePtrToVectorComparer< M, T >::distance( Feature *f1, Feature *f2 ) const
   {
 
     FeaturePtrToVector< M, T > * ffp1 =
