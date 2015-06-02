@@ -7,7 +7,9 @@
  *          Do not distribute without further notice.
  */
 
+#ifdef FIRES_WITH_OPENMP
 #include <omp.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 

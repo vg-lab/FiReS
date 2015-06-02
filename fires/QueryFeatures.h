@@ -11,6 +11,7 @@
 
 #include "Comparer.h"
 #include <map>
+#include <string>
 
 namespace fires
 {
