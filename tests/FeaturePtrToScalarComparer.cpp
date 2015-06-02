@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE( test_feature_scalar_comparer )
   BOOST_CHECK_EQUAL( comparerI.distance( &fi1, &f2 ), 0.0f );
 
   BOOST_CHECK_EQUAL( comparerI.distance( &fi1, &fi2 ),
-                     ( float ) fabs( 3 - 4 ));
+                     ( float ) fabs( float( 3 - 4 )));
   BOOST_CHECK_EQUAL( comparerI.distance( &fi1, &fi2 ),
                      comparerI.distance( &fi2, &fi1 ));
 
@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE( test_feature_scalar_comparer )
   comparer = &comparerI;
 
   BOOST_CHECK_EQUAL( comparer->distance( &fi1, &fi2 ),
-                     ( float ) fabs( 3 - 4 ));
+                     ( float ) fabs( float( 3 - 4 )));
   BOOST_CHECK_EQUAL( comparer->distance( &fi1, &fi2 ),
                      comparer->distance( &fi2, &fi1 ));
 

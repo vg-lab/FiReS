@@ -72,7 +72,8 @@ namespace fires
         return 0.0f;
       }
 
-      float dist = float( fabs(( *fps1->value( )) - ( *fps2->value( ))));
+      float dist = ( float ) fabs((double) ( *fps1->value( ) -
+                                             *fps2->value( )));
 
       if (( _maxValue - _minValue ) != 0 )
         dist *= float( _invMaxMinDiff );
