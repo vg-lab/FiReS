@@ -13,11 +13,43 @@
 #include <fires/api.h>
 #include <boost/any.hpp>
 #include <string>
+#include <iostream>
 
 namespace fires
 {
 
-  typedef boost::any Feature;
+  class Feature
+  {
+  public:
+
+    Feature( void )
+      : _value( )
+    {
+    }
+
+    template < class ValueType >
+    Feature( ValueType value_ )
+      : _value( value_ )
+    {
+    }
+
+    template < class ValueType >
+    void set( ValueType value_ )
+    {
+      _value = value_;
+    }
+
+    template < typename ValueType >
+    ValueType value( void )
+    {
+      return boost::any_cast< ValueType >( _value );
+    }
+
+  protected:
+    boost::any _value;
+
+  };
+
 
   namespace detail
   {
