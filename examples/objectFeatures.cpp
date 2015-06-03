@@ -26,6 +26,9 @@ int main( void )
   obj.registerFeature( "feature1", f1 );
   f2 = obj.getFeature( "feature1" );
 
+  std::cout << "Typeid: " << typeid( int ).name( ) << std::endl;
+  std::cout << "Type name: " << f1.type( ).name( ) << std::endl;
+
   std::cout << boost::any_cast< int >( f1 ) << std::endl;
   std::cout << boost::any_cast< int >( f2 ) << std::endl;
 
@@ -53,14 +56,21 @@ int main( void )
 
   // Class feature based example
   ComplexFeature cf1, cf2;
+
   cf1.i = 3;
   cf1.j = 4.5f;
 
   f1 = cf1;
   obj.registerFeature( "feature3", cf1 );
-  f2 = obj.getFeature( "feature3" );
 
-  cf2 = boost::any_cast< ComplexFeature >( f2 );
+  fires::Feature f3;
+  f3 = obj.getFeature( "feature3" );
+
+
+  std::cout << "Typeid: " << typeid( ComplexFeature ).name( ) << std::endl;
+  std::cout << "Type name: " << f3.type( ).name( ) << std::endl;
+
+  cf2 = boost::any_cast< ComplexFeature >( f3 );
 
   std::cout << "(" << cf2.i << "," << cf2.j << ")" << std::endl;
 
