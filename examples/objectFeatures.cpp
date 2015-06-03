@@ -2,10 +2,16 @@
 #include <fires/fires.h>
 
 
-class ComplexFeature : public fires::Feature
+class ComplexFeature //: public fires::Feature
 {
 
 public:
+
+  // ComplexFeature( ComplexFeature& f )
+  // {
+  //   this->i = f.i;
+  //   this->j = f.j;
+  // }
 
   int i;
   float j;
@@ -61,7 +67,7 @@ int main( void )
   cf1.j = 4.5f;
 
   f1 = cf1;
-  obj.registerFeature( "feature3", cf1 );
+  obj.registerFeature( "feature3", f1 );
 
   fires::Feature f3;
   f3 = obj.getFeature( "feature3" );
