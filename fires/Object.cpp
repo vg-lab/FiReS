@@ -11,13 +11,20 @@
 
 #include <map>
 
+#include <boost/any.hpp>
+
 namespace fires
 {
   namespace detail
   {
 
+    // class ObjectFeatures
+    //   : public std::map< std::string, Feature >
+    // {
+    // };
+
     class ObjectFeatures
-      : public std::map< std::string, Feature* >
+      : public std::map< std::string, Feature >
     {
 
     public:
@@ -26,14 +33,14 @@ namespace fires
       {
       }
 
-      void add( const std::string& label,
-                Feature* feature )
+      void registerFeature( const std::string& label,
+                            Feature& feature )
       {
-        this->insert( std::pair< std::string, Feature * >
+        this->insert( std::pair< std::string, Feature >
                       ( label, feature ));
       }
 
-      bool del( const std::string& label )
+      bool unregisterFeature( const std::string& label )
       {
         ObjectFeatures::const_iterator it = this->find( label );
 
@@ -44,17 +51,17 @@ namespace fires
         return true;
       }
 
-      Feature * get( const std::string& label ) const
+      Feature get( const std::string& label ) const
       {
         ObjectFeatures::const_iterator it = this->find( label );
 
           if ( it == this->end( ) )
-            return nullptr;
+            return Feature( );
 
           return ( *it ).second;
       }
 
-      bool set( const std::string& label, Feature * feature )
+      bool set( const std::string& label, Feature& feature )
       {
         ObjectFeatures::const_iterator it = this->find( label );
 
@@ -85,24 +92,24 @@ namespace fires
       {
       }
 
-      void addFeature( std::string featureLabel, Feature* feature )
+      void registerFeature( std::string featureLabel, Feature feature )
       {
-        _features.add( featureLabel, feature );
+        _features.registerFeature( featureLabel, feature );
       }
 
-      Feature* getFeature( const std::string& featureLabel )
+      Feature getFeature( const std::string& featureLabel )
       {
         return _features.get( featureLabel );
       }
 
-      bool setFeature( std::string& featureLabel, Feature* feature)
+      bool setFeature( const std::string& featureLabel, Feature& feature)
       {
         return _features.set( featureLabel, feature );
       }
 
-      bool delFeature( std::string& featureLabel )
+      bool unregisterFeature( const std::string& featureLabel )
       {
-        return _features.del( featureLabel );
+        return _features.unregisterFeature( featureLabel );
       }
 
       void clearFeatures( void )
@@ -155,24 +162,25 @@ namespace fires
   }
 
 
-  void Object::addFeature( std::string featureLabel, Feature * feature )
+  void Object::registerFeature( const std::string& featureLabel,
+                                Feature& feature )
   {
-    _impl->addFeature( featureLabel, feature );
+    _impl->registerFeature( featureLabel, feature );
   }
 
-  Feature* Object::getFeature( const std::string& featureLabel ) const
+  bool Object::unregisterFeature( const std::string& featureLabel )
+  {
+    return _impl->unregisterFeature( featureLabel );
+  }
+
+  Feature Object::getFeature( const std::string& featureLabel ) const
   {
     return _impl->getFeature( featureLabel );
   }
 
-  bool Object::setFeature( std::string featureLabel, Feature * feature)
+  bool Object::setFeature( const std::string& featureLabel, Feature& feature )
   {
     return _impl->setFeature( featureLabel, feature );
-  }
-
-  bool Object::delFeature( std::string featureLabel )
-  {
-    return _impl->delFeature( featureLabel );
   }
 
   void Object::clearFeatures( void )
