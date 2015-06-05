@@ -17,11 +17,10 @@ void printResults( fires::Objects& objects, std::string scoreLabel )
 {
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
   {
-    fires::FeatureScalar< float >* fs =
-      dynamic_cast< fires::FeatureScalar< float >* >(
-        ( *obj )->getFeature( scoreLabel ));
-    std::cout << ( *obj )->label( ) << ": "
-              << fs->value( ) << std::endl;
+    // fires::FeatureScalar< float >* fs =
+    //   dynamic_cast< fires::FeatureScalar< float >* >(
+    std::cout << ( *obj )->getFeature( scoreLabel ).value< float >( )
+              << std::endl;
   }
 }
 
@@ -49,39 +48,36 @@ public:
   {
     // Add a couple of features which hold pointer to already existing
     // float attributes
-    this->addFeature( std::string( "feature1" ),
-                      new fires::FeaturePtrToScalar< float >( &this->attr1 ));
-    this->addFeature( std::string( "feature2" ),
-                      new fires::FeaturePtrToScalar< float >( &this->attr2 ));
+    this->registerFeature( std::string( "feature1" ), &this->attr1 );
+    this->registerFeature( std::string( "feature2" ), &this->attr2 );
 
     // Add a couple of non-pointer features, in this case one float
     // and one integer.
-    this->addFeature( std::string( "feature3" ),
-                      new fires::FeatureScalar< float >( ));
-    this->addFeature( std::string( "feature4" ),
-                      new fires::FeatureScalar< int >( ));
-
+    this->registerFeature( std::string( "feature3" ), float( 0.0f ) );
+    this->registerFeature( std::string( "feature4" ), int( 0 ) );
   }
 
 
 };
 
 
-class CustomFeaturePtrToFloatComparer
-  : public fires::FeaturePtrToScalarComparer< float >
+template < typename T >
+class CustomScalarPtrComparer
+  : public fires::ScalarPtrComparer< T >
 {
 
 public:
 
-  CustomFeaturePtrToFloatComparer(void)
+  CustomScalarPtrComparer( void )
   {
     factor = 1.0f;
   }
 
-  float distance( fires::Feature* f1, fires::Feature* f2 ) const
+  float distance( const fires::Feature& f1, const fires::Feature& f2 ) const
   {
-    return factor * FeaturePtrToScalarComparer::distance( f1, f2 );
+    return factor * fires::ScalarPtrComparer< T >::distance( f1, f2 );
   }
+
 
   float factor;
 
@@ -96,23 +92,23 @@ int main ()
 
   obj1.attr1 = 3.4f;
   obj1.attr2 = 4.3f;
-  fires::asFloat( obj1.getFeature( "feature3" ) )->value( 5.6f );
-  fires::asInteger( obj1.getFeature( "feature4" ) )->value( 6 );
+  obj1.getFeature( "feature3" ).set< float >( 5.6f );
+  obj1.getFeature( "feature4" ).set< int >( 6 );
 
   obj2.attr1 = 3.2f;
   obj2.attr2 = 42.1f;
-  fires::asFloat( obj2.getFeature( "feature3" ) )->value( 2.4f );
-  fires::asInteger( obj2.getFeature( "feature4" ) )->value( 3 );
+  obj2.getFeature( "feature3" ).set< float >( 2.4f );
+  obj2.getFeature( "feature4" ).set< int >( 3 );
 
   obj3.attr1 = 1.4f;
   obj3.attr2 = 2.2f;
-  fires::asFloat( obj3.getFeature( "feature3" ) )->value( 9.6f );
-  fires::asInteger( obj3.getFeature( "feature4" ) )->value( 4 );
+  obj3.getFeature( "feature3" ).set< float >( 9.6f );
+  obj3.getFeature( "feature4" ).set< int >( 4 );
 
   obj4.attr1 = 4.1f;
   obj4.attr2 = 1.8f;
-  fires::asFloat( obj4.getFeature( "feature3" ) )->value( 3.4f );
-  fires::asInteger( obj4.getFeature( "feature4" ) )->value( 7 );
+  obj4.getFeature( "feature3" ).set< float >( 2.1f );
+  obj4.getFeature( "feature4" ).set< int >( 7 );
 
 
   // Label objects
@@ -122,11 +118,15 @@ int main ()
   obj4.label( ) = "Object 4";
 
   // Create comparers
-  fires::FeaturePtrToScalarComparer< float > comparer1( 0, 4.1f );
-  CustomFeaturePtrToFloatComparer comparer2;
-  comparer2.setMaxValue( 42.1f );
-  fires::FeatureScalarComparer< float > comparer3;
-  fires::FeatureScalarComparer< int > comparer4;
+  fires::ScalarPtrComparer< float > comparer1;
+  CustomScalarPtrComparer< float > comparer2;
+  fires::ScalarComparer< float > comparer3;
+  fires::ScalarComparer< int > comparer4;
+
+  fires::ScalarAverager< int > sai;
+  fires::ScalarAverager< float > saf;
+  fires::ScalarPtrAverager< int > sapi;
+  fires::ScalarPtrAverager< float > sapf;
 
   // Instanciate fires' engine object
   fires::Engine engine;
@@ -145,10 +145,10 @@ int main ()
 
   // Create the set of features to be used in the queries
   fires::QueryFeatures features;
-  features.add( std::string("feature1"), &comparer1 );
-  features.add( std::string("feature2"), &comparer2 );
-  features.add( std::string("feature3"), &comparer3 );
-  features.add( std::string("feature4"), &comparer4 );
+  features.add( std::string("feature1"), &comparer1, &sapf );
+  features.add( std::string("feature2"), &comparer2, &sapf );
+  features.add( std::string("feature3"), &comparer3, &saf );
+  features.add( std::string("feature4"), &comparer4, &sai );
 
   // Query the system and print results
   std::cout << "-- First query" << std::endl;

@@ -18,7 +18,7 @@ Feature.h
 # FeaturePtrToVectorOfPtrsComparer.h
 # FeatureScalarComparer.h
 # FeatureVectorComparer.h
-# Engine.h
+Engine.h
 )
 
 set(FIRES_HEADERS )
@@ -29,7 +29,7 @@ set(FIRES_SOURCES ${COMMON_SOURCES}
 Object.cpp
 Objects.cpp
 QueryFeatures.cpp
-# Engine.cpp
+Engine.cpp
 )
 
 common_library(fires)

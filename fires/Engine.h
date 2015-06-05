@@ -49,26 +49,6 @@ namespace fires
     } TDistanceToQuerySet;
 
 
-    // /**
-    //  * Adds a new feature to the container
-    //  * @param obj pointer object to be added to the objects container
-    //  */
-    // void addObject( Object*  obj );
-
-    // /**
-    //  * Adds a new feature to the container
-    //  * @param obj pointer object to be added to the query objects container
-    //  */
-    // void addQueryObject( Object*  obj );
-
-    // void addFeature( std::string label,
-    //                  float weight,
-    //                  Comparer*  comparer );
-
-    // const Results & results();
-
-    // virtual void query( TDistanceToQuerySet queryDistanceType
-    //                     = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
 
     FIRES_API
     virtual void query( Objects& objects,
@@ -78,14 +58,14 @@ namespace fires
                         TDistanceToQuerySet queryDistanceType
                         = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
 
-    FIRES_API
-    virtual void parallelQuery(
-      Objects& objects,
-      Objects& queryObjects,
-      QueryFeatures& features,
-      std::string resultsFeatureLabel = "fires::score",
-      TDistanceToQuerySet queryDistanceType
-      = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+    // FIRES_API
+    // virtual void parallelQuery(
+    //   Objects& objects,
+    //   Objects& queryObjects,
+    //   QueryFeatures& features,
+    //   std::string resultsFeatureLabel = "fires::score",
+    //   TDistanceToQuerySet queryDistanceType
+    //   = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
 
   protected:
 
