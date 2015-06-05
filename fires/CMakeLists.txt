@@ -1,6 +1,7 @@
 source_group(\\ FILES CMakeLists.txt)
 
 set(FIRES_PUBLIC_HEADERS ${COMMON_INCLUDES}
+Averager.h
 Comparer.h
 # Definitions.h
 # FeaturePtr.h

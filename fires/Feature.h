@@ -38,7 +38,7 @@ namespace fires
     }
 
     template < class ValueType >
-    Feature( ValueType value_ )
+    Feature( const ValueType value_ )
     {
       _value = value_;
       // std::cout << "Feature( ) " << typeid( value_ ).name( ) << " "
@@ -56,6 +56,11 @@ namespace fires
     {
       // std::cout << "Feature::Value " << _value.type( ).name( ) << std::endl;
       return boost::any_cast< ValueType >( _value );
+    }
+
+    std::string type( void ) const
+    {
+      return _value.type( ).name( );
     }
 
     virtual Feature& operator += ( const Feature& rhs )

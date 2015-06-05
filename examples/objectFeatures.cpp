@@ -85,7 +85,7 @@ int main( void )
 
     std::cout << c->distance( f1, f2 ) << std::endl;
 
-    qf.add( std::string( "feature1" ), c, 0.5f );
+    qf.add( std::string( "feature1" ), c, 0, 0.5f );
     std::cout <<  qf[ "feature1" ].comparer( )->distance( f1, f2 ) << std::endl;
 
 
@@ -163,7 +163,7 @@ int main( void )
         this->registerFeature( "feature1", fires::Feature( &attr1 ));
         this->registerFeature( "feature2", fires::Feature( &attr2 ));
 
-        this->registerFeature( "feature3", fires::Feature( 3 ));
+        this->registerFeature( "feature3", fires::Feature( 1 ));
         this->registerFeature( "feature4", fires::Feature( 5.4f ));
 
       }
@@ -208,10 +208,54 @@ int main( void )
     objs.add( &obj2 );
 
     fires::QueryFeatures qf;
-    qf.add( std::string( "feature1" ), new fires::ScalarPtrComparer< int >( ));
-    qf.add( std::string( "feature2" ), new fires::ScalarPtrComparer< float >( ));
-    qf.add( std::string( "feature3" ), new fires::ScalarComparer< int >( ));
-    qf.add( std::string( "feature4" ), new fires::ScalarComparer< float >( ));
+
+    fires::ScalarComparer< int > sci;
+    fires::ScalarComparer< float > scf;
+    fires::ScalarPtrComparer< int > scpi;
+    fires::ScalarPtrComparer< float > scpf;
+    fires::ScalarAverager< int > sai;
+    fires::ScalarAverager< float > saf;
+    fires::ScalarPtrAverager< int > sapi;
+    fires::ScalarPtrAverager< float > sapf;
+
+    qf.add( std::string( "feature1" ), &scpi, &sapi);
+    qf.add( std::string( "feature2" ), &scpf, &sapf);
+    qf.add( std::string( "feature3" ), &sci, &sai);
+    qf.add( std::string( "feature4" ), &scf, &saf);
+
+
+    fires::Object meanObj;
+
+    for ( auto qfd = qf.begin( ); qfd != qf.end( ); ++qfd )
+    {
+
+      std::string featLabel = qfd->first;
+      std::cout << "Averaging feature: " << featLabel << std::endl;
+      qfd->second.averager( )->reset( );
+
+      for ( auto obj = objs.begin( ); obj != objs.end( ); ++obj )
+      {
+        qfd->second.averager( )->accum(( *obj )->getFeature( featLabel ));
+      }
+
+      qfd->second.averager( )->divide( objs.size( ));
+      std::cout << qfd->second.averager( )->getFeature( ).type( ) << std::endl;
+      meanObj.registerFeature( featLabel,
+                               qfd->second.averager( )->getFeature( ));
+
+
+    }
+
+
+    std::cout << "Mean obj " << *meanObj.getFeature( "feature1" ).value< int* >( )
+              << std::endl;
+    std::cout << "Mean obj " << *meanObj.getFeature( "feature2" ).value< float* >( )
+              << std::endl;
+    std::cout << "Mean obj " << meanObj.getFeature( "feature3" ).value< int >( )
+              << std::endl;
+    std::cout << "Mean obj " << meanObj.getFeature( "feature4" ).value< float >( )
+              << std::endl;
+
 
 
     for ( auto obj = objs.begin( ); obj != objs.end( ); ++obj )
@@ -225,6 +269,21 @@ int main( void )
                   << std::endl;
 
       }
+
+    std::cout << std::endl;
+
+    for ( auto obj = objs.begin( ); obj != objs.end( ); ++obj )
+      for ( auto qfd = qf.begin( ); qfd != qf.end( ); ++qfd )
+      {
+        std::string featLabel = qfd->first;
+        fires::Comparer* comparer = qfd->second.comparer( );
+
+        std::cout << comparer->distance( meanObj.getFeature( featLabel ),
+                                         ( *obj )->getFeature( featLabel ))
+                  << std::endl;
+
+      }
+
 
   }
 

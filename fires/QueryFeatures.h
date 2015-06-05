@@ -10,6 +10,7 @@
 #define __FIRES__QUERY_FEATURES_H__
 
 #include "Comparer.h"
+#include "Averager.h"
 #include <map>
 #include <string>
 
@@ -20,9 +21,11 @@ namespace fires
   public:
 
     FIRES_API
-    QueryFeatureData( Comparer* comparer_ = nullptr,
+    QueryFeatureData( Comparer* comparer_ = 0,
+                      Averager* averager_ = 0,
                       const float weight_ = 1.0f )
       : _comparer( comparer_ )
+      , _averager( averager_ )
       , _weight( weight_ )
     {
     }
@@ -40,6 +43,18 @@ namespace fires
     }
 
     FIRES_API
+    Averager* averager( void )
+    {
+      return _averager;
+    }
+
+    FIRES_API
+    void averager( Averager* averager_ )
+    {
+      _averager = averager_;
+    }
+
+    FIRES_API
     const float& weight( void )
     {
       return _weight;
@@ -54,6 +69,7 @@ namespace fires
   protected:
 
     Comparer* _comparer;
+    Averager* _averager;
     float _weight;
 
 
@@ -82,6 +98,7 @@ namespace fires
     FIRES_API
     void add( const std::string label,
               Comparer* comparer_,
+              Averager* averager_,
               float weight = 1.0f );
 
 
@@ -89,6 +106,12 @@ namespace fires
     Comparer* comparer( const std::string& label )
     {
       return ( *this )[ label ].comparer( );
+    }
+
+    FIRES_API
+    Averager* averager( const std::string& label )
+    {
+      return ( *this )[ label ].averager( );
     }
 
   }; // class QueryFeatures
