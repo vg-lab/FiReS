@@ -20,20 +20,20 @@ namespace fires
   public:
 
     FIRES_API
-    QueryFeatureData( Comparer* comparer_, const float weight_ = 1.0f )
+    QueryFeatureData( Comparer comparer_, const float weight_ = 1.0f )
       : _comparer( comparer_ )
       , _weight( weight_ )
     {
     }
 
     FIRES_API
-    const Comparer* comparer( void )
+    Comparer comparer( void )
     {
       return _comparer;
     }
 
     FIRES_API
-    void comparer( Comparer* comparer_ )
+    void comparer( Comparer comparer_ )
     {
       _comparer = comparer_;
     }
@@ -52,7 +52,7 @@ namespace fires
 
   protected:
 
-    Comparer* _comparer;
+    Comparer _comparer;
     float _weight;
 
 
@@ -79,9 +79,16 @@ namespace fires
      *        with this feature
      */
     FIRES_API
-    void add( std::string label,
-              Comparer* comparer,
+    void add( std::string& label,
+              Comparer comparer_,
               float weight = 1.0f );
+
+
+    FIRES_API
+    Comparer comparer( const std::string& label )
+    {
+      return ( *this )[ label ].comparer( );
+    }
 
   }; // class QueryFeatures
 

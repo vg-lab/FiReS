@@ -1,7 +1,7 @@
 source_group(\\ FILES CMakeLists.txt)
 
 set(FIRES_PUBLIC_HEADERS ${COMMON_INCLUDES}
-# Comparer.h
+Comparer.h
 # Definitions.h
 # FeaturePtr.h
 # FeaturePtrToScalar.h
@@ -10,8 +10,8 @@ set(FIRES_PUBLIC_HEADERS ${COMMON_INCLUDES}
 # FeatureScalar.h
 Object.h
 # Objects.h
-# QueryFeatures.h
-# Feature.h
+QueryFeatures.h
+Feature.h
 # FeaturePtrToScalarComparer.h
 # FeaturePtrToVectorComparer.h
 # FeaturePtrToVectorOfPtrsComparer.h
@@ -27,7 +27,7 @@ set(FIRES_SOURCES ${COMMON_SOURCES}
 # Feature.cpp
 Object.cpp
 # Objects.cpp
-# QueryFeatures.cpp
+QueryFeatures.cpp
 # Engine.cpp
 )
 

@@ -9,53 +9,122 @@
 #ifndef __FIRES__FEATURE_H__
 #define __FIRES__FEATURE_H__
 
-#include <stdexcept> // runtime_error
 
 #include <fires/api.h>
+#include <boost/any.hpp>
+#include <iostream>
 
 namespace fires
 {
 
-  /*! \class Feature
-   \brief Feature generic class from which real features have to be derived
-   */
+
   class Feature
   {
-
   public:
 
-    FIRES_API
-    Feature( void );
+    Feature( void )
+      : _value( )
+    {
+    }
 
-    FIRES_API
-    virtual ~Feature( );
+    virtual ~Feature( void )
+    {
+    }
 
-    FIRES_API
-    virtual Feature* newFeature( void ) const;
+    template < class ValueType >
+    Feature( ValueType value_ )
+      : _value( value_ )
+    {
+    }
 
-    FIRES_API
-    virtual void deleteFeature( void );
+    template < class ValueType >
+    void set( ValueType value_ )
+    {
+      _value = value_;
+    }
 
-    FIRES_API
-    virtual Feature& operator +=( const Feature& rhs);
+    template < typename ValueType >
+    ValueType value( void ) const
+    {
+      return boost::any_cast< ValueType >( _value );
+    }
 
-    FIRES_API
-    virtual Feature& operator /= ( const int& rhs );
+    virtual Feature& operator += ( const Feature& rhs )
+    {
+
+      if ( this->_value.type( ).name( ) == typeid( int ).name( ))
+      {
+        int accum = this->value< int >( ) +
+          rhs.value< int >( );
+        this->set< int >( accum );
+      }
+      else if ( this->_value.type( ).name( ) == typeid( float ).name( ))
+      {
+        float accum = this->value< float >( ) +
+          rhs.value< float >( );
+        this->set< float >( accum );
+      }
+      else if ( this->_value.type( ).name( ) == typeid( double ).name( ))
+      {
+        double accum = this->value< double >( ) +
+          rhs.value< double >( );
+        this->set< double >( accum );
+      }
+      else
+        std::cerr << "Operator += for type " << this->_value.type( ).name( )
+                  << " not implemented" << std::endl;
+
+      return *this;
+
+    }
+
+  protected:
+    boost::any _value;
+
+  };
 
 
-    // virtual FeatureScalar<float>* asFloat( void )
-    // {
-    //   return nullptr;
-    // }
 
-    // virtual float asFloatValue( void )
-    // {
-    //   if ( this->asFloat( ) )
-    //     return this->asFloat( )->value( );
-    //   else
-    //     0.0;
-    // }
- };
+ //  /*! \Class Feature
+ //   \brief Feature generic class from which real features have to be derived
+ //   */
+ //  class Feature
+ //  {
+
+ //  public:
+
+ //    FIRES_API
+ //    Feature( void );
+
+ //    FIRES_API
+ //    virtual ~Feature( );
+
+ //    FIRES_API
+ //    virtual Feature* newFeature( void ) const;
+
+ //    FIRES_API
+ //    virtual void deleteFeature( void );
+
+ //    FIRES_API
+ //    virtual Feature& operator +=( const Feature& rhs);
+
+ //    FIRES_API
+ //    virtual Feature& operator /= ( const int& rhs );
+
+
+ //    // virtual FeatureScalar<float>* asFloat( void )
+ //    // {
+ //    //   return nullptr;
+ //    // }
+
+ //    // virtual float asFloatValue( void )
+ //    // {
+ //    //   if ( this->asFloat( ) )
+ //    //     return this->asFloat( )->value( );
+ //    //   else
+ //    //     0.0;
+ //    // }
+ // };
 
 }
 

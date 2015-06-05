@@ -9,47 +9,14 @@
 #ifndef __FIRES__OBJECT_H__
 #define __FIRES__OBJECT_H__
 
-
 #include <fires/api.h>
-#include <boost/any.hpp>
+#include "fires/Feature.h"
+
 #include <string>
 #include <iostream>
 
 namespace fires
 {
-
-  class Feature
-  {
-  public:
-
-    Feature( void )
-      : _value( )
-    {
-    }
-
-    template < class ValueType >
-    Feature( ValueType value_ )
-      : _value( value_ )
-    {
-    }
-
-    template < class ValueType >
-    void set( ValueType value_ )
-    {
-      _value = value_;
-    }
-
-    template < typename ValueType >
-    ValueType value( void )
-    {
-      return boost::any_cast< ValueType >( _value );
-    }
-
-  protected:
-    boost::any _value;
-
-  };
-
 
   namespace detail
   {

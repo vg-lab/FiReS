@@ -23,23 +23,24 @@ namespace fires
    which have to be derived from this class.
 
    */
-  class Comparer
-  {
-  public:
-    FIRES_API
-    virtual ~Comparer( );
+  typedef  float ( *Comparer ) ( Feature&, Feature& );
+  // class Comparer
+  // {
+  // public:
+  //   FIRES_API
+  //   virtual ~Comparer( );
 
-    /**
-     * Virtual method to compute distance.
-       Has to be rewritten by the specific comparers.
-     * @param f1 First feature to compare.
-     * @param f2 Second feature to compare.
-     * @return Distance between features
-     */
-    FIRES_API
-    virtual float distance( Feature* f1, Feature* f2 ) const;
+  //   /**
+  //    * Virtual method to compute distance.
+  //      Has to be rewritten by the specific comparers.
+  //    * @param f1 First feature to compare.
+  //    * @param f2 Second feature to compare.
+  //    * @return Distance between features
+  //    */
+  //   FIRES_API
+  //   virtual float distance( Feature* f1, Feature* f2 ) const;
 
-  };
+  // };
 
 
 }
