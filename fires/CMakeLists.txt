@@ -9,7 +9,7 @@ Comparer.h
 # FeaturePtrToVectorOfPtrs.h
 # FeatureScalar.h
 Object.h
-# Objects.h
+Objects.h
 QueryFeatures.h
 Feature.h
 # FeaturePtrToScalarComparer.h
@@ -26,7 +26,7 @@ set(FIRES_SOURCES ${COMMON_SOURCES}
 # Comparer.cpp
 # Feature.cpp
 Object.cpp
-# Objects.cpp
+Objects.cpp
 QueryFeatures.cpp
 # Engine.cpp
 )

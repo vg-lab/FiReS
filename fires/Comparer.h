@@ -23,24 +23,97 @@ namespace fires
    which have to be derived from this class.
 
    */
-  typedef  float ( *Comparer ) ( Feature&, Feature& );
-  // class Comparer
+
+  // template < typename T >
+  // float scalarDistance( Feature& f1, Feature &f2 )
   // {
-  // public:
-  //   FIRES_API
-  //   virtual ~Comparer( );
+  //   return ( float ) fabs( double( f1.value<T>( ) - f2.value<T>( )));
+  // }
 
-  //   /**
-  //    * Virtual method to compute distance.
-  //      Has to be rewritten by the specific comparers.
-  //    * @param f1 First feature to compare.
-  //    * @param f2 Second feature to compare.
-  //    * @return Distance between features
-  //    */
-  //   FIRES_API
-  //   virtual float distance( Feature* f1, Feature* f2 ) const;
+  // template < typename T >
+  // float scalarPtrDistance( Feature& f1, Feature &f2 )
+  // {
+  //   return ( float ) fabs( double (*f1.value<T*>( ) - *f2.value<T*>( )));
+  // }
 
-  // };
+
+//  typedef  float ( *Comparer ) ( Feature&, Feature& );
+
+  class Comparer
+  {
+  public:
+    FIRES_API
+    virtual ~Comparer( )
+    {
+    }
+
+    /**
+     * Virtual method to compute distance.
+       Has to be rewritten by the specific comparers.
+     * @param f1 First feature to compare.
+     * @param f2 Second feature to compare.
+     * @return Distance between features
+     */
+    FIRES_API
+    virtual float distance( const Feature& /* f1 */,
+                            const Feature& /* f2 */ ) const
+    {
+      std::cerr << "No valid Comparer registered. Returning 0." << std::endl;
+      return 0.0f;
+    }
+
+  };
+
+
+  template < typename T >
+  class ScalarComparer : public Comparer
+  {
+  public:
+    FIRES_API
+    virtual ~ScalarComparer( )
+    {
+    }
+
+    /**
+     * Virtual method to compute distance.
+       Has to be rewritten by the specific comparers.
+     * @param f1 First feature to compare.
+     * @param f2 Second feature to compare.
+     * @return Distance between features
+     */
+    FIRES_API
+    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    {
+      return ( float ) fabs( double ( f1.value< T >( ) - f2.value< T >( )));
+    }
+
+  };
+
+
+  template < typename T >
+  class ScalarPtrComparer : public Comparer
+  {
+  public:
+    FIRES_API
+    virtual ~ScalarPtrComparer( )
+    {
+    }
+
+    /**
+     * Virtual method to compute distance.
+       Has to be rewritten by the specific comparers.
+     * @param f1 First feature to compare.
+     * @param f2 Second feature to compare.
+     * @return Distance between features
+     */
+    FIRES_API
+    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    {
+      return ( float ) fabs( double ( *f1.value<T*>( ) - *f2.value<T*>( )));
+    }
+
+  };
+
 
 
 }

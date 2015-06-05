@@ -31,10 +31,18 @@ namespace fires
     {
     }
 
+    Feature& operator= ( const Feature& other )
+    {
+      this->_value = other._value;
+      return *this;
+    }
+
     template < class ValueType >
     Feature( ValueType value_ )
-      : _value( value_ )
     {
+      _value = value_;
+      // std::cout << "Feature( ) " << typeid( value_ ).name( ) << " "
+      //           << _value.type( ).name( ) << std::endl;
     }
 
     template < class ValueType >
@@ -46,6 +54,7 @@ namespace fires
     template < typename ValueType >
     ValueType value( void ) const
     {
+      // std::cout << "Feature::Value " << _value.type( ).name( ) << std::endl;
       return boost::any_cast< ValueType >( _value );
     }
 

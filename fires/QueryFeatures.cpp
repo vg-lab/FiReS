@@ -3,8 +3,8 @@
 
 namespace fires
 {
-  void QueryFeatures::add( std::string& label,
-                           Comparer comparer_,
+  void QueryFeatures::add( std::string label,
+                           Comparer* comparer_,
                            float weight )
   {
     this->insert(

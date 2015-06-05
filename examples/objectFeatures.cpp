@@ -36,17 +36,6 @@ namespace fires
 
   // }
 
-  template < typename T >
-  float scalarDistance( Feature& f1, Feature &f2 )
-  {
-    return ( float ) fabs( double( f1.value<T>( ) - f2.value<T>( )));
-  }
-
-  template < typename T >
-  float scalarPtrDistance( Feature& f1, Feature &f2 )
-  {
-    return ( float ) fabs( double (*f1.value<T*>( ) - *f2.value<T*>( )));
-  }
 
 
 }
@@ -91,23 +80,13 @@ int main( void )
     std::cout << std::endl;
 
 
-    std::cout << fires::scalarDistance< int >( f1, f2 ) << std::endl;
-
     fires::QueryFeatures qf;
-    fires::Comparer c;
-    c = &fires::scalarDistance< int >;
-    qf.add( "feature1", c, 0.5f );
-    // qf.add( "feature1", &fires::scalarDistance< int >, 0.5f );
+    fires::Comparer* c = new fires::ScalarComparer< int >( );
 
-    std::cout << c( f1, f2 ) << std::endl;
+    std::cout << c->distance( f1, f2 ) << std::endl;
 
-    // fires::QueryFeatureData qfd = qf[ "feature1" ];
-
-    // c = qf.comparer( "feature1" );
-
-    // std::cout <<  qf[ "feature1" ].comparer( )( f1, f2 ) << std::endl;
-
-    // fires::Comparer c2 = qf[ "feature1" ].comparer( );
+    qf.add( std::string( "feature1" ), c, 0.5f );
+    std::cout <<  qf[ "feature1" ].comparer( )->distance( f1, f2 ) << std::endl;
 
 
   }
@@ -146,8 +125,8 @@ int main( void )
     fires::Feature ff2( floatValue2 );
     fires::Feature ffp2( &floatValue2 );
 
-    std::cout << fires::scalarDistance< float >( ff, ff2 ) << std::endl;
-    std::cout << fires::scalarPtrDistance< float >( ffp, ffp2 ) << std::endl;
+    // std::cout << fires::scalarDistance< float >( ff, ff2 ) << std::endl;
+    // std::cout << fires::scalarPtrDistance< float >( ffp, ffp2 ) << std::endl;
 
     std::cout << std::endl;
 
@@ -172,6 +151,82 @@ int main( void )
   }
 
 
+  {
+
+    class TestObject : public fires::Object
+    {
+
+    public:
+
+      TestObject( void )
+      {
+        this->registerFeature( "feature1", fires::Feature( &attr1 ));
+        this->registerFeature( "feature2", fires::Feature( &attr2 ));
+
+        this->registerFeature( "feature3", fires::Feature( 3 ));
+        this->registerFeature( "feature4", fires::Feature( 5.4f ));
+
+      }
+
+      int attr1;
+      float attr2;
+
+    };
+
+    class TestObject2 : public fires::Object
+    {
+
+    public:
+
+      TestObject2( void )
+      {
+        this->registerFeature( "feature1", fires::Feature( &attr1 ));
+        this->registerFeature( "feature2", fires::Feature( &attr2 ));
+
+        this->registerFeature( "feature3", fires::Feature( 4 ));
+        this->registerFeature( "feature4", fires::Feature( 6.7f ));
+
+      }
+
+      int attr1;
+      float attr2;
+
+    };
+
+
+    TestObject obj1;
+    TestObject2 obj2;
+
+    obj1.attr1 = 3;
+    obj1.attr2 = 4.1f;
+
+    obj2.attr1 = 5;
+    obj2.attr2 = 2.3f;
+
+    fires::Objects objs;
+    objs.add( &obj1 );
+    objs.add( &obj2 );
+
+    fires::QueryFeatures qf;
+    qf.add( std::string( "feature1" ), new fires::ScalarPtrComparer< int >( ));
+    qf.add( std::string( "feature2" ), new fires::ScalarPtrComparer< float >( ));
+    qf.add( std::string( "feature3" ), new fires::ScalarComparer< int >( ));
+    qf.add( std::string( "feature4" ), new fires::ScalarComparer< float >( ));
+
+
+    for ( auto obj = objs.begin( ); obj != objs.end( ); ++obj )
+      for ( auto qfd = qf.begin( ); qfd != qf.end( ); ++qfd )
+      {
+        std::string featLabel = qfd->first;
+        fires::Comparer* comparer = qfd->second.comparer( );
+
+        std::cout << comparer->distance( obj1.getFeature( featLabel ),
+                                         ( *obj )->getFeature( featLabel ))
+                  << std::endl;
+
+      }
+
+  }
 
 
 

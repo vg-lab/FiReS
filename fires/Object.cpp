@@ -34,8 +34,9 @@ namespace fires
       }
 
       void registerFeature( const std::string& label,
-                            Feature& feature )
+                            const Feature& feature )
       {
+        // std::cout << "ObjectFeatures::registerFeature" << std::endl;
         this->insert( std::pair< std::string, Feature >
                       ( label, feature ));
       }
@@ -56,7 +57,8 @@ namespace fires
         ObjectFeatures::const_iterator it = this->find( label );
 
           if ( it == this->end( ) )
-            return Feature( );
+            std::cerr << "Feature '" << label << "' not existing." << std::endl;
+          //   return Feature( );
 
           return ( *it ).second;
       }
@@ -92,9 +94,16 @@ namespace fires
       {
       }
 
-      void registerFeature( std::string featureLabel, Feature feature )
+      void registerFeature( const std::string& featureLabel, Feature feature )
       {
+
+        // std::cout << "detail::Object::registerFeature " << std::endl;
+        // std::cout << *feature.value< int* >( ) << std::endl;
+
         _features.registerFeature( featureLabel, feature );
+
+        // std::cout << *this->getFeature( "feature1" ).value< int* >( ) << std::endl;
+
       }
 
       Feature getFeature( const std::string& featureLabel )
@@ -163,8 +172,12 @@ namespace fires
 
 
   void Object::registerFeature( const std::string& featureLabel,
-                                Feature& feature )
+                                const Feature& feature )
   {
+    // std::cout << "::Object::registerFeature "; // << std::endl;
+    // std::cout << *feature.value< int* >( ) << std::endl;
+    // std::cout << *this->getFeature( "feature1" ).value< int* >( ) << std::endl;
+
     _impl->registerFeature( featureLabel, feature );
   }
 

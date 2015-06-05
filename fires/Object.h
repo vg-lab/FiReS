@@ -57,7 +57,7 @@ namespace fires
      * @param feature feature to be added
      */
     FIRES_API
-    void registerFeature( const std::string& label, Feature& feature );
+    void registerFeature( const std::string& label, const Feature& feature );
 
     /**
      * Unregister a feature of this object
