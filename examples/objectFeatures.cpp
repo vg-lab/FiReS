@@ -115,12 +115,12 @@ int main( void )
     std::cout << "Should remain 5.34 --> "
               << obj.getFeature( "feature1" ).value< float >( ) << std::endl;
 
-    std::cout << "Should have changed to 7.48 --> "
+    std::cout << "Should have changed to " << floatValue
               << *obj.getFeature( "feature2" ).value< float* >( ) << std::endl;
 
     std::cout << std::endl;
 
-    floatValue = 5.34f;
+    //floatValue = 5.34f;
 
     fires::Feature ff2( floatValue2 );
     fires::Feature ffp2( &floatValue2 );
