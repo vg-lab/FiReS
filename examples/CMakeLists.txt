@@ -10,8 +10,8 @@ target_link_libraries( objectFeatures fires )
 add_executable( scalarFeatures scalarFeatures.cpp )
 target_link_libraries( scalarFeatures fires )
 
-# add_executable(vectorFeatures vectorFeatures.cpp)
-# target_link_libraries(vectorFeatures fires)
+add_executable(vectorFeatures vectorFeatures.cpp)
+target_link_libraries(vectorFeatures fires)
 
 # add_executable(floatFeaturesNormalization
 # floatFeaturesNormalization.cpp)

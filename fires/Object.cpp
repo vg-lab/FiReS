@@ -201,7 +201,7 @@ namespace fires
     return _impl->clearFeatures( );
   }
 
-  std::string & Object::label( void )
+  std::string& Object::label( void )
   {
     return _impl->label( );
   }

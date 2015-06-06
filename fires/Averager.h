@@ -11,6 +11,9 @@
 
 #include "Feature.h"
 
+#include <vmmlib/vmmlib.hpp>
+
+
 namespace fires
 {
 
@@ -34,8 +37,8 @@ namespace fires
     virtual void accum( const Feature& /* f1 */ ) = 0;
     virtual void divide( const unsigned int /* f1 */ ) = 0;
     virtual void reset( void ) = 0;
-    // Altough this method should be const then feature constructed is
-    // const dependent and breaks
+    // Altough this method should be const then feature constructed as
+    // const and breaks
     virtual Feature getFeature( void ) = 0;
   };
 
@@ -46,7 +49,8 @@ namespace fires
   public:
 
     FIRES_API
-    ScalarAverager( ) : _accumValue( 0 )
+    ScalarAverager( T resetValue_ = ( T ) 0 )
+      : _resetValue( resetValue_ )
     {
     }
 
@@ -54,12 +58,6 @@ namespace fires
     virtual ~ScalarAverager( )
     {
     }
-
-    // FIRES_API
-    // virtual Feature newFeature( void ) const
-    // {
-    //   return Feature( ( T ) 0 );
-    // }
 
     virtual void accum( const Feature& feature )
     {
@@ -73,7 +71,7 @@ namespace fires
 
     virtual void reset( void )
     {
-      _accumValue = 0;
+      _accumValue = _resetValue;
     }
 
     virtual Feature getFeature( void )
@@ -83,6 +81,7 @@ namespace fires
 
   protected:
 
+    T _resetValue;
     T _accumValue;
 
   };
@@ -93,6 +92,13 @@ namespace fires
     : public ScalarAverager< T >
   {
   public:
+
+    FIRES_API
+    ScalarPtrAverager( ) : ScalarAverager< T >( )
+    {
+    }
+
+
     FIRES_API
     virtual ~ScalarPtrAverager( )
     {
@@ -110,6 +116,40 @@ namespace fires
     }
 
 
+  };
+
+  template < size_t M, typename T >
+  class VectorAverager
+    : public ScalarAverager< vmml::vector< M, T >>
+  {
+  public:
+    VectorAverager( )
+      : ScalarAverager< vmml::vector< M, T >>( vmml::vector< M, T >::ZERO )
+    {
+    }
+
+    // virtual void reset( void )
+    // {
+    //   this->_accumValue = vmml::vector< M, T >::ZERO;
+    // }
+
+  };
+
+  template < size_t M, typename T >
+  class VectorPtrAverager
+    : public ScalarPtrAverager< vmml::vector< M, T >>
+  {
+  public:
+    VectorPtrAverager( )
+      : ScalarAverager< vmml::vector< M, T >>( vmml::vector< M, T >::ZERO )
+    {
+    }
+
+
+    // virtual void reset( void )
+    // {
+    //   this->_accumValue = vmml::vector< M, T >::ZERO;
+    // }
   };
 
 

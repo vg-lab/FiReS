@@ -127,8 +127,8 @@ namespace fires
           throw std::runtime_error("Engine::query: no distance type known");
 
 
-      ( *obj )->registerFeature(  resultsFeatureLabel,
-                                  dist );
+      ( *obj )->registerFeature( resultsFeatureLabel,
+                                 dist );
       //_results.push_back(ResultsElement{(*obj), dist});
 
     } // for each object

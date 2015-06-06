@@ -43,7 +43,6 @@ namespace fires
 
 
   // Define standard types
-
   typedef vmml::vector< 2, float > Vec2f;
   typedef vmml::vector< 2, float * > Vec2pf;
   typedef FeaturePtrToVector< 2, float > FeaturePtrToVec2f;
