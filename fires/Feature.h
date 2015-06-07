@@ -55,7 +55,23 @@ namespace fires
     ValueType value( void ) const
     {
       // std::cout << "Feature::Value " << _value.type( ).name( ) << std::endl;
+      #ifdef NDEBUG
       return boost::any_cast< ValueType >( _value );
+      #else
+      ValueType v;
+      try
+      {
+        v = boost::any_cast< ValueType >( _value );
+      } catch( ... )
+      {
+        std::cerr << "fires::Feature::value( ): can not cast from "
+                  << _value.type( ).name( ) << " to "
+                  << typeid( ValueType ).name( )
+                  << std::endl;
+        exit( -1 );
+      }
+      return v;
+      #endif
     }
 
     std::string type( void ) const

@@ -87,7 +87,7 @@ public:
     // and the feature itself
     this->registerFeature( "feature1", fires::Feature( &vector1 ));
     this->registerFeature( "feature2", fires::Feature( &vector2 ));
-    this->registerFeature( "feature3", fires::Feature( &vector2 ));
+    this->registerFeature( "feature3", fires::Feature( &vector3 ));
     this->registerFeature( "feature4", fires::Feature( &this->attr1 ));
 
   }
@@ -182,14 +182,14 @@ int main ( )
   // fires::FeaturePtrToVec3pfComparer comparer3;
   // fires::FeaturePtrToScalarComparer< float > comparer4;
 
-  fires::VectorComparer< 2, float > comp1;
-  fires::VectorComparer< 3, int > comp2;
-  fires::VectorComparer< 3, int > comp3;
+  fires::VectorPtrComparer< 2, float > comp1;
+  fires::VectorPtrComparer< 3, int > comp2;
+  fires::VectorPtrComparer< 3, float > comp3;
   fires::ScalarPtrComparer< float > comp4;
 
-  fires::VectorAverager< 2, float > avg1;
-  fires::VectorAverager< 3, int > avg2;
-  fires::VectorAverager< 3, int > avg3;
+  fires::VectorPtrAverager< 2, float > avg1;
+  fires::VectorPtrAverager< 3, int > avg2;
+  fires::VectorPtrAverager< 3, float > avg3;
   fires::ScalarPtrAverager< float > avg4;
 
 
@@ -212,9 +212,9 @@ int main ( )
   fires::QueryFeatures features;
 
   features.add( "feature1", &comp1, &avg1 );
-  features.add( "feature2", &comp2, &avg1 );
-  features.add( "feature3", &comp3, &avg1 );
-  features.add( "feature4", &comp4, &avg1 );
+  features.add( "feature2", &comp2, &avg2 );
+  features.add( "feature3", &comp3, &avg3 );
+  features.add( "feature4", &comp4, &avg4 );
 
   // Perform a query
   engine.query( objects, queryObjects, features );

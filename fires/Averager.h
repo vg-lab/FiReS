@@ -94,7 +94,8 @@ namespace fires
   public:
 
     FIRES_API
-    ScalarPtrAverager( ) : ScalarAverager< T >( )
+    ScalarPtrAverager( T resetValue_ = ( T ) 0 )
+      : ScalarAverager< T >( resetValue_ )
     {
     }
 
@@ -141,7 +142,7 @@ namespace fires
   {
   public:
     VectorPtrAverager( )
-      : ScalarAverager< vmml::vector< M, T >>( vmml::vector< M, T >::ZERO )
+      : ScalarPtrAverager< vmml::vector< M, T >>( vmml::vector< M, T >::ZERO )
     {
     }
 
