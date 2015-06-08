@@ -17,8 +17,6 @@ void printResults( fires::Objects& objects, std::string scoreLabel )
 {
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
   {
-    // fires::FeatureScalar< float >* fs =
-    //   dynamic_cast< fires::FeatureScalar< float >* >(
     std::cout << ( *obj )->getFeature( scoreLabel ).value< float >( )
               << std::endl;
   }
@@ -128,8 +126,8 @@ int main ()
   fires::ScalarPtrAverager< int > sapi;
   fires::ScalarPtrAverager< float > sapf;
 
-  // Instanciate fires' engine object
-  fires::Engine engine;
+  // Instanciate fires' search object
+  fires::Search search;
 
   // Create the collection of target objects
   fires::Objects objects;
@@ -138,21 +136,23 @@ int main ()
   objects.add( &obj3 );
   objects.add( &obj4 );
 
-  // Create the collection of query objects
-  fires::Objects queryObjects;
-  queryObjects.add( &obj1 );
-  queryObjects.add( &obj2 );
+  // // Create the collection of query objects
+  // fires::Objects queryObjects;
 
   // Create the set of features to be used in the queries
-  fires::QueryFeatures features;
-  features.add( std::string("feature1"), &comparer1, &sapf );
-  features.add( std::string("feature2"), &comparer2, &sapf );
-  features.add( std::string("feature3"), &comparer3, &saf );
-  features.add( std::string("feature4"), &comparer4, &sai );
+  fires::SearchConfig sc;
+  sc.add( std::string("feature1"), &comparer1, &sapf );
+  sc.add( std::string("feature2"), &comparer2, &sapf );
+  sc.add( std::string("feature3"), &comparer3, &saf );
+  sc.add( std::string("feature4"), &comparer4, &sai );
+
+  sc.queryObjects( ).add( &obj1 );
+  sc.queryObjects( ).add( &obj2 );
+
 
   // Query the system and print results
   std::cout << "-- First query" << std::endl;
-  engine.query( objects, queryObjects, features );
+  search.eval( objects, sc );
   printResults( objects, "fires::score" );
   std::cout << std::endl;
 
@@ -161,7 +161,8 @@ int main ()
   // its original value
   std::cout << "-- Changing custom comparer parameter" << std::endl;
   comparer2.factor = 0.5f;
-  engine.query( objects, queryObjects, features);
+  search.eval( objects, sc );
+  // search.query( objects, queryObjects, features);
   printResults( objects, "fires::score" );
   comparer2.factor = 1.0f;
   std::cout << std::endl;
@@ -170,7 +171,8 @@ int main ()
   // no need of an update step needed, query and print results.
   std::cout << "-- Changing attribute registered as pointer " << std::endl;
   obj1.attr2+= 1.3f;
-  engine.query( objects, queryObjects, features );
+  search.eval( objects, sc );
+ // search.query( objects, queryObjects, features );
   printResults( objects, "fires::score" );
   std::cout << std::endl;
 
@@ -178,16 +180,22 @@ int main ()
   // output as before should be obtained
   std::cout << "-- Changing back the same attribute " << std::endl;
   obj1.attr2-= 1.3f;
-  engine.query( objects, queryObjects, features,
-             "fires::score",
-             fires::Engine::DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+  search.eval( objects, sc );
+  // search.query( objects, queryObjects, features,
+  //            "fires::score",
+  //            fires::SearchConfig::DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+  sc.distanceToQueryType( ) =
+    fires::SearchConfig::DISTANCE_TO_AVERAGE_QUERY_OBJECT;
   printResults( objects, "fires::score" );
   std::cout << std::endl;
 
   // Now query to the minimum object of the query set and print results.
   std::cout << "-- Use minimum distance " << std::endl;
-  engine.query( objects, queryObjects, features, "fires::score",
-             fires::Engine::MINIMUM_DISTANCE_TO_QUERY_OBJECTS );
+  sc.distanceToQueryType( ) =
+    fires::SearchConfig::MINIMUM_DISTANCE_TO_QUERY_OBJECTS;
+  search.eval( objects, sc );
+  // search.query( objects, queryObjects, features, "fires::score",
+  //            fires::SearchConfig::MINIMUM_DISTANCE_TO_QUERY_OBJECTS );
   printResults( objects, "fires::score" );
 
   std::cout << std::endl;

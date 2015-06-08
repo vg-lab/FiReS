@@ -73,20 +73,18 @@ int main( void )
 
     std::cout << "Should be 3 now --> " << f1.value< int >( ) << std::endl;
     std::cout << "Should be 6 now --> " << f2.value< int >( ) << std::endl;
-    f1 += f2;
-    std::cout << "Should be 9 now --> " << f1.value< int >( ) << std::endl;
-    std::cout << "Should be 6 now --> " << f2.value< int >( ) << std::endl;
 
     std::cout << std::endl;
 
 
-    fires::QueryFeatures qf;
+    fires::SearchConfig sc;
     fires::Comparer* c = new fires::ScalarComparer< int >( );
 
     std::cout << c->distance( f1, f2 ) << std::endl;
 
-    qf.add( std::string( "feature1" ), c, 0, 0.5f );
-    std::cout <<  qf[ "feature1" ].comparer( )->distance( f1, f2 ) << std::endl;
+    sc.add( std::string( "feature1" ), c, 0, 0.5f );
+    std::cout << sc.comparer( "feature1" )->distance( f1, f2 )
+              << std::endl;
 
 
   }
@@ -207,7 +205,7 @@ int main( void )
     objs.add( &obj1 );
     objs.add( &obj2 );
 
-    fires::QueryFeatures qf;
+    fires::SearchConfig qf;
 
     fires::ScalarComparer< int > sci;
     fires::ScalarComparer< float > scf;
@@ -226,7 +224,8 @@ int main( void )
 
     fires::Object meanObj;
 
-    for ( auto qfd = qf.begin( ); qfd != qf.end( ); ++qfd )
+    for ( auto qfd = qf.features( ).begin( );
+          qfd != qf.features( ).end( ); ++qfd )
     {
 
       std::string featLabel = qfd->first;
@@ -239,9 +238,9 @@ int main( void )
       }
 
       qfd->second.averager( )->divide( objs.size( ));
-      std::cout << qfd->second.averager( )->getFeature( ).type( ) << std::endl;
+      std::cout << qfd->second.averager( )->feature( ).type( ) << std::endl;
       meanObj.registerFeature( featLabel,
-                               qfd->second.averager( )->getFeature( ));
+                               qfd->second.averager( )->feature( ));
 
 
     }
@@ -259,7 +258,8 @@ int main( void )
 
 
     for ( auto obj = objs.begin( ); obj != objs.end( ); ++obj )
-      for ( auto qfd = qf.begin( ); qfd != qf.end( ); ++qfd )
+      for ( auto qfd = qf.features( ).begin( );
+            qfd != qf.features( ).end( ); ++qfd )
       {
         std::string featLabel = qfd->first;
         fires::Comparer* comparer = qfd->second.comparer( );
@@ -273,7 +273,8 @@ int main( void )
     std::cout << std::endl;
 
     for ( auto obj = objs.begin( ); obj != objs.end( ); ++obj )
-      for ( auto qfd = qf.begin( ); qfd != qf.end( ); ++qfd )
+      for ( auto qfd = qf.features( ).begin( );
+            qfd != qf.features( ).end( ); ++qfd )
       {
         std::string featLabel = qfd->first;
         fires::Comparer* comparer = qfd->second.comparer( );

@@ -41,8 +41,6 @@ namespace fires
     Feature( const ValueType value_ )
     {
       _value = value_;
-      // std::cout << "Feature( ) " << typeid( value_ ).name( ) << " "
-      //           << _value.type( ).name( ) << std::endl;
     }
 
     template < class ValueType >
@@ -54,21 +52,25 @@ namespace fires
     template < typename ValueType >
     ValueType value( void ) const
     {
-      // std::cout << "Feature::Value " << _value.type( ).name( ) << std::endl;
-      #ifdef NDEBUG
+#ifdef NDEBUG
       return boost::any_cast< ValueType >( _value );
-      #else
+#else
       ValueType v;
+
+      if ( _value.empty( ))
+        std::cerr << "fires::Feature::value( ): can not cast, feature is empty "
+                  << std::endl;
+
       try
       {
         v = boost::any_cast< ValueType >( _value );
       } catch( ... )
       {
-        std::cerr << "fires::Feature::value( ): can not cast from "
-                  << _value.type( ).name( ) << " to "
-                  << typeid( ValueType ).name( )
-                  << std::endl;
-        exit( -1 );
+        throw std::runtime_error(
+          std::string( "fires::Feature::value( ): can not cast from " ) +
+          _value.type( ).name( ) + std::string( " to " ) +
+          typeid( ValueType ).name( ) );
+
       }
       return v;
       #endif
@@ -79,84 +81,17 @@ namespace fires
       return _value.type( ).name( );
     }
 
-    virtual Feature& operator += ( const Feature& rhs )
+    bool empty( void ) const
     {
-
-      if ( this->_value.type( ).name( ) == typeid( int ).name( ))
-      {
-        int accum = this->value< int >( ) +
-          rhs.value< int >( );
-        this->set< int >( accum );
-      }
-      else if ( this->_value.type( ).name( ) == typeid( float ).name( ))
-      {
-        float accum = this->value< float >( ) +
-          rhs.value< float >( );
-        this->set< float >( accum );
-      }
-      else if ( this->_value.type( ).name( ) == typeid( double ).name( ))
-      {
-        double accum = this->value< double >( ) +
-          rhs.value< double >( );
-        this->set< double >( accum );
-      }
-      else
-        std::cerr << "Operator += for type " << this->_value.type( ).name( )
-                  << " not implemented" << std::endl;
-
-      return *this;
-
+      return _value.empty( );
     }
 
   protected:
     boost::any _value;
 
-  };
+  }; // class Feature
 
-
-
- //  /*! \Class Feature
- //   \brief Feature generic class from which real features have to be derived
- //   */
- //  class Feature
- //  {
-
- //  public:
-
- //    FIRES_API
- //    Feature( void );
-
- //    FIRES_API
- //    virtual ~Feature( );
-
- //    FIRES_API
- //    virtual Feature* newFeature( void ) const;
-
- //    FIRES_API
- //    virtual void deleteFeature( void );
-
- //    FIRES_API
- //    virtual Feature& operator +=( const Feature& rhs);
-
- //    FIRES_API
- //    virtual Feature& operator /= ( const int& rhs );
-
-
- //    // virtual FeatureScalar<float>* asFloat( void )
- //    // {
- //    //   return nullptr;
- //    // }
-
- //    // virtual float asFloatValue( void )
- //    // {
- //    //   if ( this->asFloat( ) )
- //    //     return this->asFloat( )->value( );
- //    //   else
- //    //     0.0;
- //    // }
- // };
-
-}
+} // namespace fires
 
 
 #endif

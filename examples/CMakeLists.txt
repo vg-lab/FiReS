@@ -4,6 +4,9 @@ include_directories(
   ${CMAKE_BINARY_DIR}
 )
 
+add_executable( tasks tasks.cpp )
+target_link_libraries( tasks fires )
+
 add_executable( objectFeatures objectFeatures.cpp )
 target_link_libraries( objectFeatures fires )
 

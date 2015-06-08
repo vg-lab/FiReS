@@ -143,8 +143,8 @@ namespace fires
      */
 
     FIRES_API
-    virtual float distance( const vmml::vector< M, T >& f1,
-                            const vmml::vector< M, T >& f2 ) const
+    virtual float vectorDistance( const vmml::vector< M, T >& f1,
+                                  const vmml::vector< M, T >& f2 ) const
     {
       switch ( _type )
       {
@@ -183,8 +183,9 @@ namespace fires
     FIRES_API
     virtual float distance( const Feature& f1, const Feature& f2 ) const
     {
-      return distance( *f1.value< vmml::vector< M, T >* >( ),
-                       *f2.value< vmml::vector< M, T >* >( ));
+      return VectorComparer< M, T >::vectorDistance(
+        *f1.value< vmml::vector< M, T >* >( ),
+        *f2.value< vmml::vector< M, T >* >( ));
     }
   };
 

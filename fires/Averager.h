@@ -39,7 +39,7 @@ namespace fires
     virtual void reset( void ) = 0;
     // Altough this method should be const then feature constructed as
     // const and breaks
-    virtual Feature getFeature( void ) = 0;
+    virtual Feature feature( void ) = 0;
   };
 
 
@@ -59,9 +59,9 @@ namespace fires
     {
     }
 
-    virtual void accum( const Feature& feature )
+    virtual void accum( const Feature& feature_ )
     {
-      _accumValue += feature.value< T >( );
+      _accumValue += feature_.value< T >( );
     }
 
     virtual void divide( const unsigned int value )
@@ -74,7 +74,7 @@ namespace fires
       _accumValue = _resetValue;
     }
 
-    virtual Feature getFeature( void )
+    virtual Feature feature( void )
     {
       return Feature( _accumValue );
     }
@@ -105,13 +105,13 @@ namespace fires
     {
     }
 
-    virtual void accum( const Feature& feature )
+    virtual void accum( const Feature& feature_ )
     {
-      this->_accumValue += *feature.value< T* >( );
+      this->_accumValue += *feature_.value< T* >( );
     }
 
 
-    virtual Feature getFeature( void )
+    virtual Feature feature( void )
     {
       return Feature( &this->_accumValue );
     }
@@ -129,11 +129,6 @@ namespace fires
     {
     }
 
-    // virtual void reset( void )
-    // {
-    //   this->_accumValue = vmml::vector< M, T >::ZERO;
-    // }
-
   };
 
   template < size_t M, typename T >
@@ -146,11 +141,6 @@ namespace fires
     {
     }
 
-
-    // virtual void reset( void )
-    // {
-    //   this->_accumValue = vmml::vector< M, T >::ZERO;
-    // }
   };
 
 

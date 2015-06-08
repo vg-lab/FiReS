@@ -13,7 +13,8 @@
 #include "Comparer.h"
 #include "Object.h"
 #include "Objects.h"
-#include "QueryFeatures.h"
+#include "SearchConfig.h"
+#include "Task.h"
 
 #include <vector>
 #include <map>
@@ -38,44 +39,21 @@ namespace fires
     FIRES_API
     virtual ~Engine( );
 
-    /// Type of distance used when multiple objects on the query set
-    typedef enum
+
+    FIRES_API
+    virtual Objects eval( Objects& objects, Tasks& tasks )
     {
-      /// Distance is computed agains the average query object
-      DISTANCE_TO_AVERAGE_QUERY_OBJECT,
-      /// Distance is computed using the minimum distance to all
-      /// objects in the query set
-      MINIMUM_DISTANCE_TO_QUERY_OBJECTS
-    } TDistanceToQuerySet;
+      Objects objs = objects;
 
+      for ( auto t = tasks.begin( ); t != tasks.end( ); ++t )
+      {
+        objs = ( *t ).task( )->eval( objs, *(( *t ).config( )));
+      }
 
+      return objs;
 
-    FIRES_API
-    virtual void query( Objects& objects,
-                        Objects& queryObjects,
-                        QueryFeatures& features,
-                        std::string resultsFeatureLabel = "fires::score",
-                        TDistanceToQuerySet queryDistanceType
-                        = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+    }
 
-    // FIRES_API
-    // virtual void parallelQuery(
-    //   Objects& objects,
-    //   Objects& queryObjects,
-    //   QueryFeatures& features,
-    //   std::string resultsFeatureLabel = "fires::score",
-    //   TDistanceToQuerySet queryDistanceType
-    //   = DISTANCE_TO_AVERAGE_QUERY_OBJECT );
-
-  protected:
-
-    FIRES_API
-    float _distanceBetweenTwoObjects( Object* obj1, Object* obj2,
-                                      QueryFeatures& features );
-    FIRES_API
-    virtual void _computeAverageQueryObject( Object& avgObj,
-                                             Objects& queryObjects,
-                                             QueryFeatures& features );
 
   };
 

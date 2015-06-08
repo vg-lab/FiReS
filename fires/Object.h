@@ -82,7 +82,7 @@ namespace fires
      * @return true in case feature was setted, false otherwise
      */
     FIRES_API
-    bool setFeature( const std::string& label, Feature& feature);
+    bool setFeature( const std::string& label, const Feature& feature);
 
     /**
      * Clears the features of this object (no memory freeing)

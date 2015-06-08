@@ -21,10 +21,15 @@ void printResults( fires::Objects& objects, std::string scoreLabel )
 {
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
   {
-    // fires::FeatureScalar< float >* fs =
-    //   dynamic_cast< fires::FeatureScalar< float >* >(
-    std::cout << ( *obj )->getFeature( scoreLabel ).value< float >( )
-              << std::endl;
+    fires::Feature f = ( *obj )->getFeature( scoreLabel );
+
+    std::cout << ( *obj )->label( ) << ": ";
+    if ( !f.empty( ) )
+      std::cout << f.value< float >( );
+    else
+      std::cout << "empty";
+
+    std::cout << std::endl;
   }
 }
 
@@ -194,7 +199,7 @@ int main ( )
 
 
   // Set-up system
-  fires::Engine engine;
+  fires::Search search;
 
   // Add objects
   fires::Objects objects;
@@ -204,21 +209,24 @@ int main ( )
   objects.add( &obj4 );
 
   // Add query objects
-  fires::Objects queryObjects;
-  queryObjects.add( &obj1 );
-  queryObjects.add( &obj2 );
+  // fires::Objects queryObjects;
 
   // Add the features to the system
-  fires::QueryFeatures features;
+  fires::SearchConfig sc;
 
-  features.add( "feature1", &comp1, &avg1 );
-  features.add( "feature2", &comp2, &avg2 );
-  features.add( "feature3", &comp3, &avg3 );
-  features.add( "feature4", &comp4, &avg4 );
+  sc.add( "feature1", &comp1, &avg1 );
+  sc.add( "feature2", &comp2, &avg2 );
+  sc.add( "feature3", &comp3, &avg3 );
+  sc.add( "feature4", &comp4, &avg4 );
+
+  sc.queryObjects( ).add( &obj1 );
+  sc.queryObjects( ).add( &obj2 );
+
 
   // Perform a query
-  engine.query( objects, queryObjects, features );
+  search.eval( objects, sc );
   printResults( objects, "fires::score" );
+  std::cout << std::endl;
 
   // Now show that comparer parameters can be changed. In this case the
   // type of distance is changed from default euclidean to manhattan
@@ -227,16 +235,19 @@ int main ( )
   comp3.distanceType( ) = fires::MANHATTAN_DIST;
 
   // Query again and print results
-  engine.query( objects, queryObjects, features );
+  search.eval( objects, sc );
   printResults( objects, "fires::score" );
+  std::cout << std::endl;
+
 
   // Return the the distances to euclidean and print results. They
   // should be the same as the first query
   comp1.distanceType() = fires::EUCLIDEAN_DIST;
   comp2.distanceType() = fires::EUCLIDEAN_DIST;
 
-  engine.query( objects, queryObjects, features );
+  search.eval( objects, sc );
   printResults( objects, "fires::score" );
+  std::cout << std::endl;
 
   // Now change an atribute of an object which is used in a vector of
   // scalars. In this case the vector is not affected and the result
@@ -244,29 +255,36 @@ int main ( )
   //
   obj1.attr11 = 13.4f;
 
-  engine.query( objects, queryObjects, features );
+  search.eval( objects, sc );
   printResults( objects, "fires::score" );
+  std::cout << std::endl;
 
   // Now update the vector and the result now is correctly computed
   obj1.vector1 = fires::Vec2f( obj1.attr11, obj1.attr12 );
 
-  engine.query( objects, queryObjects, features );
+  search.eval( objects, sc );
   printResults( objects, "fires::score" );
+  std::cout << std::endl;
 
   // If we use vectors of pointers to scalars in this case changing the
   // value of an attribute affects the result of the query
   obj1.attr31 = 20.0f;
-  engine.query( objects, queryObjects, features );
+  search.eval( objects, sc );
   printResults( objects, "fires::score" );
+  std::cout << std::endl;
 
-  engine.query( objects, queryObjects, features, "fires::score",
-             fires::Engine::DISTANCE_TO_AVERAGE_QUERY_OBJECT );
+  sc.distanceToQueryType( ) =
+    fires::SearchConfig::DISTANCE_TO_AVERAGE_QUERY_OBJECT;
+  search.eval( objects, sc );
   printResults( objects, "fires::score" );
+  std::cout << std::endl;
 
+  sc.distanceToQueryType( ) =
+    fires::SearchConfig::MINIMUM_DISTANCE_TO_QUERY_OBJECTS;
 
-  engine.query( objects, queryObjects, features, "fires::score",
-             fires::Engine::MINIMUM_DISTANCE_TO_QUERY_OBJECTS );
+  search.eval( objects, sc );
   printResults( objects, "fires::score" );
+  std::cout << std::endl;
 
 
   return 0;
