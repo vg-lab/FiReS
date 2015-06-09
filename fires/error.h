@@ -28,7 +28,7 @@
       if ( ! (cond) ) FIRES_THROW( errorMsg );                    \
     }
 
-#ifdef DEBUG
+#ifndef NDEBUG
   #define FIRES_DEBUG_CHECK( cond, errorMsg )                     \
 {                                                                \
   FIRES_CHECK_THROW( cond, errorMsg )                             \

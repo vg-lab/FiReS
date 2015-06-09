@@ -14,7 +14,7 @@
 
 
 // This example requires fires compiled with vmmlib
-#if (FIRES_WITH_VMMLIB == 1)
+#ifdef FIRES_WITH_VMMLIB
 
 // Function to print out query results
 void printResults( fires::Objects& objects, std::string scoreLabel )

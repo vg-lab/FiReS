@@ -11,8 +11,9 @@
 
 #include "Feature.h"
 
+#ifdef FIRES_WITH_VMMLIB
 #include <vmmlib/vmmlib.hpp>
-
+#endif
 
 namespace fires
 {
@@ -119,6 +120,8 @@ namespace fires
 
   };
 
+  #ifdef FIRES_WITH_VMMLIB
+
   template < size_t M, typename T >
   class VectorAverager
     : public ScalarAverager< vmml::vector< M, T >>
@@ -143,7 +146,7 @@ namespace fires
 
   };
 
-
+ #endif
 
 }
 

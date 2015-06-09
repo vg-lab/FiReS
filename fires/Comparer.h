@@ -13,9 +13,10 @@
 
 #include <math.h>
 
+#ifdef FIRES_WITH_VMMLIB
 #include <vmmlib/vmmlib.hpp>
 #include <vmmlib/util.hpp>
-
+#endif
 
 namespace fires
 {
@@ -107,6 +108,8 @@ namespace fires
   };
 
 
+  #ifdef FIRES_WITH_VMMLIB
+
   typedef enum
   {
     EUCLIDEAN_DIST = 0,
@@ -189,6 +192,8 @@ namespace fires
     }
   };
 
+#endif
+  
 }
 
 

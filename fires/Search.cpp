@@ -1,4 +1,5 @@
 #include "Search.h"
+#include "error.h"
 
 namespace fires
 {
@@ -67,7 +68,7 @@ namespace fires
   {
 
     SearchConfig* searchConfig = static_cast< SearchConfig* >( &config );
-    assert( searchConfig );
+    FIRES_DEBUG_CHECK( searchConfig, "error casting to SearchConfig" );
 
     auto features = searchConfig->features( );
     auto queryDistanceType = searchConfig->distanceToQueryType( );

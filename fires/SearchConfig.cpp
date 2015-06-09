@@ -3,10 +3,10 @@
 
 namespace fires
 {
-  void SearchConfig::add( std::string label,
-                           Comparer* comparer_,
-                           Averager* averager_,
-                           float weight )
+  void SearchConfig::add( const std::string& label,
+			  Comparer* comparer_,
+			  Averager* averager_,
+			  float weight )
   {
     _featuresConfig.insert(
       std::pair< std::string, QueryFeatureData >(

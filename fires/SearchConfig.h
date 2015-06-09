@@ -120,7 +120,7 @@ namespace fires
      *        with this feature
      */
     FIRES_API
-    void add( const std::string label,
+    void add( const std::string& label,
               Comparer* comparer_,
               Averager* averager_,
               float weight = 1.0f );
