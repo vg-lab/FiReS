@@ -28,7 +28,7 @@ namespace fires
     {
     }
 
-    virtual Objects& eval( Objects &objs, TaskConfig &config) = 0;
+    virtual Objects& eval( Objects &objs, TaskConfig &config ) = 0;
 
   };
 

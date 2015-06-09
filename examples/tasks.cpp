@@ -3,6 +3,8 @@
 // Function to print out query results
 void printResults( fires::Objects& objects, std::string scoreLabel )
 {
+
+  std::cout << objects.size( ) << " elements" << std::endl;
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
   {
     std::cout << ( *obj )->label( ) << ": "
@@ -64,6 +66,13 @@ int main( void )
   fires::Tasks tasks;
   tasks.push_back( fires::TasksConfig( &search, &sc ));
 
+
+  fires::FilterSet fs;
+  fires::FilterSetConfig fsc;
+  fires::FilterScalarRange< float > fsrf( 10.0f, 20.0f );
+  fsc.filters( ).push_back( std::make_pair( "fires::score", &fsrf ));
+  tasks.push_back( fires::TasksConfig( &fs, &fsc));
+
   fires::Engine engine;
 
   fires::Objects objects;
@@ -72,14 +81,19 @@ int main( void )
   objects.add( &obj3 );
   objects.add( &obj4 );
 
-  engine.eval( objects, tasks );
-  printResults( objects, "fires::score" );
+
+  auto objects1 = objects;
+  engine.run( objects1, tasks );
+  printResults( objects1, "fires::score" );
   std::cout << std::endl;
 
   sc.distanceToQueryType( ) =
     fires::SearchConfig::MINIMUM_DISTANCE_TO_QUERY_OBJECTS;
 
-  engine.eval( objects, tasks );
+  fsrf.min( ) = 1.0f;
+  fsrf.max( ) = 3.0f;
+
+  engine.run( objects, tasks );
   printResults( objects, "fires::score" );
 
 

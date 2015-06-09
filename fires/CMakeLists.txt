@@ -4,6 +4,8 @@ set(FIRES_PUBLIC_HEADERS ${COMMON_INCLUDES}
 Averager.h
 Comparer.h
 Definitions.h
+Filter.h
+error.h
 Object.h
 Objects.h
 Feature.h

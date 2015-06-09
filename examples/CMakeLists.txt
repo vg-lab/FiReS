@@ -4,6 +4,9 @@ include_directories(
   ${CMAKE_BINARY_DIR}
 )
 
+add_executable( filter filter.cpp )
+target_link_libraries( filter fires )
+
 add_executable( tasks tasks.cpp )
 target_link_libraries( tasks fires )
 

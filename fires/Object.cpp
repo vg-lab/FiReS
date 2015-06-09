@@ -8,6 +8,7 @@
  */
 
 #include "Object.h"
+#include "error.h"
 
 #include <map>
 
@@ -34,9 +35,9 @@ namespace fires
       }
 
       void registerFeature( const std::string& label,
-                            const Feature& feature )
+                            Feature& feature )
       {
-        this->insert( std::pair< std::string, Feature >
+        this->insert( std::pair< std::string, Feature& >
                       ( label, feature ));
       }
 
@@ -51,18 +52,21 @@ namespace fires
         return true;
       }
 
-      Feature get( const std::string& label ) const
+      Feature& get( const std::string& label )
       {
-        ObjectFeatures::const_iterator it = this->find( label );
+        ObjectFeatures::iterator it = this->find( label );
 
-          if ( it == this->end( ) )
-          {
-            std::cerr << "Fires::Object::getFeature: '" << label
-                      << "' not existing." << std::endl;
-            return Feature( );
-          }
+          // if ( it == this->end( ) )
+          // {
+          //   std::cerr << "Fires::Object::getFeature: '" << label
+          //             << "' not existing." << std::endl;
+          //   return std::move( Feature( ));
+          // }
 
-          return ( *it ).second;
+        FIRES_CHECK_THROW( it != this->end( ),
+                           std::string( "non existing feature '" ) +
+                           label + std::string( "'" ))
+        return ( *it ).second;
       }
 
       bool set( const std::string& label, const Feature& feature )
@@ -101,7 +105,7 @@ namespace fires
         _features.registerFeature( featureLabel, feature );
       }
 
-      Feature getFeature( const std::string& featureLabel )
+      Feature& getFeature( const std::string& featureLabel )
       {
         return _features.get( featureLabel );
       }
@@ -178,7 +182,7 @@ namespace fires
     return _impl->unregisterFeature( featureLabel );
   }
 
-  Feature Object::getFeature( const std::string& featureLabel ) const
+  Feature& Object::getFeature( const std::string& featureLabel )
   {
     return _impl->getFeature( featureLabel );
   }

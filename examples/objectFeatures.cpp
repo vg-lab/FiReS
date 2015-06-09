@@ -19,27 +19,6 @@ std::ostream& operator<<( std::ostream& os,
     return os;
 }
 
-namespace fires
-{
-  // class AveragerFeatures : public map< std::string, 
-
-  // class ObjectAverager
-  // {
-
-  //   virtual fires::Object& average( Objects objs,
-  //                                   AveragerFeatures features )
-  //   {
-  //     for ( obj : objs )
-  //     {
-  //     }
-  //   }
-
-  // }
-
-
-
-}
-
 int main( void )
 {
 
@@ -194,6 +173,9 @@ int main( void )
 
     TestObject obj1;
     TestObject2 obj2;
+
+    std::cout << obj2.getFeature( "feature3" ).value< int >( ) << std::endl;
+    std::cout << obj2.getFeature( "feature4" ).value< float >( ) << std::endl;
 
     obj1.attr1 = 3;
     obj1.attr2 = 4.1f;

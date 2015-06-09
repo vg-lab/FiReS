@@ -41,16 +41,14 @@ namespace fires
 
 
     FIRES_API
-    virtual Objects eval( Objects& objects, Tasks& tasks )
+    virtual void run( Objects& objects, Tasks& tasks )
     {
-      Objects objs = objects;
+      Objects& objs = objects;
 
       for ( auto t = tasks.begin( ); t != tasks.end( ); ++t )
-      {
-        objs = ( *t ).task( )->eval( objs, *(( *t ).config( )));
-      }
+        ( *t ).task( )->eval( objs, *(( *t ).config( )));
 
-      return objs;
+      return;
 
     }
 

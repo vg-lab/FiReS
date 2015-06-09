@@ -73,7 +73,7 @@ namespace fires
      * @return the feature if found or nullptr otherwise
      */
     FIRES_API
-    Feature getFeature( const std::string& label ) const;
+    Feature& getFeature( const std::string& label );
 
     /**
      * Get a feature of this object

@@ -38,7 +38,7 @@ namespace fires
     }
 
     template < class ValueType >
-    Feature( const ValueType value_ )
+    Feature( ValueType value_ )
     {
       _value = value_;
     }

@@ -30,6 +30,9 @@ namespace fires
     FIRES_API
     void add( Object* object );
 
+    FIRES_API
+    void del( Object* object );
+
   }; // class Objects
 
 } // namespace fires
