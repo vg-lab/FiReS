@@ -23,6 +23,6 @@ target_link_libraries(vectorFeatures fires)
 # floatFeaturesNormalization.cpp)
 # target_link_libraries(floatFeaturesNormalization fires)
 
-# add_executable(largeNumberOfObjects
-# largeNumberOfObjects.cpp)
-# target_link_libraries(largeNumberOfObjects fires)
+add_executable(largeNumberOfObjects
+largeNumberOfObjects.cpp)
+target_link_libraries(largeNumberOfObjects fires)

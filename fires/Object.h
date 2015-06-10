@@ -49,7 +49,7 @@ namespace fires
      * Destructor
      */
     FIRES_API
-    ~Object( );
+    virtual ~Object( );
 
     /**
      * Register a feature to this object
