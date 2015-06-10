@@ -12,7 +12,7 @@ int main( void )
 #include <iostream>
 #include <math.h>
 
-#define NUM_OBJS 100
+#define NUM_OBJS 100000
 #define NUM_ATTRIBS 100
 
 fires::Object* deleteObject( fires::Object* obj )
@@ -64,7 +64,6 @@ int main ( void )
   fires::Objects objects;
 
   std::cout << "Creating objects" << std::endl;
-  // std::cin.get( );
   for ( int i = 0; i < NUM_OBJS; i++ )
   {
     TestObject* obj =  new TestObject( );
@@ -82,7 +81,6 @@ int main ( void )
 
 
   std::cout << "Creating query object" << std::endl;
-  // std::cin.get( );
   TestObject* queryObj =  new TestObject( );
   for ( int i = 0 ; i < NUM_ATTRIBS; i++ )
     queryObj->attrs[i] = float( rand( ) ) / float ( RAND_MAX );
@@ -99,8 +97,6 @@ int main ( void )
   {
 
     std::cout << "Performing query" << std::endl;
-    // std::cin.get( );
-
     sc.resultsFeatureLabel( ) = "fires::score::serial";
 
     fires::Search search;
@@ -115,8 +111,6 @@ int main ( void )
 
     std::cout << "Serial elapsed: "
               << (totalTime/1000L) / 1000.0f << std::endl;
-
-    //resultSerial = engine.results( );
 
   }
 
