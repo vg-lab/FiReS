@@ -41,15 +41,15 @@ int main( void )
 
   obj2.attr1 = 3.2f;
   obj2.attr2 = 42.1f;
-  obj2.getFeature( "feature3" ).set< float >( 3.4f );
+  obj2.getFeature( "feature3" ).set( 3.4f );
 
   obj3.attr1 = 1.4f;
   obj3.attr2 = 2.2f;
-  obj3.getFeature( "feature3" ).set< float >( 4.5f );
+  obj3.getFeature( "feature3" ).set( 4.5f );
 
   obj4.attr1 = 4.1f;
   obj4.attr2 = 1.8f;
-  obj4.getFeature( "feature3" ).set< float >( 5.6f );
+  obj4.getFeature( "feature3" ).set( 5.6f );
 
   // Label objects
   obj1.label( ) = "Object 1";

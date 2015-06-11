@@ -68,7 +68,7 @@ public:
 
   // vector3 is made od pointers to scalars. Thus, any change on
   // the original values are directly reflected on the vector
-  fires::Vec3f vector3;
+  fires::Vec3pf vector3;
 //  fires::Vec3pf vector3;
 
 //  fires::Feature* f1, * f2, * f3, * f4;
@@ -80,7 +80,7 @@ public:
     vector1 = fires::Vec2f::ZERO;
     vector2 = fires::Vec3i::ZERO;
 
-    vector3 = fires::Vec3f( attr31, attr32, attr33 );
+    vector3 = fires::Vec3pf( &attr31, &attr32, &attr33 );
 
     // Create the features
     // f1 = new fires::FeaturePtrToVec2f( &vector1 );
@@ -110,8 +110,41 @@ public:
 };
 
 
+// struct Bar {
+//     void bar(void) { /* do work */ }
+// };
 
-int main ( )
+// template < template < size_t, typename > class V, size_t M, typename T >
+// class Foo {
+// public:
+//   V<M,T> t;
+
+//     void foo(void)
+//     {
+//         t.bar(); // If T is a pointer, we should have used operator -> right?
+//     }
+// };
+// // This is a pointer to T specialization!
+// template <template < size_t, typename > class V, size_t M, typename T >
+// class Foo< V<M,T>*, M,  T> {
+//   V<M,t> * t;
+// public:
+//     void foo(void)
+//     {
+//         t->bar();
+//     }
+// };
+
+
+// int main()
+// {
+//   Foo<fires::vector *, int> t;
+
+//     t.foo();
+// }
+
+
+int main( void )
 {
 
   // Two test objects
@@ -187,15 +220,15 @@ int main ( )
   // fires::FeaturePtrToVec3pfComparer comparer3;
   // fires::FeaturePtrToScalarComparer< float > comparer4;
 
-  fires::VectorPtrComparer< 2, float > comp1;
-  fires::VectorPtrComparer< 3, int > comp2;
-  fires::VectorPtrComparer< 3, float > comp3;
-  fires::ScalarPtrComparer< float > comp4;
+  fires::VectorComparer< fires::vector<>*, 2, float > comp1;
+  fires::VectorComparer< fires::vector<>*, 3, int > comp2;
+  fires::VectorComparer< fires::vector<>*, 3, float* > comp3;
+  fires::ScalarComparer< float* > comp4;
 
-  fires::VectorPtrAverager< 2, float > avg1;
-  fires::VectorPtrAverager< 3, int > avg2;
-  fires::VectorPtrAverager< 3, float > avg3;
-  fires::ScalarPtrAverager< float > avg4;
+  fires::VectorAverager< fires::vector<>*, 2, float > avg1;
+  fires::VectorAverager< fires::vector<>*, 3, int > avg2;
+  fires::VectorAverager< fires::vector<>*, 3, float* > avg3;
+  fires::ScalarAverager< float* > avg4;
 
 
   // Set-up system
@@ -214,14 +247,13 @@ int main ( )
   // Add the features to the system
   fires::SearchConfig sc;
 
-  sc.add( "feature1", &comp1, &avg1 );
-  sc.add( "feature2", &comp2, &avg2 );
+  // sc.add( "feature1", &comp1, &avg1 );
+  // sc.add( "feature2", &comp2, &avg2 );
   sc.add( "feature3", &comp3, &avg3 );
-  sc.add( "feature4", &comp4, &avg4 );
+  // sc.add( "feature4", &comp4, &avg4 );
 
   sc.queryObjects( ).add( &obj1 );
   sc.queryObjects( ).add( &obj2 );
-
 
   // Perform a query
   search.eval( objects, sc );

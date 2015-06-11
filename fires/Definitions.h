@@ -10,6 +10,9 @@ namespace fires
 
 #ifdef FIRES_WITH_VMMLIB
   // Define standard types
+  template < size_t M = 0, typename T = int >
+  using vector = vmml::vector< M, T>;
+
   typedef vmml::vector< 2, float > Vec2f;
   typedef vmml::vector< 3, float > Vec3f;
   typedef vmml::vector< 4, float > Vec4f;
@@ -26,5 +29,5 @@ namespace fires
   typedef vmml::vector< 3, int* > Vec3pi;
   typedef vmml::vector< 4, int* > Vec4pi;
 #endif
-  
+
 }

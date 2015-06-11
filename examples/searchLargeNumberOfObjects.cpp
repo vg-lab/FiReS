@@ -76,8 +76,8 @@ int main ( void )
 
   }
 
-  fires::ScalarPtrComparer< float > comparer;
-  fires::ScalarPtrAverager< float > averager;
+  fires::ScalarComparer< float* > comparer;
+  fires::ScalarAverager< float* > averager;
 
 
   std::cout << "Creating query object" << std::endl;

@@ -54,8 +54,8 @@ int main( void )
   obj4.label( ) = "Object 4";
 
   // Create comparers
-  fires::ScalarPtrComparer< float > comparer;
-  fires::ScalarPtrAverager< float > averager;
+  fires::ScalarComparer< float* > comparer;
+  fires::ScalarAverager< float* > averager;
   fires::Search search;
   fires::SearchConfig sc;
   sc.add( std::string("feature1"), &comparer, &averager );

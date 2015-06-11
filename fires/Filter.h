@@ -35,6 +35,13 @@ namespace fires
       INSIDE_RANGE = 0,
       OUTSIDE_RANGE
     } TRangeInclusion;
+
+    typedef enum
+    {
+      CLOSED_ENDPOINT = 0,
+      OPEN_ENDPOINT
+    } TRangeEndpoints;
+
   };
 
   template < typename T >
@@ -50,9 +57,13 @@ namespace fires
 
     FilterScalarRange( const T min_ = std::numeric_limits< T >::min,
                        const T max_ = std::numeric_limits< T >::max,
+                       // const TRangeEndPoints minEndpoint_ = CLOSED_ENDPOINT,
+                       // const TRangeEndPoints maxEndpoint_ = CLOSED_ENDPOINT,
                        TRangeInclusion rangeInclusion_ = INSIDE_RANGE )
       : _min( min_ )
       , _max( max_ )
+      // , _minEndpoint( minEndpoint_ )
+      // , _maxEndpoint( maxEndpoint_ )
       , _rangeInclusion( rangeInclusion_ )
     {
     }

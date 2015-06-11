@@ -12,25 +12,30 @@
 #include <stdexcept>
 
 #define FIRES_LOG( msg )                                          \
-  std::cerr << "fires "                                           \
-  << __FILE__ << "("                                             \
-  << __LINE__ << "): "                                           \
+  std::cerr                                                       \
+  << __FILE__ << "("                                              \
+  << __LINE__ << "): "                                            \
   << msg << std::endl;
 
+namespace fires
+{
+  typedef std::runtime_error exception;
+}
+
 #define FIRES_THROW( msg )                                        \
-  {                                                              \
+  {                                                               \
     FIRES_LOG( msg );                                             \
-    throw std::runtime_error( msg );                             \
+    throw std::runtime_error( msg );                              \
   }
 
 #define FIRES_CHECK_THROW( cond, errorMsg )                       \
-    {                                                            \
+    {                                                             \
       if ( ! (cond) ) FIRES_THROW( errorMsg );                    \
     }
 
 #ifndef NDEBUG
   #define FIRES_DEBUG_CHECK( cond, errorMsg )                     \
-{                                                                \
+{                                                                 \
   FIRES_CHECK_THROW( cond, errorMsg )                             \
 }
 #else

@@ -73,7 +73,7 @@ namespace fires
       {
         ObjectFeatures::const_iterator it = this->find( label );
 
-        if ( it == this->end( ) )
+        if ( it == this->end( ))
           return false;
 
         ( * this )[label] = feature;

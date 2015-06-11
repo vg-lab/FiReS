@@ -191,12 +191,12 @@ int main( void )
 
     fires::ScalarComparer< int > sci;
     fires::ScalarComparer< float > scf;
-    fires::ScalarPtrComparer< int > scpi;
-    fires::ScalarPtrComparer< float > scpf;
+    fires::ScalarComparer< int* > scpi;
+    fires::ScalarComparer< float* > scpf;
     fires::ScalarAverager< int > sai;
     fires::ScalarAverager< float > saf;
-    fires::ScalarPtrAverager< int > sapi;
-    fires::ScalarPtrAverager< float > sapf;
+    fires::ScalarAverager< int* > sapi;
+    fires::ScalarAverager< float* > sapf;
 
     qf.add( std::string( "feature1" ), &scpi, &sapi);
     qf.add( std::string( "feature2" ), &scpf, &sapf);

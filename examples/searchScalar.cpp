@@ -60,20 +60,20 @@ public:
 
 
 template < typename T >
-class CustomScalarPtrComparer
-  : public fires::ScalarPtrComparer< T >
+class CustomScalarComparer
+  : public fires::ScalarComparer< T >
 {
 
 public:
 
-  CustomScalarPtrComparer( void )
+  CustomScalarComparer( void )
   {
     factor = 1.0f;
   }
 
   float distance( const fires::Feature& f1, const fires::Feature& f2 ) const
   {
-    return factor * fires::ScalarPtrComparer< T >::distance( f1, f2 );
+    return factor * fires::ScalarComparer< T >::distance( f1, f2 );
   }
 
 
@@ -90,23 +90,23 @@ int main ()
 
   obj1.attr1 = 3.4f;
   obj1.attr2 = 4.3f;
-  obj1.getFeature( "feature3" ).set< float >( 5.6f );
-  obj1.getFeature( "feature4" ).set< int >( 6 );
+  obj1.getFeature( "feature3" ).set( 5.6f );
+  obj1.getFeature( "feature4" ).set( 6 );
 
   obj2.attr1 = 3.2f;
   obj2.attr2 = 42.1f;
-  obj2.getFeature( "feature3" ).set< float >( 2.4f );
-  obj2.getFeature( "feature4" ).set< int >( 3 );
+  obj2.getFeature( "feature3" ).set( 2.4f );
+  obj2.getFeature( "feature4" ).set( 3 );
 
   obj3.attr1 = 1.4f;
   obj3.attr2 = 2.2f;
-  obj3.getFeature( "feature3" ).set< float >( 9.6f );
-  obj3.getFeature( "feature4" ).set< int >( 4 );
+  obj3.getFeature( "feature3" ).set( 9.6f );
+  obj3.getFeature( "feature4" ).set( 4 );
 
   obj4.attr1 = 4.1f;
   obj4.attr2 = 1.8f;
-  obj4.getFeature( "feature3" ).set< float >( 2.1f );
-  obj4.getFeature( "feature4" ).set< int >( 7 );
+  obj4.getFeature( "feature3" ).set( 2.1f );
+  obj4.getFeature( "feature4" ).set( 7 );
 
 
   // Label objects
@@ -116,15 +116,15 @@ int main ()
   obj4.label( ) = "Object 4";
 
   // Create comparers
-  fires::ScalarPtrComparer< float > comparer1;
-  CustomScalarPtrComparer< float > comparer2;
+  fires::ScalarComparer< float* > comparer1;
+  CustomScalarComparer< float* > comparer2;
   fires::ScalarComparer< float > comparer3;
   fires::ScalarComparer< int > comparer4;
 
   fires::ScalarAverager< int > sai;
   fires::ScalarAverager< float > saf;
-  fires::ScalarPtrAverager< int > sapi;
-  fires::ScalarPtrAverager< float > sapf;
+  fires::ScalarAverager< int* > sapi;
+  fires::ScalarAverager< float* > sapf;
 
   // Instanciate fires' search object
   fires::Search search;
