@@ -86,7 +86,7 @@ namespace fires
     template< typename TYPE >
     float _distance( const TYPE f1, const TYPE f2  ) const
     {
-      return fabs( f1 - f2 );
+      return ( float ) fabs( f1 - f2 );
     }
 
   };
