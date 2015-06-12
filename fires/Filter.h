@@ -39,8 +39,8 @@ namespace fires
     typedef enum
     {
       CLOSED_ENDPOINT = 0,
-      OPEN_ENDPOINT
-    } TRangeEndpoints;
+      OPENED_ENDPOINT
+    } TRangeEndpoint;
 
   };
 
@@ -55,15 +55,15 @@ namespace fires
     {
     }
 
-    FilterScalarRange( const T min_ = std::numeric_limits< T >::min,
-                       const T max_ = std::numeric_limits< T >::max,
-                       // const TRangeEndPoints minEndpoint_ = CLOSED_ENDPOINT,
-                       // const TRangeEndPoints maxEndpoint_ = CLOSED_ENDPOINT,
-                       TRangeInclusion rangeInclusion_ = INSIDE_RANGE )
+    FilterScalarRange( const T min_, //= -1.0f, // std::numeric_limits< T >::min,
+                       const T max_, // = 1.0f, //std::numeric_limits< T >::max,
+                       const TRangeEndpoint minEndpoint_ = OPENED_ENDPOINT,
+                       const TRangeEndpoint maxEndpoint_ = OPENED_ENDPOINT,
+                       const TRangeInclusion rangeInclusion_ = INSIDE_RANGE )
       : _min( min_ )
       , _max( max_ )
-      // , _minEndpoint( minEndpoint_ )
-      // , _maxEndpoint( maxEndpoint_ )
+      , _minEndpoint( minEndpoint_ )
+      , _maxEndpoint( maxEndpoint_ )
       , _rangeInclusion( rangeInclusion_ )
     {
     }
@@ -78,6 +78,16 @@ namespace fires
       return _max;
     }
 
+    TRangeEndpoint& minEndpoint( void )
+    {
+      return _minEndpoint;
+    }
+
+    TRangeEndpoint& maxEndpoint( void )
+    {
+      return _maxEndpoint;
+    }
+
     TRangeInclusion& rangeInclusion( void )
     {
       return _rangeInclusion;
@@ -86,7 +96,12 @@ namespace fires
     virtual bool eval( const Feature& feature ) const
     {
       T fv = feature.value< T >( );
-      bool v = ( fv > _min && fv < _max );
+      bool v =
+        (( _minEndpoint == OPENED_ENDPOINT ) ?
+         ( fv > _min ) : ( fv >= _min )) &&
+        (( _maxEndpoint == OPENED_ENDPOINT ) ?
+         ( fv < _max ) : ( fv <= _max ));
+
       switch ( _rangeInclusion )
       {
       case INSIDE_RANGE:
@@ -105,6 +120,8 @@ namespace fires
   protected:
     T _min;
     T _max;
+    TRangeEndpoint _minEndpoint;
+    TRangeEndpoint _maxEndpoint;
     TRangeInclusion _rangeInclusion;
 
   };
