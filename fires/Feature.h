@@ -60,20 +60,20 @@ namespace fires
       ValueType v;
 
       if ( _value.empty( ))
-        std::cerr << "fires::Feature::value( ): can not cast, feature is empty "
-                  << std::endl;
+	std::cerr << "fires::Feature::value( ): can not cast, feature is empty "
+		  << std::endl;
 
       try
       {
-        v = boost::any_cast< ValueType >( _value );
+	v = boost::any_cast< ValueType >( _value );
       }
       catch( ... )
       {
-        FIRES_LOG(
-          std::string( "fires::Feature::value( ), can not cast from " ) +
-          _value.type( ).name( ) + std::string( " to " ) +
-          typeid( ValueType ).name( ));
-        throw boost::bad_any_cast( );
+	FIRES_LOG(
+		  std::string( "fires::Feature::value( ), can not cast from " ) +
+		  _value.type( ).name( ) + std::string( " to " ) +
+		  typeid( ValueType ).name( ));
+	throw boost::bad_any_cast( );
       }
       return v;
       #endif

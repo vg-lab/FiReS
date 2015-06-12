@@ -1,5 +1,6 @@
-#include "Feature.h"
-#include "FeatureScalar.h"
+#ifndef __DIRES__DEFINITIONS__
+#define __DIRES__DEFINITIONS__
+
 
 #ifdef FIRES_WITH_VMMLIB
 #include <vmmlib/vmmlib.hpp>
@@ -31,3 +32,6 @@ namespace fires
 #endif
 
 }
+
+
+#endif

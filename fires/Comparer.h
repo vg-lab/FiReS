@@ -86,7 +86,7 @@ namespace fires
     template< typename TYPE >
     float _distance( const TYPE f1, const TYPE f2  ) const
     {
-      return ( float ) fabs( f1 - f2 );
+      return ( float ) fabs( double( f1 ) - double( f2 ));
     }
 
   };
@@ -99,7 +99,7 @@ namespace fires
     virtual float distance( const Feature& f1, const Feature& f2 ) const
     {
       return  ScalarComparer< T >::_distance( *f1.value< T* >( ),
-                                              *f2.value< T* >( ));
+					      *f2.value< T* >( ));
     }
   };
 
