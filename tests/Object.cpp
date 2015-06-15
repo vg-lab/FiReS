@@ -14,43 +14,40 @@ BOOST_AUTO_TEST_CASE( test_object )
 {
 
   fires::Object obj;
+  fires::Feature f1( 2 ), f2( 3.2f );
 
-  fires::Feature f1, f2;
+  // registerFeature and getFeature test
+  obj.registerFeature( "feature1", f1 );
+  BOOST_CHECK( !obj.getFeature( "feature1" ).empty( ));
+  BOOST_CHECK( obj.getFeature( "feature1" ).value< int >( ) ==
+               f1.value< int >( ));
+  BOOST_CHECK( f1.value< int >( ) == 2 );
+  BOOST_REQUIRE_THROW( obj.getFeature( "feature2" ), fires::exception );
 
-  obj.addFeature( "feature1", &f1 );
-  BOOST_CHECK( obj.getFeature( "feature1" ) != nullptr );
-  BOOST_CHECK( obj.getFeature( "feature1" ) == &f1 );
-  BOOST_CHECK( obj.getFeature( "feature2" ) == nullptr );
+  obj.registerFeature( std::string( "feature2" ), f2 );
+  BOOST_CHECK( !obj.getFeature( "feature1" ).empty( ));
+  BOOST_CHECK( obj.getFeature( "feature1" ).value< int >( ) ==
+               f1.value< int >( ));
+  BOOST_CHECK( f1.value< int >( ) == 2 );
+  BOOST_CHECK( !obj.getFeature( "feature2" ).empty( ));
+  BOOST_CHECK( obj.getFeature( "feature2" ).value< float >( ) ==
+               f2.value< float >( ));
+  BOOST_CHECK( f2.value< float >( ) == 3.2f );
 
-  obj.addFeature( std::string("feature2"), &f2 );
-  BOOST_CHECK( obj.getFeature( "feature1" ) != nullptr );
-  BOOST_CHECK_EQUAL( obj.getFeature( "feature1" ), &f1 );
-  BOOST_CHECK( obj.getFeature( "feature2" ) != nullptr );
-  BOOST_CHECK_EQUAL( obj.getFeature( "feature2" ), &f2 );
+  // setFeature tests
+  BOOST_CHECK( !obj.setFeature( "nonexistingfeature", f2 ));
 
-  obj.addFeature( std::string("feature1"), &f2 );
-  BOOST_CHECK_EQUAL( obj.getFeature( std::string( "feature1" ) ), &f1 );
+  BOOST_CHECK( obj.setFeature( "feature1", f2 ));
+  BOOST_CHECK( !obj.getFeature( "feature1" ).empty( ));
+  BOOST_CHECK( obj.getFeature( "feature1" ).value< float >( ) ==
+               f2.value< float >( ));
 
-  obj.delFeature( std::string("feature2"));
-  BOOST_CHECK( obj.getFeature( "feature2" ) == nullptr );
-  BOOST_CHECK_EQUAL( obj.getFeature( "feature1" ), &f1 );
-
-  obj.addFeature( "feature2", &f2 );
-  BOOST_CHECK_EQUAL( obj.getFeature( "feature2" ), &f2 );
-
-
-  obj.setFeature( "feature1", &f2 );
-  BOOST_CHECK_EQUAL( obj.getFeature( "feature1" ), &f2 );
-  BOOST_CHECK_EQUAL( obj.getFeature( "feature2" ), &f2 );
-
-  obj.setFeature( "feature2", &f1 );
-  BOOST_CHECK_EQUAL( obj.getFeature( "feature1" ), &f2 );
-  BOOST_CHECK_EQUAL( obj.getFeature( "feature2" ), &f1 );
-
+  // clearFeatures tests
   obj.clearFeatures( );
-  BOOST_CHECK( obj.getFeature( "feature1" ) == nullptr );
-  BOOST_CHECK( obj.getFeature( "feature2" ) == nullptr );
+  BOOST_REQUIRE_THROW( obj.getFeature( "feature1" ), fires::exception );
+  BOOST_REQUIRE_THROW( obj.getFeature( "feature2" ), fires::exception );
 
+  // label tests
   #define TEST_LABEL "testLabel"
 
   obj.label() = TEST_LABEL;

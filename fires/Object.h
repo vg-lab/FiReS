@@ -9,13 +9,15 @@
 #ifndef __FIRES__OBJECT_H__
 #define __FIRES__OBJECT_H__
 
-
-#include "Feature.h"
+#include <fires/api.h>
+#include "fires/Feature.h"
 
 #include <string>
+#include <iostream>
 
 namespace fires
 {
+
   namespace detail
   {
     class Object;
@@ -47,15 +49,23 @@ namespace fires
      * Destructor
      */
     FIRES_API
-    ~Object( );
+    virtual ~Object( );
 
     /**
-     * Add a feature to this object
+     * Register a feature to this object
      * @param label label string for the feature
      * @param feature feature to be added
      */
     FIRES_API
-    void addFeature( std::string label, Feature* feature );
+    void registerFeature( const std::string& label, const Feature& feature );
+
+    /**
+     * Unregister a feature of this object
+     * @param label label of the feature to be deleted
+     * @return true if the feature could be deleted
+     */
+    FIRES_API
+    bool unregisterFeature( const std::string& label );
 
     /**
      * Get a feature of this object
@@ -63,7 +73,7 @@ namespace fires
      * @return the feature if found or nullptr otherwise
      */
     FIRES_API
-    Feature* getFeature( const std::string& label ) const;
+    Feature& getFeature( const std::string& label );
 
     /**
      * Get a feature of this object
@@ -72,15 +82,7 @@ namespace fires
      * @return true in case feature was setted, false otherwise
      */
     FIRES_API
-    bool setFeature( std::string label, Feature*  feature);
-
-    /**
-     * Get a feature of this object
-     * @param label label of the feature to be deleted
-     * @return true if the feature could be deleted
-     */
-    FIRES_API
-    bool delFeature( std::string label );
+    bool setFeature( const std::string& label, const Feature& feature);
 
     /**
      * Clears the features of this object (no memory freeing)

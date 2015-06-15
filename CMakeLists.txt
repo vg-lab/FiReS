@@ -30,8 +30,8 @@ set(FIRES_DESCRIPTION "FiReS - Filter and retrieval System")
 set(COMMON_PROJECT_DOMAIN gmrv.es)
 
 
-option(WITH_VMMLIB "WITH_VMMLIB" ON)
-option(WITH_OPENMP "WITH_OPENMP" ON)
+option(WITH_VMMLIB "FIRES_WITH_VMMLIB" ON)
+option(WITH_OPENMP "FIRES_WITH_OPENMP" OFF)
 
 
 include(Common)

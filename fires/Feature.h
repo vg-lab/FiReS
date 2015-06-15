@@ -9,55 +9,108 @@
 #ifndef __FIRES__FEATURE_H__
 #define __FIRES__FEATURE_H__
 
-#include <stdexcept> // runtime_error
 
 #include <fires/api.h>
+#include <boost/any.hpp>
+#include <iostream>
+
+#include "error.h"
 
 namespace fires
 {
 
-  /*! \class Feature
-   \brief Feature generic class from which real features have to be derived
-   */
+
   class Feature
   {
-
   public:
 
-    FIRES_API
-    Feature( void );
+    Feature( void )
+      : _value( )
+    {
+    }
 
-    FIRES_API
-    virtual ~Feature( );
+    virtual ~Feature( void )
+    {
+    }
 
-    FIRES_API
-    virtual Feature* newFeature( void ) const;
+    Feature& operator= ( const Feature& other )
+    {
+      this->_value = other._value;
+      return *this;
+    }
 
-    FIRES_API
-    virtual void deleteFeature( void );
+    template < class ValueType >
+    Feature( ValueType value_ )
+    {
+      _value = value_;
+    }
 
-    FIRES_API
-    virtual Feature& operator +=( const Feature& rhs);
+    template < class ValueType >
+    void set( ValueType value_ )
+    {
+      _value = value_;
+    }
 
-    FIRES_API
-    virtual Feature& operator /= ( const int& rhs );
+    template < typename ValueType >
+    ValueType value( void ) const
+    {
+#ifdef NDEBUG
+      return boost::any_cast< ValueType >( _value );
+#else
+      ValueType v;
 
+      if ( _value.empty( ))
+	std::cerr << "fires::Feature::value( ): can not cast, feature is empty "
+		  << std::endl;
 
-    // virtual FeatureScalar<float>* asFloat( void )
+      try
+      {
+	v = boost::any_cast< ValueType >( _value );
+      }
+      catch( ... )
+      {
+	FIRES_LOG(
+		  std::string( "fires::Feature::value( ), can not cast from " ) +
+		  _value.type( ).name( ) + std::string( " to " ) +
+		  typeid( ValueType ).name( ));
+	throw boost::bad_any_cast( );
+      }
+      return v;
+      #endif
+    }
+
+    std::string type( void ) const
+    {
+      return _value.type( ).name( );
+    }
+
+    bool empty( void ) const
+    {
+      return _value.empty( );
+    }
+
+    // boost::any value( ) const
     // {
-    //   return nullptr;
+    //   return _value;
     // }
 
-    // virtual float asFloatValue( void )
-    // {
-    //   if ( this->asFloat( ) )
-    //     return this->asFloat( )->value( );
-    //   else
-    //     0.0;
-    // }
- };
+  protected:
+    boost::any _value;
 
-}
+  }; // class Feature
+
+
+  // inline bool operator==( const Feature& lhs, const Feature& rhs )
+  // {
+  //   return ( lhs.value( ) == rhs.value( ));
+  // }
+  // inline bool operator!=( const Feature& lhs, const Feature& rhs )
+  // {
+  //   return !( lhs == rhs );
+  // }
+
+
+} // namespace fires
 
 
 #endif

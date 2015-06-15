@@ -4,7 +4,7 @@ include(System)
 list(APPEND FIND_PACKAGES_DEFINES ${SYSTEM})
 find_package(PkgConfig)
 
-# Find package vmmlib which is required
+# Find package vmmlib which is optional
 find_package(vmmlib)
 include_directories(${VMMLIB_INCLUDE_DIRS})
 if(VMMLIB_FOUND)
@@ -58,7 +58,7 @@ if(Boost_name)
 endif()
 
 
-if(WITH_OPENMP)
+if(FIRES_WITH_OPENMP)
   find_package(OpenMP REQUIRED)
   list(APPEND FIND_PACKAGES_DEFINES FIRES_WITH_OPENMP)
 endif()
@@ -104,7 +104,7 @@ file(APPEND ${DEFINES_FILE_IN}
 include(UpdateFile)
 configure_file(${DEFINES_FILE_IN} ${DEFINES_FILE} COPYONLY)
 
-if(WITH_OPENMP)
+if(FIRES_WITH_OPENMP)
   if(OPENMP_FOUND)    
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")

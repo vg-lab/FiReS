@@ -10,6 +10,14 @@
 #define __FIRES_COMPARER_H__
 
 #include "Feature.h"
+#include "Definitions.h"
+
+#include <math.h>
+
+#ifdef FIRES_WITH_VMMLIB
+#include <vmmlib/vmmlib.hpp>
+#include <vmmlib/util.hpp>
+#endif
 
 namespace fires
 {
@@ -23,11 +31,15 @@ namespace fires
    which have to be derived from this class.
 
    */
+
+
   class Comparer
   {
   public:
     FIRES_API
-    virtual ~Comparer( );
+    virtual ~Comparer( )
+    {
+    }
 
     /**
      * Virtual method to compute distance.
@@ -37,10 +49,193 @@ namespace fires
      * @return Distance between features
      */
     FIRES_API
-    virtual float distance( Feature* f1, Feature* f2 ) const;
+    virtual float distance( const Feature& /* f1 */,
+                            const Feature& /* f2 */ ) const
+    {
+      FIRES_LOG( "No valid Comparer registered. Returning 0." );
+      return 0.0f;
+    }
 
   };
 
+
+  template < typename T >
+  class ScalarComparer : public Comparer
+  {
+  public:
+    FIRES_API
+    virtual ~ScalarComparer( )
+    {
+    }
+
+    /**
+     * Virtual method to compute distance.
+       Has to be rewritten by the specific comparers.
+     * @param f1 First feature to compare.
+     * @param f2 Second feature to compare.
+     * @return Distance between features
+     */
+    FIRES_API
+    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    {
+      return _distance( f1.value< T >( ), f2.value< T >( ));
+    }
+
+  protected:
+
+    template< typename TYPE >
+    float _distance( const TYPE f1, const TYPE f2  ) const
+    {
+      return ( float ) fabs( double( f1 ) - double( f2 ));
+    }
+
+  };
+
+  template < typename T >
+  class ScalarComparer< T* > : public ScalarComparer< T >
+  {
+  public:
+    FIRES_API
+    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    {
+      return  ScalarComparer< T >::_distance( *f1.value< T* >( ),
+					      *f2.value< T* >( ));
+    }
+  };
+
+
+  #ifdef FIRES_WITH_VMMLIB
+
+  typedef enum
+  {
+    EUCLIDEAN_DIST = 0,
+    MANHATTAN_DIST
+  } TVectorDistance;
+
+
+//  template < template < size_t M, typename T > class V, size_t M, typename T >
+  template < class V, size_t M, typename T >
+  class VectorComparer : public Comparer
+  {
+  public:
+
+    VectorComparer( void )
+      : _type( EUCLIDEAN_DIST )
+    {
+    }
+
+    TVectorDistance& distanceType( void )
+    {
+      return _type;
+    }
+
+    FIRES_API
+    virtual ~VectorComparer( )
+    {
+    }
+
+    /**
+     * Virtual method to compute distance.
+       Has to be rewritten by the specific comparers.
+     * @param f1 First feature to compare.
+     * @param f2 Second feature to compare.
+     * @return Distance between features
+     */
+    FIRES_API
+    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    {
+      return _vectorDistance( f1.value< vector<M ,T>>( ),
+                              f2.value< vector<M ,T> >( ));
+    }
+
+  protected:
+
+    FIRES_API
+    virtual float _vectorDistance( const vector<M ,T>& f1,
+                                   const vector<M ,T>& f2 ) const
+    {
+      switch ( _type )
+      {
+      case MANHATTAN_DIST:
+        return float( vmml::manhattan( f1 - f2 ));
+        break;
+      case EUCLIDEAN_DIST:
+        return float(( f1 - f2 ).length( ));
+        break;
+      default:
+        throw std::runtime_error(
+          "fires::VectorComparer: distance not supported" );
+      }
+
+      return 0.0f;
+    }
+
+
+    TVectorDistance _type;
+
+  };
+
+
+  template < class V, size_t M, typename T >
+  class VectorComparer< V*, M, T >
+    : public VectorComparer< V, M, T >
+  {
+  public:
+    FIRES_API
+    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    {
+      return VectorComparer< V, M, T >::_vectorDistance(
+        *f1.value< vector< M, T >* >( ),
+        *f2.value< vector< M, T >* >( ));
+    }
+  };
+
+  template < class V, size_t M, typename T >
+  class VectorComparer< V, M, T* >
+    : public VectorComparer< V, M, T >
+  {
+  public:
+    FIRES_API
+    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    {
+      vector< M, T > v1;
+      vector< M, T * > vp = f1.value< vector< M, T* >>( );
+      for ( unsigned int i = 0; i < M ; i++ )
+        v1( i ) = *vp( i );
+
+      vector< M, T > v2;
+      vp = f2.value< vector< M, T* >>( );
+      for ( unsigned int i = 0; i < M ; i++ )
+        v2( i ) = *vp( i );
+
+      return VectorComparer< V, M, T >::_vectorDistance( v1, v2 );
+    }
+  };
+
+
+  template < class V, size_t M, typename T >
+  class VectorComparer< V*, M, T* >
+    : public VectorComparer< V, M, T >
+  {
+  public:
+    FIRES_API
+    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    {
+      vector< M, T > v1;
+      vector< M, T * > vp = *f1.value< vector< M, T* >* >( );
+      for ( unsigned int i = 0; i < M ; i++ )
+        v1( i ) = *vp( i );
+
+      vector< M, T > v2;
+      vp = *f2.value< vector< M, T* >* >( );
+      for ( unsigned int i = 0; i < M ; i++ )
+        v2( i ) = *vp( i );
+
+      return VectorComparer< V, M, T >::_vectorDistance( v1, v2 );
+    }
+  };
+
+#endif
 
 }
 
