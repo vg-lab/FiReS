@@ -11,6 +11,7 @@
 
 #include "Comparer.h"
 #include "Averager.h"
+#include "Normalizer.h"
 #include "Task.h"
 #include <map>
 #include <string>
@@ -25,9 +26,11 @@ namespace fires
     FIRES_API
     QueryFeatureData( Comparer* comparer_ = 0,
                       Averager* averager_ = 0,
+                      Normalizer* normalizer_ = 0,
                       const float weight_ = 1.0f )
       : _comparer( comparer_ )
       , _averager( averager_ )
+      , _normalizer( normalizer_ )
       , _weight( weight_ )
     {
     }
@@ -57,6 +60,19 @@ namespace fires
     }
 
     FIRES_API
+    Normalizer* normalizer( void )
+    {
+      return _normalizer;
+    }
+
+    FIRES_API
+    void normalizer( Normalizer* normalizer_ )
+    {
+      _normalizer = normalizer_;
+    }
+
+
+    FIRES_API
     const float& weight( void )
     {
       return _weight;
@@ -72,6 +88,7 @@ namespace fires
 
     Comparer* _comparer;
     Averager* _averager;
+    Normalizer* _normalizer;
     float _weight;
 
 
@@ -121,8 +138,9 @@ namespace fires
      */
     FIRES_API
     void add( const std::string& label,
-              Comparer* comparer_,
-              Averager* averager_,
+              Comparer* comparer_ = nullptr,
+              Averager* averager_ = nullptr,
+              Normalizer* normalizer_ = nullptr,
               float weight = 1.0f );
     FIRES_API
     Comparer* comparer( const std::string& label )
@@ -135,6 +153,13 @@ namespace fires
     {
       return _featuresConfig[ label ].averager( );
     }
+
+    FIRES_API
+    Normalizer* normalizer( const std::string& label )
+    {
+      return _featuresConfig[ label ].normalizer( );
+    }
+
 
     FIRES_API
     TDistanceToQuerySet& distanceToQueryType( void )

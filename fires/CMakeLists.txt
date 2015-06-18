@@ -6,6 +6,7 @@ Comparer.h
 Definitions.h
 Filter.h
 error.h
+Normalizer.h
 Object.h
 Objects.h
 Feature.h

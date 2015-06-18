@@ -94,6 +94,7 @@ public:
     this->registerFeature( "feature2", fires::Feature( &vector2 ));
     this->registerFeature( "feature3", fires::Feature( &vector3 ));
     this->registerFeature( "feature4", fires::Feature( &this->attr1 ));
+    this->registerFeature( "feature5", fires::Feature( fires::Vec3f::ZERO ));
 
   }
 
@@ -108,40 +109,6 @@ public:
   }
 
 };
-
-
-// struct Bar {
-//     void bar(void) { /* do work */ }
-// };
-
-// template < template < size_t, typename > class V, size_t M, typename T >
-// class Foo {
-// public:
-//   V<M,T> t;
-
-//     void foo(void)
-//     {
-//         t.bar(); // If T is a pointer, we should have used operator -> right?
-//     }
-// };
-// // This is a pointer to T specialization!
-// template <template < size_t, typename > class V, size_t M, typename T >
-// class Foo< V<M,T>*, M,  T> {
-//   V<M,t> * t;
-// public:
-//     void foo(void)
-//     {
-//         t->bar();
-//     }
-// };
-
-
-// int main()
-// {
-//   Foo<fires::vector *, int> t;
-
-//     t.foo();
-// }
 
 
 int main( void )
@@ -196,16 +163,19 @@ int main( void )
   // have to be updated
   obj1.vector1 = fires::Vec2f( obj1.attr11, obj1.attr12 );
   obj1.vector2 = fires::Vec3i( obj1.attr21, obj1.attr22, obj1.attr23 );
+  obj1.getFeature( "feature5" ).set( fires::Vec3f( 1.1f, 3.4f, 5.3f ));
 
   obj2.vector1 = fires::Vec2f( obj2.attr11, obj2.attr12 );
   obj2.vector2 = fires::Vec3i( obj2.attr21, obj2.attr22, obj2.attr23 );
+  obj2.getFeature( "feature5" ).set( fires::Vec3f( 6.3f, 4.2f, 2.1f ));
 
   obj3.vector1 = fires::Vec2f( obj3.attr11, obj3.attr12 );
   obj3.vector2 = fires::Vec3i( obj3.attr21, obj3.attr22, obj3.attr23 );
+  obj3.getFeature( "feature5" ).set( fires::Vec3f( 4.6f, 5.7f, 6.9f ));
 
   obj4.vector1 = fires::Vec2f( obj4.attr11, obj4.attr12 );
   obj4.vector2 = fires::Vec3i( obj4.attr21, obj4.attr22, obj4.attr23 );
-
+  obj4.getFeature( "feature5" ).set( fires::Vec3f( 7.3f, 5.2f, 6.2f ));
 
   // Asign labels
   obj1.label( ) = "Object 1";
@@ -220,16 +190,39 @@ int main( void )
   // fires::FeaturePtrToVec3pfComparer comparer3;
   // fires::FeaturePtrToScalarComparer< float > comparer4;
 
-  fires::VectorComparer< fires::vector<>*, 2, float > comp1;
-  fires::VectorComparer< fires::vector<>*, 3, int > comp2;
-  fires::VectorComparer< fires::vector<>*, 3, float* > comp3;
-  fires::ScalarComparer< float* > comp4;
+  // fires::VectorComparer< fires::vector<>*, 2, float > comp1;
+  // fires::VectorComparer< fires::vector<>*, 3, int > comp2;
+  // fires::VectorComparer< fires::vector<>*, 3, float* > comp3;
+  // fires::ScalarComparer< float* > comp4;
 
-  fires::VectorAverager< fires::vector<>*, 2, float > avg1;
-  fires::VectorAverager< fires::vector<>*, 3, int > avg2;
-  fires::VectorAverager< fires::vector<>*, 3, float* > avg3;
-  fires::ScalarAverager< float* > avg4;
+  // fires::VectorAverager< fires::vector<>*, 2, float > avg1;
+  // fires::VectorAverager< fires::vector<>*, 3, int > avg2;
+  // fires::VectorAverager< fires::vector<>*, 3, float* > avg3;
+  // fires::ScalarAverager< float* > avg4;
 
+  fires::VectorComparer< fires::vector<>, 3, float > vc3f;
+  fires::VectorAverager< fires::vector<>, 3, float > va3f;
+  fires::VectorNormalizer< fires::vector<>, 3, float > vn3f;
+
+  fires::VectorComparer< fires::vector<>*, 2, float > pvc2f;
+  fires::VectorAverager< fires::vector<>*, 2, float > pva2f;
+  fires::VectorNormalizer< fires::vector<>*, 2, float > pvn2f;
+
+  fires::VectorComparer< fires::vector<>*, 3, int > pvc3i;
+  fires::VectorAverager< fires::vector<>*, 3, int > pva3i;
+  fires::VectorNormalizer< fires::vector<>*, 3, int > pvn3i;
+
+  fires::VectorComparer< fires::vector<>*, 3, float > pvc3f;
+  fires::VectorAverager< fires::vector<>*, 3, float > pva3f;
+  fires::VectorNormalizer< fires::vector<>*, 3, float > pvn3f;
+
+  fires::VectorComparer< fires::vector<>*, 3, float* > pvc3pf;
+  fires::VectorAverager< fires::vector<>*, 3, float* > pva3pf;
+  fires::VectorNormalizer< fires::vector<>*, 3, float* > pvn3pf;
+
+  fires::ScalarComparer< float* > scpf;
+  fires::ScalarAverager< float* > sapf;
+  fires::ScalarNormalizer< float* > snpf;
 
   // Set-up system
   fires::Search search;
@@ -247,10 +240,11 @@ int main( void )
   // Add the features to the system
   fires::SearchConfig sc;
 
-  // sc.add( "feature1", &comp1, &avg1 );
-  // sc.add( "feature2", &comp2, &avg2 );
-  sc.add( "feature3", &comp3, &avg3 );
-  // sc.add( "feature4", &comp4, &avg4 );
+  sc.add( "feature1", &pvc2f, &pva2f, &pvn2f );
+  sc.add( "feature2", &pvc3i, &pva3i, &pvn3i );
+  sc.add( "feature3", &pvc3pf, &pva3pf, &pvn3pf );
+  sc.add( "feature4", &scpf, &sapf, &snpf );
+  sc.add( "feature5", &vc3f, &va3f, &vn3f );
 
   sc.queryObjects( ).add( &obj1 );
   sc.queryObjects( ).add( &obj2 );
@@ -262,20 +256,25 @@ int main( void )
 
   // Now show that comparer parameters can be changed. In this case the
   // type of distance is changed from default euclidean to manhattan
-  comp1.distanceType( ) = fires::MANHATTAN_DIST;
-  comp2.distanceType( ) = fires::MANHATTAN_DIST;
-  comp3.distanceType( ) = fires::MANHATTAN_DIST;
+  pvc2f.distanceType( ) = fires::MANHATTAN_DIST;
+  pvc3i.distanceType( ) = fires::MANHATTAN_DIST;
+  pvc3pf.distanceType( ) = fires::MANHATTAN_DIST;
+  vc3f.distanceType( ) = fires::MANHATTAN_DIST;
+  // comp1.distanceType( ) = fires::MANHATTAN_DIST;
+  // comp2.distanceType( ) = fires::MANHATTAN_DIST;
+  // comp3.distanceType( ) = fires::MANHATTAN_DIST;
 
   // Query again and print results
   search.eval( objects, sc );
   printResults( objects, "fires::score" );
   std::cout << std::endl;
 
-
   // Return the the distances to euclidean and print results. They
   // should be the same as the first query
-  comp1.distanceType() = fires::EUCLIDEAN_DIST;
-  comp2.distanceType() = fires::EUCLIDEAN_DIST;
+  pvc2f.distanceType( ) = fires::EDUCLIDEAN_DIST;
+  pvc3i.distanceType( ) = fires::EDUCLIDEAN_DIST;
+  pvc3pf.distanceType( ) = fires::EDUCLIDEAN_DIST;
+  vc3f.distanceType( ) = fires::EDUCLIDEAN_DIST;
 
   search.eval( objects, sc );
   printResults( objects, "fires::score" );

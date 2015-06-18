@@ -61,7 +61,7 @@ int main( void )
 
     std::cout << c->distance( f1, f2 ) << std::endl;
 
-    sc.add( std::string( "feature1" ), c, 0, 0.5f );
+    sc.add( std::string( "feature1" ), c, 0, nullptr, 0.5f );
     std::cout << sc.comparer( "feature1" )->distance( f1, f2 )
               << std::endl;
 

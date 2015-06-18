@@ -71,9 +71,35 @@ public:
     factor = 1.0f;
   }
 
+  virtual float distance( const fires::Feature& f1,
+                          const fires::Feature& f2 ) const
+  {
+    std::cout << "distance custom: " << factor << std::endl;
+    std::cout << factor << " " << fires::ScalarComparer< T >::distance( f1, f2 ) << std::endl;
+    return factor * fires::ScalarComparer< T >::distance( f1, f2 );
+  }
+  float factor;
+};
+
+
+template < typename T >
+class CustomScalarComparer< T* >
+  : public fires::ScalarComparer< T* >
+{
+
+public:
+
+  CustomScalarComparer( void )
+  {
+    factor = 1.0f;
+  }
+
   float distance( const fires::Feature& f1, const fires::Feature& f2 ) const
   {
-    return factor * fires::ScalarComparer< T >::distance( f1, f2 );
+    // std::cout << "distance custom: " << factor << std::endl;
+    // std::cout << factor << " " << this->fires::ScalarComparer< T* >::distance( f1, f2 ) << std::endl;
+    // std::cout << factor * this->fires::ScalarComparer< T* >::distance( f1, f2 ) << std::endl;
+    return factor * this->fires::ScalarComparer< T* >::distance( f1, f2 );
   }
 
 
@@ -94,7 +120,7 @@ int main ()
   obj1.getFeature( "feature4" ).set( 6 );
 
   obj2.attr1 = 3.2f;
-  obj2.attr2 = 42.1f;
+  obj2.attr2 = 2.1f;
   obj2.getFeature( "feature3" ).set( 2.4f );
   obj2.getFeature( "feature4" ).set( 3 );
 
@@ -126,6 +152,10 @@ int main ()
   fires::ScalarAverager< int* > sapi;
   fires::ScalarAverager< float* > sapf;
 
+  fires::ScalarNormalizer< float > snf;
+  fires::ScalarNormalizer< float* > snpf;
+  fires::ScalarNormalizer< int > sni;
+
   // Instanciate fires' search object
   fires::Search search;
 
@@ -141,14 +171,13 @@ int main ()
 
   // Create the set of features to be used in the queries
   fires::SearchConfig sc;
-  sc.add( std::string("feature1"), &comparer1, &sapf );
-  sc.add( std::string("feature2"), &comparer2, &sapf );
-  sc.add( std::string("feature3"), &comparer3, &saf );
-  sc.add( std::string("feature4"), &comparer4, &sai );
+  sc.add( std::string("feature1"), &comparer1, &sapf, &snpf );
+  sc.add( std::string("feature2"), &comparer2, &sapf, &snpf );
+  sc.add( std::string("feature3"), &comparer3, &saf, &snf );
+  sc.add( std::string("feature4"), &comparer4, &sai, &sni );
 
   sc.queryObjects( ).add( &obj1 );
   sc.queryObjects( ).add( &obj2 );
-
 
   // Query the system and print results
   std::cout << "-- First query" << std::endl;

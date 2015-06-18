@@ -31,8 +31,6 @@ namespace fires
    which have to be derived from this class.
 
    */
-
-
   class Comparer
   {
   public:
@@ -63,6 +61,7 @@ namespace fires
   class ScalarComparer : public Comparer
   {
   public:
+
     FIRES_API
     virtual ~ScalarComparer( )
     {
@@ -86,7 +85,8 @@ namespace fires
     template< typename TYPE >
     float _distance( const TYPE f1, const TYPE f2  ) const
     {
-      return ( float ) fabs( double( f1 ) - double( f2 ));
+      // std::cout << f1 << " " << f2 << std::endl;
+      return fabsf( float( f1 ) - float( f2 ));
     }
 
   };
@@ -98,8 +98,10 @@ namespace fires
     FIRES_API
     virtual float distance( const Feature& f1, const Feature& f2 ) const
     {
+      // std::cout  << "Scalar Comparer * " << *f1.value< T* >( ) << " "
+      //            << *f2.value< T* >( ) << std::endl;
       return  ScalarComparer< T >::_distance( *f1.value< T* >( ),
-					      *f2.value< T* >( ));
+                                              *f2.value< T* >( ));
     }
   };
 

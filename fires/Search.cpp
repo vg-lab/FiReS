@@ -43,14 +43,30 @@ namespace fires
         std::string featLabel = qfd->first;
         fires::Comparer* comparer = qfd->second.comparer( );
 
-        float d = comparer->distance( obj1->getFeature( featLabel ),
-                                      obj2->getFeature( featLabel ));
+        float d;
 
-      dist += fabs( qfd->second.weight( )) * d * d;
+        Normalizer* n = qfd->second.normalizer( );
+        if ( n )
+        {
+          Feature f1 = n->normalize( featLabel, obj1->getFeature( featLabel ));
+          Feature f2 = n->normalize( featLabel, obj2->getFeature( featLabel ));
+          d = comparer->distance( f1, f2 );
+          d = n->normalize( d );
+          n->freeNormalizedFeature( f1 );
+          n->freeNormalizedFeature( f2 );
+        }
+        else
+          d = comparer->distance( obj1->getFeature( featLabel ),
+                                  obj2->getFeature( featLabel ));
+
+
+//      dist += fabs( qfd->second.weight( )) * d * d;
+      dist += d;
 
     }
 
-    dist = sqrtf( dist ) / sqrt( config.features( ).size( ));
+//    dist = sqrtf( dist ) / sqrt( config.features( ).size( ));
+    dist /= config.features( ).size( );
 
     return dist;
 
@@ -78,6 +94,31 @@ namespace fires
     // If no objects in the query return
     if ( queryObjects.size( ) == 0 || features.size( ) == 0 )
       return objects;
+
+
+    for ( auto qfd = searchConfig->features( ).begin( );
+          qfd != searchConfig->features( ).end( ); ++qfd )
+    {
+
+      std::string featLabel = qfd->first;
+      Normalizer* n = qfd->second.normalizer( );
+
+      if ( n )
+      {
+        n->reset( featLabel );
+
+        for ( auto obj = objects.begin( );
+              obj != objects.end( ); ++obj )
+          n->update( featLabel, ( *obj )->getFeature( featLabel ));
+
+        for ( auto obj = queryObjects.begin( );
+              obj != queryObjects.end( ); ++obj )
+          n->update( featLabel, ( *obj )->getFeature( featLabel ));
+
+      }
+    }
+
+
 
     // If the distance to the query set is done using the average
     Object queryAvgObj;

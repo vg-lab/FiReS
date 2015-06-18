@@ -72,6 +72,7 @@ namespace fires
     FIRES_API
     virtual void divide( const unsigned int value )
     {
+//      std::cout << _accumValue << " " << value << " " << _accumValue / value << std::endl;;
       _accumValue /= value;
     }
 
