@@ -48,10 +48,12 @@ namespace fires
         Normalizer* n = qfd->second.normalizer( );
         if ( n )
         {
-          Feature f1 = n->normalize( featLabel, obj1->getFeature( featLabel ));
-          Feature f2 = n->normalize( featLabel, obj2->getFeature( featLabel ));
+          Feature f1 = n->normalizeFeature( featLabel,
+                                            obj1->getFeature( featLabel ));
+          Feature f2 = n->normalizeFeature( featLabel,
+                                            obj2->getFeature( featLabel ));
           d = comparer->distance( f1, f2 );
-          d = n->normalize( d );
+          d = n->normalizeDistance( d );
           n->freeNormalizedFeature( f1 );
           n->freeNormalizedFeature( f2 );
         }

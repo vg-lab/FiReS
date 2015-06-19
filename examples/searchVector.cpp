@@ -271,10 +271,10 @@ int main( void )
 
   // Return the the distances to euclidean and print results. They
   // should be the same as the first query
-  pvc2f.distanceType( ) = fires::EDUCLIDEAN_DIST;
-  pvc3i.distanceType( ) = fires::EDUCLIDEAN_DIST;
-  pvc3pf.distanceType( ) = fires::EDUCLIDEAN_DIST;
-  vc3f.distanceType( ) = fires::EDUCLIDEAN_DIST;
+  pvc2f.distanceType( ) = fires::EUCLIDEAN_DIST;
+  pvc3i.distanceType( ) = fires::EUCLIDEAN_DIST;
+  pvc3pf.distanceType( ) = fires::EUCLIDEAN_DIST;
+  vc3f.distanceType( ) = fires::EUCLIDEAN_DIST;
 
   search.eval( objects, sc );
   printResults( objects, "fires::score" );

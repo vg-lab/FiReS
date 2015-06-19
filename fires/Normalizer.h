@@ -40,11 +40,14 @@ namespace fires
                          const Feature& feature_ ) = 0;
 
     FIRES_API
-    virtual Feature normalize( const std::string& label,
-                               const Feature& feature_ ) const = 0;
+    virtual Feature normalizeFeature( const std::string& /* label */,
+                                      const Feature& feature_ )
+    {
+      return feature_;
+    }
 
     FIRES_API
-    virtual float normalize( const float distance )
+    virtual float normalizeDistance( const float distance )
     {
       return distance;
     }
@@ -91,8 +94,8 @@ namespace fires
     }
 
     FIRES_API
-    virtual Feature normalize( const std::string &label_,
-                               const Feature& feature_ ) const
+    virtual Feature normalizeFeature( const std::string &label_,
+                                      const Feature& feature_ ) const
     {
       // std::cout <<  "Normalize " << std::endl << feature_.value< T >( ) << " " <<  _minValue.at( label_ ) << " "
       //           <<  _maxValue.at( label_ ) << std::endl
@@ -143,8 +146,8 @@ namespace fires
     }
 
     FIRES_API
-    virtual Feature normalize( const std::string& label_,
-                               const Feature& feature_ ) const
+    virtual Feature normalizeFeature( const std::string& label_,
+                                      const Feature& feature_ ) const
     {
       // std::cout <<  *feature_.value< T* >( ) << " " <<  this->_minValue << " "
       //           <<  this->_maxValue << " "  << this->_minValue   << std::endl;
@@ -193,7 +196,7 @@ namespace fires
     }
 
     FIRES_API
-    virtual float normalize( const float distance )
+    virtual float normalizeDistance( const float distance )
     {
       return distance / sqrt( M );
     }
@@ -238,8 +241,8 @@ namespace fires
     }
 
     FIRES_API
-    virtual Feature normalize( const std::string &label_,
-                               const Feature& feature_ ) const
+    virtual Feature normalizeFeature( const std::string &label_,
+                                      const Feature& feature_ ) const
     {
       return Feature( new vector< M, T >(
                         (( *feature_.value< vector< M, T >* >( )) -
@@ -286,8 +289,8 @@ namespace fires
     }
 
     FIRES_API
-    virtual Feature normalize( const std::string& label_,
-                               const Feature& feature_  ) const
+    virtual Feature normalizeDistance( const std::string& label_,
+                                       const Feature& feature_  ) const
     {
 
       auto vp = feature_.value< vector< M, T* >* >( );
