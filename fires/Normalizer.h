@@ -207,7 +207,7 @@ namespace fires
     void _update( const std::string& label_,
                   const vector< M, T >& v )
     {
-      for ( auto idx = 0; idx < M; idx++ )
+      for ( unsigned int idx = 0; idx < M; idx++ )
       {
         if ( v[ idx ] < this->_minValue[ label_ ][ idx ] )
           this->_minValue[ label_ ][ idx ] = v[ idx ];
@@ -278,7 +278,7 @@ namespace fires
       // std::cout << "update vector*" << std::endl;
       auto v = feature_.value< vector< M, T* >* >( );
 
-      for ( auto idx = 0; idx < M; idx++ )
+      for ( unsigned idx = 0; idx < M; idx++ )
       {
         if ( *( *v )[ idx ] < this->_minValue[ label_ ][ idx ] )
           this->_minValue[ label_ ][ idx ] = *( *v )[ idx ];
@@ -289,8 +289,8 @@ namespace fires
     }
 
     FIRES_API
-    virtual Feature normalizeDistance( const std::string& label_,
-                                       const Feature& feature_  ) const
+    virtual Feature normalizeFeature( const std::string& label_,
+				      const Feature& feature_  ) const
     {
 
       auto vp = feature_.value< vector< M, T* >* >( );
