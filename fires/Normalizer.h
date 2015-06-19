@@ -41,7 +41,7 @@ namespace fires
 
     FIRES_API
     virtual Feature normalizeFeature( const std::string& /* label */,
-                                      const Feature& feature_ )
+                                      const Feature& feature_ ) const
     {
       return feature_;
     }
@@ -94,7 +94,7 @@ namespace fires
     }
 
     FIRES_API
-    virtual Feature normalizeFeature( const std::string &label_,
+    virtual Feature normalizeFeature( const std::string& label_,
                                       const Feature& feature_ ) const
     {
       // std::cout <<  "Normalize " << std::endl << feature_.value< T >( ) << " " <<  _minValue.at( label_ ) << " "
@@ -241,7 +241,7 @@ namespace fires
     }
 
     FIRES_API
-    virtual Feature normalizeFeature( const std::string &label_,
+    virtual Feature normalizeFeature( const std::string& label_,
                                       const Feature& feature_ ) const
     {
       return Feature( new vector< M, T >(
