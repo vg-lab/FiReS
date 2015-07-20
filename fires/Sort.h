@@ -79,7 +79,7 @@ namespace fires
                      FeatureSorter* sorter_,
                      TSortOrder order_ = ASCENDING )
     {
-      _features[ featureLabel_ ] = TSortFeature{ sorter_, order_ };
+      _features.push_back( TSortFeature{ featureLabel_, sorter_, order_ });
     }
 
     void clear( void )
@@ -92,18 +92,18 @@ namespace fires
       for ( auto featureIt = _features.cbegin( );
             featureIt != _features.cend( ); ++featureIt )
       {
-        const std::string label = ( *featureIt ).first;
+        const std::string label = ( *featureIt ).label;
 
-        if (( *featureIt ).second.sorter->isEqual(
+        if (( *featureIt ).sorter->isEqual(
               obj1->getFeature( label ),
               obj2->getFeature( label )))
           continue;
 
-        bool lt = ( *featureIt ).second.sorter->isLowerThan(
+        bool lt = ( *featureIt ).sorter->isLowerThan(
           obj1->getFeature( label ),
           obj2->getFeature( label ));
 
-        return (( *featureIt ).second.order == TSortOrder::ASCENDING ) ?
+        return (( *featureIt ).order == TSortOrder::ASCENDING ) ?
           lt : !lt;
 
 
@@ -115,11 +115,12 @@ namespace fires
 
     typedef struct
     {
+      std::string label;
       FeatureSorter* sorter;
       TSortOrder order;
     } TSortFeature;
 
-    std::map< std::string, TSortFeature > _features;
+    std::vector< TSortFeature > _features;
 
   };
 

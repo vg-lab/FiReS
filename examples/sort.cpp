@@ -57,10 +57,12 @@ int main( void )
 
   std::cout << std::endl << "Ascending and descending" << std::endl;
 
+  sortConfig.clear( );
   sortConfig.addFeature( "f1", &sfsf );
   sorter.eval( objs, sortConfig );
   printObjects( objs );
 
+  sortConfig.clear( );
   sortConfig.addFeature( "f1", &sfsf, fires::SortConfig::DESCENDING );
   sorter.eval( objs, sortConfig  );
   printObjects( objs );
@@ -72,22 +74,26 @@ int main( void )
 
   std::cout << std::endl << "Adding second feature" << std::endl;
 
+  sortConfig.clear( );
   sortConfig.addFeature( "f1", &sfsf );
   sortConfig.addFeature( "f2", &sfsi );
   sorter.eval( objs, sortConfig  );
   printObjects( objs );
 
+  sortConfig.clear( );
   sortConfig.addFeature( "f1", &sfsf );
   sortConfig.addFeature( "f2", &sfsi, fires::SortConfig::DESCENDING );
   sorter.eval( objs, sortConfig  );
   printObjects( objs );
 
 
+  sortConfig.clear( );
   sortConfig.addFeature( "f1", &sfsf, fires::SortConfig::DESCENDING );
   sortConfig.addFeature( "f2", &sfsi, fires::SortConfig::DESCENDING );
   sorter.eval( objs, sortConfig  );
   printObjects( objs );
 
+  sortConfig.clear( );
   sortConfig.addFeature( "f1", &sfsf, fires::SortConfig::DESCENDING );
   sortConfig.addFeature( "f2", &sfsi, fires::SortConfig::ASCENDING );
   sorter.eval( objs, sortConfig  );
