@@ -19,6 +19,9 @@ target_link_libraries( searchLargeNumberOfObjects fires)
 add_executable( filter filter.cpp )
 target_link_libraries( filter fires )
 
+add_executable( sort sort.cpp )
+target_link_libraries( sort fires )
+
 add_executable( tasks tasks.cpp )
 target_link_libraries( tasks fires )
 

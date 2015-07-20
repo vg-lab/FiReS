@@ -14,6 +14,7 @@ Engine.h
 Task.h
 Search.h
 SearchConfig.h
+Sort.h
 )
 
 set(FIRES_HEADERS )
@@ -24,6 +25,7 @@ Objects.cpp
 Engine.cpp
 SearchConfig.cpp
 Search.cpp
+#Sort.cpp
 )
 
 common_library(fires)
