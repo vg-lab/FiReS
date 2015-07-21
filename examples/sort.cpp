@@ -100,5 +100,41 @@ int main( void )
   printObjects( objs );
 
 
+  TestObject o5;
+  o5.label( ) = "o5";
+  objs.add( &o5 );
+
+  std::cout << std::endl
+            << "Adding object without features being sorted" << std::endl;
+
+  printObjects( objs );
+
+
+  sortConfig.clear( );
+  sortConfig.addFeature( "f1", &sfsf, fires::SortConfig::ASCENDING );
+  sortConfig.addFeature( "f2", &sfsi, fires::SortConfig::DESCENDING );
+  sorter.eval( objs, sortConfig  );
+
+  printObjects( objs );
+
+
+  objs.clear( );
+  objs.add( &o5 );
+  objs.add( &o1 );
+  objs.add( &o2 );
+  objs.add( &o3 );
+  objs.add( &o4 );
+
+
+  printObjects( objs );
+
+
+  sortConfig.clear( );
+  sortConfig.addFeature( "f1", &sfsf, fires::SortConfig::ASCENDING );
+  sortConfig.addFeature( "f2", &sfsi, fires::SortConfig::DESCENDING );
+  sorter.eval( objs, sortConfig  );
+
+  printObjects( objs );
+
 
 }

@@ -126,6 +126,11 @@ namespace fires
         _features.clear( );
       }
 
+      bool hasFeature( const std::string& label_ ) const
+      {
+        return _features.find( label_ ) != _features.end( );
+      }
+
       ObjectFeatures& features( void )
       {
         return _features;
@@ -196,6 +201,11 @@ namespace fires
   void Object::clearFeatures( void )
   {
     return _impl->clearFeatures( );
+  }
+
+  bool Object::hasFeature( const std::string& label_ ) const
+  {
+    return _impl->hasFeature( label_ );
   }
 
   std::string& Object::label( void )

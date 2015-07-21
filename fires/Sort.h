@@ -94,6 +94,12 @@ namespace fires
       {
         const std::string label = ( *featureIt ).label;
 
+        if ( !obj1->hasFeature( label ))
+          return false;
+
+        if ( !obj2->hasFeature( label ))
+          return true;
+
         if (( *featureIt ).sorter->isEqual(
               obj1->getFeature( label ),
               obj2->getFeature( label )))
