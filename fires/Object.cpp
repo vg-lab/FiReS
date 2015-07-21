@@ -208,6 +208,11 @@ namespace fires
     return _impl->hasFeature( label_ );
   }
 
+  std::map< std::string, Feature >& Object::getFeatures( void )
+  {
+    return _impl->features( );
+  }
+
   std::string& Object::label( void )
   {
     return _impl->label( );

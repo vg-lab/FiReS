@@ -14,6 +14,7 @@
 
 #include <string>
 #include <iostream>
+#include <map>
 
 namespace fires
 {
@@ -98,6 +99,8 @@ namespace fires
     FIRES_API
     void clearFeatures( void );
 
+    FIRES_API
+    std::map< std::string, Feature >& getFeatures( void );
 
     /**
      * Get a reference to the label of the object
