@@ -124,9 +124,9 @@ int main( void )
   obj1.attr21 = 3;
   obj1.attr22 = 2;
   obj1.attr23 = 2;
-  obj1.attr31 = 4.4;
-  obj1.attr32 = 1.2;
-  obj1.attr33 = 2.6;
+  obj1.attr31 = 4.4f;
+  obj1.attr32 = 1.2f;
+  obj1.attr33 = 2.6f;
 
   obj2.attr1 = 2.3f;
   obj2.attr11 = 2.4f;
@@ -134,9 +134,9 @@ int main( void )
   obj2.attr21 = 4;
   obj2.attr22 = 1;
   obj2.attr23 = 2;
-  obj2.attr31 = 2.2;
-  obj2.attr32 = 2.4;
-  obj2.attr33 = 3.1;
+  obj2.attr31 = 2.2f;
+  obj2.attr32 = 2.4f;
+  obj2.attr33 = 3.1f;
 
   obj3.attr1 = 2.1f;
   obj3.attr11 = 5.1f;
@@ -144,9 +144,9 @@ int main( void )
   obj3.attr21 = 4;
   obj3.attr22 = 5;
   obj3.attr23 = 1;
-  obj3.attr31 = 2.1;
-  obj3.attr32 = 2.6;
-  obj3.attr33 = 2.3;
+  obj3.attr31 = 2.1f;
+  obj3.attr32 = 2.6f;
+  obj3.attr33 = 2.3f;
 
   obj4.attr1 = 2.6f;
   obj4.attr11 = 5.8f;
@@ -154,9 +154,9 @@ int main( void )
   obj4.attr21 = 6;
   obj4.attr22 = 2;
   obj4.attr23 = 1;
-  obj4.attr31 = 1.2;
-  obj4.attr32 = 2.3;
-  obj4.attr33 = 3.8;
+  obj4.attr31 = 1.2f;
+  obj4.attr32 = 2.3f;
+  obj4.attr33 = 3.8f;
 
 
   // In case of using pointers to vectors of scalars their values
