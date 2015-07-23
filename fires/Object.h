@@ -14,6 +14,7 @@
 
 #include <string>
 #include <iostream>
+#include <map>
 
 namespace fires
 {
@@ -85,11 +86,21 @@ namespace fires
     bool setFeature( const std::string& label, const Feature& feature);
 
     /**
+     * Queries if a feature has been registered in this object
+     * @param label label string to retrieve the feature
+     * @return true if found
+     */
+    FIRES_API
+    bool hasFeature( const std::string& label ) const;
+
+    /**
      * Clears the features of this object (no memory freeing)
      */
     FIRES_API
     void clearFeatures( void );
 
+    FIRES_API
+    std::map< std::string, Feature >& getFeatures( void );
 
     /**
      * Get a reference to the label of the object
