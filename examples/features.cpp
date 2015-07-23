@@ -219,7 +219,7 @@ int main( void )
         qfd->second.averager( )->accum(( *obj )->getFeature( featLabel ));
       }
 
-      qfd->second.averager( )->divide( objs.size( ));
+      qfd->second.averager( )->divide( (unsigned int ) objs.size( ));
       std::cout << qfd->second.averager( )->feature( ).type( ) << std::endl;
       meanObj.registerFeature( featLabel,
                                qfd->second.averager( )->feature( ));

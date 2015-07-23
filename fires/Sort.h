@@ -16,15 +16,12 @@ namespace fires
   class FeatureSorter
   {
   public:
-    FIRES_API
     virtual ~FeatureSorter( void )
     {
     }
 
-    FIRES_API
     virtual bool isLowerThan( Feature&, Feature& ) = 0;
 
-    FIRES_API
     virtual bool isEqual( Feature&, Feature& ) = 0;
 
   };
@@ -34,18 +31,15 @@ namespace fires
   {
   public:
 
-    FIRES_API
     virtual ~ScalarFeatureSorter( void )
     {
     }
 
-    FIRES_API
     virtual bool isLowerThan( Feature& f1, Feature& f2 )
     {
       return  f1.value< T >( ) < f2.value< T >( );
     }
 
-    FIRES_API
     virtual bool isEqual( Feature& f1, Feature& f2 )
     {
       return  f1.value< T >( ) == f2.value< T >( );
@@ -135,7 +129,6 @@ namespace fires
 
   public:
 
-    FIRES_API
     virtual Objects& eval( Objects &objs, TaskConfig& config )
     {
       SortConfig* sortConfig =

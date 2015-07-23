@@ -52,37 +52,30 @@ namespace fires
   {
   public:
 
-    FIRES_API
     ScalarAverager( T resetValue_ = ( T ) 0 )
       : _resetValue( resetValue_ )
     {
     }
 
-    FIRES_API
     virtual ~ScalarAverager( )
     {
     }
 
-    FIRES_API
     virtual void accum( const Feature& feature_ )
     {
       _accumValue += feature_.value< T >( );
     }
 
-    FIRES_API
     virtual void divide( const unsigned int value )
     {
-//      std::cout << _accumValue << " " << value << " " << _accumValue / value << std::endl;;
       _accumValue /= value;
     }
 
-    FIRES_API
     virtual void reset( void )
     {
       _accumValue = _resetValue;
     }
 
-    FIRES_API
     virtual Feature feature( void )
     {
       return Feature( _accumValue );
@@ -102,29 +95,24 @@ namespace fires
   {
   public:
 
-    FIRES_API
     ScalarAverager( T resetValue_ = ( T ) 0 )
       : ScalarAverager< T >( resetValue_ )
     {
     }
 
-    FIRES_API
     virtual ~ScalarAverager( )
     {
     }
 
-    FIRES_API
     virtual void accum( const Feature& feature_ )
     {
       this->_accumValue += *feature_.value< T* >( );
     }
 
-    FIRES_API
     virtual Feature feature( void )
     {
       return Feature( &this->_accumValue );
     }
-
 
   };
 
@@ -166,7 +154,7 @@ namespace fires
     {
     }
 
-    FIRES_API
+    
     virtual void accum( const Feature& feature_ )
     {
       vector< M, T > v;
@@ -177,7 +165,7 @@ namespace fires
       this->_accumValue += v;
     }
 
-    FIRES_API
+    
     virtual Feature feature( void )
     {
 
@@ -209,7 +197,7 @@ namespace fires
     {
     }
 
-    FIRES_API
+    
     virtual void accum( const Feature& feature_ )
     {
 
@@ -222,7 +210,7 @@ namespace fires
       this->_accumValue += v;
     }
 
-    FIRES_API
+    
     virtual Feature feature( void )
     {
       for ( unsigned int i = 0; i < M ; i++ )

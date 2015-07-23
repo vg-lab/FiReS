@@ -62,24 +62,20 @@ namespace fires
   {
   public:
 
-    FIRES_API
     ScalarNormalizer( void )
     {
     }
 
-    FIRES_API
     virtual void reset( const std::string& label )
     {
       _minValue[ label ] = std::numeric_limits< T >::max( );
       _maxValue[ label ] = std::numeric_limits< T >::min( );
     }
 
-    FIRES_API
     virtual ~ScalarNormalizer( )
     {
     }
 
-    FIRES_API
     virtual void update( const std::string &label_,
                          const Feature& feature_ )
     {
@@ -93,7 +89,6 @@ namespace fires
 
     }
 
-    FIRES_API
     virtual Feature normalizeFeature( const std::string& label_,
                                       const Feature& feature_ ) const
     {
@@ -120,18 +115,15 @@ namespace fires
   {
   public:
 
-    FIRES_API
     ScalarNormalizer( void )
       : ScalarNormalizer< T >( )
     {
     }
 
-    FIRES_API
     virtual ~ScalarNormalizer( )
     {
     }
 
-    FIRES_API
     virtual void update( const std::string& label_,
                          const Feature& feature_ )
     {
@@ -145,7 +137,6 @@ namespace fires
 
     }
 
-    FIRES_API
     virtual Feature normalizeFeature( const std::string& label_,
                                       const Feature& feature_ ) const
     {
@@ -156,8 +147,6 @@ namespace fires
               ( this->_maxValue.at( label_ ) - this->_minValue.at( label_ ))));
     }
 
-
-    FIRES_API
     virtual void freeNormalizedFeature( Feature& feature_ )
     {
       delete feature_.value< T* >( );
@@ -172,13 +161,11 @@ namespace fires
     : public ScalarNormalizer< vmml::vector< M, T >>
   {
   public:
-    FIRES_API
     VectorNormalizer( )
       : ScalarNormalizer< vmml::vector< M, T >>( )
     {
     }
 
-    FIRES_API
     virtual void reset( const std::string& label_ )
     {
       this->_minValue[ label_ ] =
@@ -187,7 +174,6 @@ namespace fires
         vmml::vector< M, T >( std::numeric_limits< T >::min( ));
     }
 
-    FIRES_API
     virtual void update( const std::string& label_,
                          const Feature& feature_ )
     {
@@ -195,7 +181,6 @@ namespace fires
       this->_update( label_, feature_.value< vector< M, T >>( ));
     }
 
-    FIRES_API
     virtual float normalizeDistance( const float distance )
     {
       return distance / sqrt( M );
@@ -203,7 +188,6 @@ namespace fires
 
 
   protected:
-    FIRES_API
     void _update( const std::string& label_,
                   const vector< M, T >& v )
     {
@@ -231,7 +215,6 @@ namespace fires
     {
     }
 
-    FIRES_API
     virtual void update( const std::string& label_,
                          const Feature& feature_ )
     {
@@ -240,7 +223,6 @@ namespace fires
       // std::cout << "DONE" << std::endl;
     }
 
-    FIRES_API
     virtual Feature normalizeFeature( const std::string& label_,
                                       const Feature& feature_ ) const
     {
@@ -251,7 +233,6 @@ namespace fires
                           this->_minValue.at( label_ ))));
     }
 
-    FIRES_API
     virtual void freeNormalizedFeature( Feature& feature_ )
     {
       delete feature_.value< vector< M, T >* >( );
@@ -271,7 +252,6 @@ namespace fires
     {
     }
 
-    FIRES_API
     virtual void update( const std::string& label_,
                          const Feature& feature_ )
     {
@@ -288,7 +268,6 @@ namespace fires
       // std::cout << "DONE" << std::endl;
     }
 
-    FIRES_API
     virtual Feature normalizeFeature( const std::string& label_,
 				      const Feature& feature_  ) const
     {
@@ -309,7 +288,6 @@ namespace fires
       return Feature( v );
     }
 
-    FIRES_API
     virtual void freeNormalizedFeature( Feature& feature_ )
     {
      auto v = feature_.value< vector< M, T* >* >( );

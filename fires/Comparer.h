@@ -62,7 +62,6 @@ namespace fires
   {
   public:
 
-    FIRES_API
     virtual ~ScalarComparer( )
     {
     }
@@ -74,7 +73,6 @@ namespace fires
      * @param f2 Second feature to compare.
      * @return Distance between features
      */
-    FIRES_API
     virtual float distance( const Feature& f1, const Feature& f2 ) const
     {
       return _distance( f1.value< T >( ), f2.value< T >( ));
@@ -95,7 +93,6 @@ namespace fires
   class ScalarComparer< T* > : public ScalarComparer< T >
   {
   public:
-    FIRES_API
     virtual float distance( const Feature& f1, const Feature& f2 ) const
     {
       // std::cout  << "Scalar Comparer * " << *f1.value< T* >( ) << " "
@@ -114,8 +111,6 @@ namespace fires
     MANHATTAN_DIST
   } TVectorDistance;
 
-
-//  template < template < size_t M, typename T > class V, size_t M, typename T >
   template < class V, size_t M, typename T >
   class VectorComparer : public Comparer
   {
@@ -131,7 +126,6 @@ namespace fires
       return _type;
     }
 
-    FIRES_API
     virtual ~VectorComparer( )
     {
     }
@@ -143,7 +137,6 @@ namespace fires
      * @param f2 Second feature to compare.
      * @return Distance between features
      */
-    FIRES_API
     virtual float distance( const Feature& f1, const Feature& f2 ) const
     {
       return _vectorDistance( f1.value< vector<M ,T>>( ),
@@ -152,7 +145,6 @@ namespace fires
 
   protected:
 
-    FIRES_API
     virtual float _vectorDistance( const vector<M ,T>& f1,
                                    const vector<M ,T>& f2 ) const
     {
@@ -183,7 +175,6 @@ namespace fires
     : public VectorComparer< V, M, T >
   {
   public:
-    FIRES_API
     virtual float distance( const Feature& f1, const Feature& f2 ) const
     {
       return VectorComparer< V, M, T >::_vectorDistance(
@@ -197,7 +188,6 @@ namespace fires
     : public VectorComparer< V, M, T >
   {
   public:
-    FIRES_API
     virtual float distance( const Feature& f1, const Feature& f2 ) const
     {
       vector< M, T > v1;
@@ -220,7 +210,6 @@ namespace fires
     : public VectorComparer< V, M, T >
   {
   public:
-    FIRES_API
     virtual float distance( const Feature& f1, const Feature& f2 ) const
     {
       vector< M, T > v1;

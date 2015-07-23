@@ -25,7 +25,7 @@ namespace fires
         qfd->second.averager( )->accum(( *obj )->getFeature( featLabel ));
       }
 
-      qfd->second.averager( )->divide( queryObjects.size( ));
+      qfd->second.averager( )->divide(( unsigned int ) queryObjects.size( ));
       avgObj.registerFeature( featLabel,
                               qfd->second.averager( )->feature( ));
     }
