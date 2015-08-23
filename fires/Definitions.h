@@ -2,14 +2,14 @@
 #define __DIRES__DEFINITIONS__
 
 
-#ifdef FIRES_WITH_VMMLIB
+#ifdef FIRES_USE_VMMLIB
 #include <vmmlib/vmmlib.hpp>
 #endif
 
 namespace fires
 {
 
-#ifdef FIRES_WITH_VMMLIB
+#ifdef FIRES_USE_VMMLIB
   // Define standard types
   template < size_t M = 0, typename T = int >
   using vector = vmml::vector< M, T>;

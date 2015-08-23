@@ -14,7 +14,7 @@
 
 #include <math.h>
 
-#ifdef FIRES_WITH_VMMLIB
+#ifdef FIRES_USE_VMMLIB
 #include <vmmlib/vmmlib.hpp>
 #include <vmmlib/util.hpp>
 #endif
@@ -103,7 +103,7 @@ namespace fires
   };
 
 
-  #ifdef FIRES_WITH_VMMLIB
+  #ifdef FIRES_USE_VMMLIB
 
   typedef enum
   {

@@ -9,7 +9,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(fires)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake
+list(APPEND CMAKE_MODULE_PATH
+  ${PROJECT_SOURCE_DIR}/CMake
   ${CMAKE_SOURCE_DIR}/CMake/common)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -25,25 +26,19 @@ set(VERSION_MINOR "1")
 set(VERSION_PATCH "0")
 set(VERSION_ABI 1)
 
+include(Common)
+
 # description
 set(FIRES_DESCRIPTION "FiReS - Filter and retrieval System")
 set(COMMON_PROJECT_DOMAIN gmrv.es)
 
+common_package( Boost COMPONENTS unit_test_framework)
+common_package( vmmlib )
+common_package( OpenMP )
+common_package_post( )
 
-option(WITH_VMMLIB "FIRES_WITH_VMMLIB" ON)
-option(WITH_OPENMP "FIRES_WITH_OPENMP" OFF)
-
-
-include(Common)
-include(FindPackages)
-
-# library subdirectory
 add_subdirectory(fires)
-
-# tests subdirectory
 add_subdirectory(tests)
-
-# examples subdirectory
 add_subdirectory(examples)
 
 include(CPackConfig)

@@ -14,7 +14,7 @@
 
 #include <map>
 
-#ifdef FIRES_WITH_VMMLIB
+#ifdef FIRES_USE_VMMLIB
 #include <vmmlib/vmmlib.hpp>
 #endif
 
@@ -154,7 +154,7 @@ namespace fires
 
   };
 
-  #ifdef FIRES_WITH_VMMLIB
+  #ifdef FIRES_USE_VMMLIB
 
   template < class V, size_t M, typename T >
   class VectorNormalizer
