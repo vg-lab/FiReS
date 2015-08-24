@@ -1,6 +1,6 @@
 source_group(\\ FILES CMakeLists.txt)
 
-set(FIRES_PUBLIC_HEADERS ${COMMON_INCLUDES}
+set(FIRES_PUBLIC_HEADERS
 Aggregate.h
 Averager.h
 Comparer.h
@@ -21,7 +21,7 @@ Sort.h
 
 set(FIRES_HEADERS )
 
-set(FIRES_SOURCES ${COMMON_SOURCES}
+set(FIRES_SOURCES
 Object.cpp
 Objects.cpp
 Engine.cpp
@@ -30,5 +30,9 @@ Search.cpp
 #Sort.cpp
 )
 
+if(VMMLIB_FOUND)
+  list(APPEND FIRES_LINK_LIBRARIES PUBLIC vmmlib)
+endif()
+
 common_library(fires)
-set(FIRES_LINK_LIBRARIES "${FIRES_LINK_LIBRARIES}" PARENT_SCOPE)
+
