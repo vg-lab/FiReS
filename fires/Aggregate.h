@@ -191,7 +191,8 @@ namespace fires
       {
         if (( *f ).type == FeatureAggregate::MEAN )
         {
-          ( *f ).aggregate->divide( aggregatedObj, ( *f ).label, objs.size( ));
+          ( *f ).aggregate->divide( aggregatedObj, ( *f ).label,
+				    ( unsigned int ) objs.size( ));
         }
       }
 
