@@ -14,7 +14,7 @@ TODO
 
 ## Dependencies
 
-No external dependencies are required.
+Boost any is the only required dependency. OpenMP is optional.
 
 ## Building
 
