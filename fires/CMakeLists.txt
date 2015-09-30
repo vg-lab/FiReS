@@ -1,7 +1,7 @@
 source_group(\\ FILES CMakeLists.txt)
 
 set(FIRES_PUBLIC_HEADERS
-Aggregate.h
+Aggregator.h
 Averager.h
 Comparer.h
 Definitions.h
@@ -10,8 +10,8 @@ error.h
 Normalizer.h
 Object.h
 Objects.h
-Feature.h
-FeatureCaster.h
+Property.h
+PropertyCaster.h
 Engine.h
 Task.h
 Search.h
@@ -27,7 +27,6 @@ Objects.cpp
 Engine.cpp
 SearchConfig.cpp
 Search.cpp
-#Sort.cpp
 )
 
 if(VMMLIB_FOUND)

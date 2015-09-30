@@ -12,8 +12,8 @@ namespace fires
                                            Objects& queryObjects,
                                            SearchConfig& config )
   {
-    for ( auto qfd = config.features( ).begin( );
-          qfd != config.features( ).end( ); ++qfd )
+    for ( auto qfd = config.properties( ).begin( );
+          qfd != config.properties( ).end( ); ++qfd )
     {
 
       std::string featLabel = qfd->first;
@@ -22,12 +22,12 @@ namespace fires
       for ( auto obj = queryObjects.begin( );
             obj != queryObjects.end( ); ++obj )
       {
-        qfd->second.averager( )->accum(( *obj )->getFeature( featLabel ));
+        qfd->second.averager( )->accum(( *obj )->getProperty( featLabel ));
       }
 
       qfd->second.averager( )->divide(( unsigned int ) queryObjects.size( ));
-      avgObj.registerFeature( featLabel,
-                              qfd->second.averager( )->feature( ));
+      avgObj.registerProperty( featLabel,
+                              qfd->second.averager( )->property( ));
     }
   }
 
@@ -37,8 +37,8 @@ namespace fires
   {
     float dist = 0;
 
-    for ( auto qfd = config.features( ).begin( );
-          qfd != config.features( ).end( ); ++qfd )
+    for ( auto qfd = config.properties( ).begin( );
+          qfd != config.properties( ).end( ); ++qfd )
     {
         std::string featLabel = qfd->first;
         fires::Comparer* comparer = qfd->second.comparer( );
@@ -48,18 +48,18 @@ namespace fires
         Normalizer* n = qfd->second.normalizer( );
         if ( n )
         {
-          Feature f1 = n->normalizeFeature( featLabel,
-                                            obj1->getFeature( featLabel ));
-          Feature f2 = n->normalizeFeature( featLabel,
-                                            obj2->getFeature( featLabel ));
+          Property f1 = n->normalizeProperty( featLabel,
+                                            obj1->getProperty( featLabel ));
+          Property f2 = n->normalizeProperty( featLabel,
+                                            obj2->getProperty( featLabel ));
           d = comparer->distance( f1, f2 );
           d = n->normalizeDistance( d );
-          n->freeNormalizedFeature( f1 );
-          n->freeNormalizedFeature( f2 );
+          n->freeNormalizedProperty( f1 );
+          n->freeNormalizedProperty( f2 );
         }
         else
-          d = comparer->distance( obj1->getFeature( featLabel ),
-                                  obj2->getFeature( featLabel ));
+          d = comparer->distance( obj1->getProperty( featLabel ),
+                                  obj2->getProperty( featLabel ));
 
 
 //      dist += fabs( qfd->second.weight( )) * d * d;
@@ -67,8 +67,8 @@ namespace fires
 
     }
 
-//    dist = sqrtf( dist ) / sqrt( config.features( ).size( ));
-    dist /= config.features( ).size( );
+//    dist = sqrtf( dist ) / sqrt( config.properties( ).size( ));
+    dist /= config.properties( ).size( );
 
     return dist;
 
@@ -76,8 +76,8 @@ namespace fires
 
   // void Search::query( Objects& objects,
   //                     Objects& queryObjects,
-  //                     QueryFeatures& features,
-  //                     std::string resultsFeatureLabel,
+  //                     QueryProperties& properties,
+  //                     std::string resultsPropertyLabel,
   //                     Search::TDistanceToQuerySet queryDistanceType )
 
   // {
@@ -88,18 +88,18 @@ namespace fires
     SearchConfig* searchConfig = static_cast< SearchConfig* >( &config );
     FIRES_DEBUG_CHECK( searchConfig, "error casting to SearchConfig" );
 
-    auto features = searchConfig->features( );
+    auto properties = searchConfig->properties( );
     auto queryDistanceType = searchConfig->distanceToQueryType( );
     auto queryObjects = searchConfig->queryObjects( );
-    auto resultsFeatureLabel = searchConfig->resultsFeatureLabel( );
+    auto resultsPropertyLabel = searchConfig->resultsPropertyLabel( );
 
     // If no objects in the query return
-    if ( queryObjects.size( ) == 0 || features.size( ) == 0 )
+    if ( queryObjects.size( ) == 0 || properties.size( ) == 0 )
       return objects;
 
 
-    for ( auto qfd = searchConfig->features( ).begin( );
-          qfd != searchConfig->features( ).end( ); ++qfd )
+    for ( auto qfd = searchConfig->properties( ).begin( );
+          qfd != searchConfig->properties( ).end( ); ++qfd )
     {
 
       std::string featLabel = qfd->first;
@@ -111,11 +111,11 @@ namespace fires
 
         for ( auto obj = objects.begin( );
               obj != objects.end( ); ++obj )
-          n->update( featLabel, ( *obj )->getFeature( featLabel ));
+          n->update( featLabel, ( *obj )->getProperty( featLabel ));
 
         for ( auto obj = queryObjects.begin( );
               obj != queryObjects.end( ); ++obj )
-          n->update( featLabel, ( *obj )->getFeature( featLabel ));
+          n->update( featLabel, ( *obj )->getProperty( featLabel ));
 
       }
     }
@@ -154,8 +154,8 @@ namespace fires
             "fires::Search::query: no distance type known" );
 
 
-      ( *obj )->registerFeature( resultsFeatureLabel, 0.0f );
-      ( *obj )->setFeature( resultsFeatureLabel, Feature( dist ));
+      ( *obj )->registerProperty( resultsPropertyLabel, 0.0f );
+      ( *obj )->setProperty( resultsPropertyLabel, Property( dist ));
 
     } // for each object
 

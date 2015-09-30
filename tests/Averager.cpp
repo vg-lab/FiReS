@@ -20,21 +20,21 @@
 BOOST_AUTO_TEST_CASE( test_scalar_averager )
 {
 
-  fires::Feature f1( F1 ), f2( F2 ), f3( F3 );
+  fires::Property f1( F1 ), f2( F2 ), f3( F3 );
 
   fires::ScalarAverager< float > av;
 
   av.reset( );
-  BOOST_CHECK_EQUAL( av.feature( ).value< float >( ), 0 );
+  BOOST_CHECK_EQUAL( av.property( ).value< float >( ), 0 );
   av.accum( f1 );
-  BOOST_CHECK_EQUAL( av.feature( ).value< float >( ), F1 );
+  BOOST_CHECK_EQUAL( av.property( ).value< float >( ), F1 );
   av.accum( f2 );
-  BOOST_CHECK_EQUAL( av.feature( ).value< float >( ), ADD_F1_F2 );
+  BOOST_CHECK_EQUAL( av.property( ).value< float >( ), ADD_F1_F2 );
   av.accum( f3 );
-  BOOST_CHECK_EQUAL( av.feature( ).value< float >( ), ADD_F1_F2_F3 );
+  BOOST_CHECK_EQUAL( av.property( ).value< float >( ), ADD_F1_F2_F3 );
 
   av.divide( 3 );
-  BOOST_CHECK_EQUAL( av.feature( ).value< float >( ), AVG_F1_F2_F3 );
+  BOOST_CHECK_EQUAL( av.property( ).value< float >( ), AVG_F1_F2_F3 );
 
 }
 
@@ -43,21 +43,21 @@ BOOST_AUTO_TEST_CASE( test_scalar_ptr_averager )
 {
 
   float v1( F1 ), v2( F2 ), v3( F3 );
-  fires::Feature f1( &v1 ), f2( &v2 ), f3( &v3 );
+  fires::Property f1( &v1 ), f2( &v2 ), f3( &v3 );
 
   fires::ScalarAverager< float* > av;
 
   av.reset( );
-  BOOST_CHECK_EQUAL( *av.feature( ).value< float* >( ), 0 );
+  BOOST_CHECK_EQUAL( *av.property( ).value< float* >( ), 0 );
   av.accum( f1 );
-  BOOST_CHECK_EQUAL( *av.feature( ).value< float* >( ), F1 );
+  BOOST_CHECK_EQUAL( *av.property( ).value< float* >( ), F1 );
   av.accum( f2 );
-  BOOST_CHECK_EQUAL( *av.feature( ).value< float* >( ), ADD_F1_F2 );
+  BOOST_CHECK_EQUAL( *av.property( ).value< float* >( ), ADD_F1_F2 );
   av.accum( f3 );
-  BOOST_CHECK_EQUAL( *av.feature( ).value< float* >( ), ADD_F1_F2_F3 );
+  BOOST_CHECK_EQUAL( *av.property( ).value< float* >( ), ADD_F1_F2_F3 );
 
   av.divide( 3 );
-  BOOST_CHECK_EQUAL( *av.feature( ).value< float* >( ), AVG_F1_F2_F3 );
+  BOOST_CHECK_EQUAL( *av.property( ).value< float* >( ), AVG_F1_F2_F3 );
 
 }
 
@@ -85,41 +85,41 @@ BOOST_AUTO_TEST_CASE( test_scalar_ptr_averager )
 
 BOOST_AUTO_TEST_CASE( test_vector_averager )
 {
-  fires::Feature f1( V1 ), f2( V2 ), f3( V3 );
+  fires::Property f1( V1 ), f2( V2 ), f3( V3 );
   fires::VectorAverager< fires::vector<>, 3, float > av;
 
   av.reset( );
-  BOOST_CHECK_EQUAL( av.feature( ).value< fires::Vec3f >( ),
+  BOOST_CHECK_EQUAL( av.property( ).value< fires::Vec3f >( ),
                      fires::Vec3f::ZERO );
   av.accum( f1 );
-  BOOST_CHECK_EQUAL( av.feature( ).value< fires::Vec3f >( ), V1 );
+  BOOST_CHECK_EQUAL( av.property( ).value< fires::Vec3f >( ), V1 );
   av.accum( f2 );
-  BOOST_CHECK_EQUAL( av.feature( ).value< fires::Vec3f >( ), ADD_V1_V2 );
+  BOOST_CHECK_EQUAL( av.property( ).value< fires::Vec3f >( ), ADD_V1_V2 );
   av.accum( f3 );
-  BOOST_CHECK_EQUAL( av.feature( ).value< fires::Vec3f >( ), ADD_V1_V2_V3 );
+  BOOST_CHECK_EQUAL( av.property( ).value< fires::Vec3f >( ), ADD_V1_V2_V3 );
   av.divide( 3 );
-  BOOST_CHECK_EQUAL( av.feature( ).value< fires::Vec3f >( ), AVG_V1_V2_V3 );
+  BOOST_CHECK_EQUAL( av.property( ).value< fires::Vec3f >( ), AVG_V1_V2_V3 );
 
 }
 
 BOOST_AUTO_TEST_CASE( test_vector_ptr_averager )
 {
   fires::Vec3f v1( V1 ), v2( V2 ), v3( V3 );
-  fires::Feature f1( &v1 ), f2( &v2 ), f3( &v3 );
+  fires::Property f1( &v1 ), f2( &v2 ), f3( &v3 );
 
   fires::VectorAverager< fires::vector<>*, 3, float > av;
 
   av.reset( );
-  BOOST_CHECK_EQUAL( *av.feature( ).value< fires::Vec3f* >( ),
+  BOOST_CHECK_EQUAL( *av.property( ).value< fires::Vec3f* >( ),
                      fires::Vec3f::ZERO );
   av.accum( f1 );
-  BOOST_CHECK_EQUAL( *av.feature( ).value< fires::Vec3f* >( ), V1 );
+  BOOST_CHECK_EQUAL( *av.property( ).value< fires::Vec3f* >( ), V1 );
   av.accum( f2 );
-  BOOST_CHECK_EQUAL( *av.feature( ).value< fires::Vec3f* >( ), ADD_V1_V2 );
+  BOOST_CHECK_EQUAL( *av.property( ).value< fires::Vec3f* >( ), ADD_V1_V2 );
   av.accum( f3 );
-  BOOST_CHECK_EQUAL( *av.feature( ).value< fires::Vec3f* >( ), ADD_V1_V2_V3 );
+  BOOST_CHECK_EQUAL( *av.property( ).value< fires::Vec3f* >( ), ADD_V1_V2_V3 );
   av.divide( 3 );
-  BOOST_CHECK_EQUAL( *av.feature( ).value< fires::Vec3f* >( ), AVG_V1_V2_V3 );
+  BOOST_CHECK_EQUAL( *av.property( ).value< fires::Vec3f* >( ), AVG_V1_V2_V3 );
 
 }
 
@@ -132,41 +132,41 @@ BOOST_AUTO_TEST_CASE( test_vector_of_ptrs_averager )
   fires::Vec3pf v1( &v11, &v12, &v13 ), v2( &v21, &v22, &v23 ),
     v3( &v31, &v32, &v33 );
 
-  fires::Feature f1( v1 ), f2( v2 ), f3( v3 );
+  fires::Property f1( v1 ), f2( v2 ), f3( v3 );
 
   fires::VectorAverager< fires::vector<>, 3, float* > av;
 
   av.reset( );
   BOOST_CHECK_EQUAL(
-    fires::Vec3f( *( av.feature( ).value< fires::Vec3pf >( )( 0 )),
-                  *( av.feature( ).value< fires::Vec3pf >( )( 1 )),
-                  *( av.feature( ).value< fires::Vec3pf >( )( 2 ))),
+    fires::Vec3f( *( av.property( ).value< fires::Vec3pf >( )( 0 )),
+                  *( av.property( ).value< fires::Vec3pf >( )( 1 )),
+                  *( av.property( ).value< fires::Vec3pf >( )( 2 ))),
     fires::Vec3f::ZERO );
   av.accum( f1 );
   BOOST_CHECK_EQUAL(
-    fires::Vec3f( *( av.feature( ).value< fires::Vec3pf >( )( 0 )),
-                  *( av.feature( ).value< fires::Vec3pf >( )( 1 )),
-                  *( av.feature( ).value< fires::Vec3pf >( )( 2 ))), V1 );
+    fires::Vec3f( *( av.property( ).value< fires::Vec3pf >( )( 0 )),
+                  *( av.property( ).value< fires::Vec3pf >( )( 1 )),
+                  *( av.property( ).value< fires::Vec3pf >( )( 2 ))), V1 );
 
   av.accum( f2 );
   BOOST_CHECK_EQUAL(
-    fires::Vec3f( *( av.feature( ).value< fires::Vec3pf >( )( 0 )),
-                  *( av.feature( ).value< fires::Vec3pf >( )( 1 )),
-                  *( av.feature( ).value< fires::Vec3pf >( )( 2 ))),
+    fires::Vec3f( *( av.property( ).value< fires::Vec3pf >( )( 0 )),
+                  *( av.property( ).value< fires::Vec3pf >( )( 1 )),
+                  *( av.property( ).value< fires::Vec3pf >( )( 2 ))),
     ADD_V1_V2 );
 
   av.accum( f3 );
   BOOST_CHECK_EQUAL(
-    fires::Vec3f( *( av.feature( ).value< fires::Vec3pf >( )( 0 )),
-                  *( av.feature( ).value< fires::Vec3pf >( )( 1 )),
-                  *( av.feature( ).value< fires::Vec3pf >( )( 2 ))),
+    fires::Vec3f( *( av.property( ).value< fires::Vec3pf >( )( 0 )),
+                  *( av.property( ).value< fires::Vec3pf >( )( 1 )),
+                  *( av.property( ).value< fires::Vec3pf >( )( 2 ))),
     ADD_V1_V2_V3 );
 
   av.divide( 3 );
   BOOST_CHECK_EQUAL(
-    fires::Vec3f( *( av.feature( ).value< fires::Vec3pf >( )( 0 )),
-                  *( av.feature( ).value< fires::Vec3pf >( )( 1 )),
-                  *( av.feature( ).value< fires::Vec3pf >( )( 2 ))),
+    fires::Vec3f( *( av.property( ).value< fires::Vec3pf >( )( 0 )),
+                  *( av.property( ).value< fires::Vec3pf >( )( 1 )),
+                  *( av.property( ).value< fires::Vec3pf >( )( 2 ))),
     AVG_V1_V2_V3 );
 
 }
@@ -182,41 +182,41 @@ BOOST_AUTO_TEST_CASE( test_vector_ptr_of_ptrs_averager )
   fires::Vec3pf v1( &v11, &v12, &v13 ), v2( &v21, &v22, &v23 ),
     v3( &v31, &v32, &v33 );
 
-  fires::Feature f1( &v1 ), f2( &v2 ), f3( &v3 );
+  fires::Property f1( &v1 ), f2( &v2 ), f3( &v3 );
 
   fires::VectorAverager< fires::vector<>*, 3, float* > av;
 
   av.reset( );
   BOOST_CHECK_EQUAL(
-    fires::Vec3f( *(( *av.feature( ).value< fires::Vec3pf* >( ))( 0 )),
-                  *(( *av.feature( ).value< fires::Vec3pf* >( ))( 1 )),
-                  *(( *av.feature( ).value< fires::Vec3pf* >( ))( 2 ))),
+    fires::Vec3f( *(( *av.property( ).value< fires::Vec3pf* >( ))( 0 )),
+                  *(( *av.property( ).value< fires::Vec3pf* >( ))( 1 )),
+                  *(( *av.property( ).value< fires::Vec3pf* >( ))( 2 ))),
     fires::Vec3f::ZERO );
   av.accum( f1 );
   BOOST_CHECK_EQUAL(
-    fires::Vec3f( *(( *av.feature( ).value< fires::Vec3pf* >( ))( 0 )),
-                  *(( *av.feature( ).value< fires::Vec3pf* >( ))( 1 )),
-                  *(( *av.feature( ).value< fires::Vec3pf* >( ))( 2 ))), V1 );
+    fires::Vec3f( *(( *av.property( ).value< fires::Vec3pf* >( ))( 0 )),
+                  *(( *av.property( ).value< fires::Vec3pf* >( ))( 1 )),
+                  *(( *av.property( ).value< fires::Vec3pf* >( ))( 2 ))), V1 );
 
   av.accum( f2 );
   BOOST_CHECK_EQUAL(
-    fires::Vec3f( *(( *av.feature( ).value< fires::Vec3pf* >( ))( 0 )),
-                  *(( *av.feature( ).value< fires::Vec3pf* >( ))( 1 )),
-                  *(( *av.feature( ).value< fires::Vec3pf* >( ))( 2 ))),
+    fires::Vec3f( *(( *av.property( ).value< fires::Vec3pf* >( ))( 0 )),
+                  *(( *av.property( ).value< fires::Vec3pf* >( ))( 1 )),
+                  *(( *av.property( ).value< fires::Vec3pf* >( ))( 2 ))),
     ADD_V1_V2 );
 
   av.accum( f3 );
   BOOST_CHECK_EQUAL(
-    fires::Vec3f( *(( *av.feature( ).value< fires::Vec3pf* >( ))( 0 )),
-                  *(( *av.feature( ).value< fires::Vec3pf* >( ))( 1 )),
-                  *(( *av.feature( ).value< fires::Vec3pf* >( ))( 2 ))),
+    fires::Vec3f( *(( *av.property( ).value< fires::Vec3pf* >( ))( 0 )),
+                  *(( *av.property( ).value< fires::Vec3pf* >( ))( 1 )),
+                  *(( *av.property( ).value< fires::Vec3pf* >( ))( 2 ))),
     ADD_V1_V2_V3 );
 
   av.divide( 3 );
   BOOST_CHECK_EQUAL(
-    fires::Vec3f( *(( *av.feature( ).value< fires::Vec3pf* >( ))( 0 )),
-                  *(( *av.feature( ).value< fires::Vec3pf* >( ))( 1 )),
-                  *(( *av.feature( ).value< fires::Vec3pf* >( ))( 2 ))),
+    fires::Vec3f( *(( *av.property( ).value< fires::Vec3pf* >( ))( 0 )),
+                  *(( *av.property( ).value< fires::Vec3pf* >( ))( 1 )),
+                  *(( *av.property( ).value< fires::Vec3pf* >( ))( 2 ))),
     AVG_V1_V2_V3 );
 
 }

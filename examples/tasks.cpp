@@ -8,7 +8,7 @@ void printResults( fires::Objects& objects, std::string scoreLabel )
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
   {
     std::cout << ( *obj )->label( ) << ": "
-              << ( *obj )->getFeature( scoreLabel ).value< float >( )
+              << ( *obj )->getProperty( scoreLabel ).value< float >( )
               << std::endl;
   }
 }
@@ -20,8 +20,8 @@ class TestObject :
 public:
   TestObject( )
   {
-    this->registerFeature( std::string( "feature1" ), &this->attr1 );
-    this->registerFeature( std::string( "feature2" ), &this->attr2 );
+    this->registerProperty( std::string( "property1" ), &this->attr1 );
+    this->registerProperty( std::string( "property2" ), &this->attr2 );
   }
 
 public:
@@ -32,7 +32,7 @@ public:
 int main( void )
 {
 
-  // Create objects and give value to their features
+  // Create objects and give value to their propertys
   TestObject obj1, obj2, obj3, obj4;
 
   obj1.attr1 = 3.4f;
@@ -58,8 +58,8 @@ int main( void )
   fires::ScalarAverager< float* > averager;
   fires::Search search;
   fires::SearchConfig sc;
-  sc.add( std::string("feature1"), &comparer, &averager );
-  sc.add( std::string("feature2"), &comparer, &averager );
+  sc.add( std::string("property1"), &comparer, &averager );
+  sc.add( std::string("property2"), &comparer, &averager );
   sc.queryObjects( ).add( &obj1 );
   sc.queryObjects( ).add( &obj2 );
 

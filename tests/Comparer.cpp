@@ -14,7 +14,7 @@
 BOOST_AUTO_TEST_CASE( test_comparer )
 {
 
-  fires::Feature f1, f2;
+  fires::Property f1, f2;
 
   fires::Comparer* comparer1 = new fires::Comparer;
   fires::Comparer comparer2;
@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE( test_comparer )
 
 BOOST_AUTO_TEST_CASE( test_scalar_comparer )
 {
-  fires::Feature f1( 3.3f ), f2( 5.3f );
+  fires::Property f1( 3.3f ), f2( 5.3f );
   fires::ScalarComparer< float > c;
   BOOST_CHECK_EQUAL( c.distance( f1, f2 ), DISTANCE_F1_F2 );
 }
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE( test_scalar_ptr_comparer )
 {
   float v1 = F1, v2 = F2;
 
-  fires::Feature f1( &v1 ), f2( &v2 );
+  fires::Property f1( &v1 ), f2( &v2 );
   fires::ScalarComparer< float* > c;
   BOOST_CHECK_EQUAL( c.distance( f1, f2 ), DISTANCE_F1_F2 );
   BOOST_CHECK_EQUAL( c.distance( f1, f1 ), 0.0f );
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE( test_scalar_ptr_comparer )
 
 BOOST_AUTO_TEST_CASE( test_vector_comparer )
 {
-  fires::Feature f1( V1 ), f2( V2 );
+  fires::Property f1( V1 ), f2( V2 );
   fires::VectorComparer< fires::vector<>, 3, float  > c;
   BOOST_CHECK_EQUAL( c.distance( f1, f2 ), EUCLIDEAN_DISTANCE_V1_V2 );
 }
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE( test_vector_comparer )
 BOOST_AUTO_TEST_CASE( test_vector_ptr_comparer )
 {
   fires::Vec3f v1( V1 ), v2( V2 );
-  fires::Feature f1( &v1 ), f2( &v2 );
+  fires::Property f1( &v1 ), f2( &v2 );
   fires::VectorComparer< fires::vector<>*, 3, float  > c;
   BOOST_CHECK_EQUAL( c.distance( f1, f2 ), EUCLIDEAN_DISTANCE_V1_V2 );
 }
@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE( test_vector_of_ptrs_comparer )
 
   fires::Vec3pf v1( &v11, &v12, &v13 ), v2( &v21, &v22, &v23 );
 
-  fires::Feature f1( v1 ), f2( v2 );
+  fires::Property f1( v1 ), f2( v2 );
   fires::VectorComparer< fires::vector<>, 3, float*  > c;
   BOOST_CHECK_EQUAL( c.distance( f1, f2 ), EUCLIDEAN_DISTANCE_V1_V2 );
 }
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE( test_vector_ptr_of_ptrs_comparer )
 
   fires::Vec3pf v1( &v11, &v12, &v13 ), v2( &v21, &v22, &v23 );
 
-  fires::Feature f1( &v1 ), f2( &v2 );
+  fires::Property f1( &v1 ), f2( &v2 );
   fires::VectorComparer< fires::vector<>*, 3, float*  > c;
   BOOST_CHECK_EQUAL( c.distance( f1, f2 ), EUCLIDEAN_DISTANCE_V1_V2 );
 }

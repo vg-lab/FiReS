@@ -22,10 +22,10 @@ public:
 
   TestObject ()
   {
-    this->addFeature(std::string("feature1"),
-                     new fires::FeaturePtrToScalar< float >(&this->attr1));
-    this->addFeature(std::string("feature2"),
-                     new fires::FeaturePtrToScalar< float >(&this->attr2));
+    this->addProperty(std::string("property1"),
+                     new fires::PropertyPtrToScalar< float >(&this->attr1));
+    this->addProperty(std::string("property2"),
+                     new fires::PropertyPtrToScalar< float >(&this->attr2));
   }
 
 
@@ -66,8 +66,8 @@ int main ()
   objMax.label( ) = "Object Max";
 
 
-  fires::FeaturePtrToScalarComparer< float > comparer1( 0, 4.1f );
-  fires::FeaturePtrToScalarComparer< float > comparer2( 0, 42.1f );
+  fires::PropertyPtrToScalarComparer< float > comparer1( 0, 4.1f );
+  fires::PropertyPtrToScalarComparer< float > comparer2( 0, 42.1f );
 
   fires::Engine engine;
 
@@ -82,18 +82,18 @@ int main ()
   fires::Objects queryObjects;
   queryObjects.add( & objMax );
 
-  fires::QueryFeatures features;
-  features.add( std::string( "feature1" ),
+  fires::QueryPropertys propertys;
+  propertys.add( std::string( "property1" ),
            &comparer1 );
 
-  features.add( std::string( "feature2" ),
+  propertys.add( std::string( "property2" ),
                 &comparer2 );
 
-  engine.query( objects, queryObjects, features );
+  engine.query( objects, queryObjects, propertys );
 
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
     std::cout << ( *obj )->label( ) << ": "
-              << ( *obj )->getFeature( "fires::score" );
+              << ( *obj )->getProperty( "fires::score" );
 
   std::cout << std::endl;
 

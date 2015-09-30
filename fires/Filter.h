@@ -22,7 +22,7 @@ namespace fires
     {
     }
 
-    virtual bool eval( const Feature& ) const = 0;
+    virtual bool eval( const Property& ) const = 0;
 
   };
 
@@ -93,9 +93,9 @@ namespace fires
       return _rangeInclusion;
     }
 
-    virtual bool eval( const Feature& feature ) const
+    virtual bool eval( const Property& property ) const
     {
-      T fv = feature.value< T >( );
+      T fv = property.value< T >( );
       bool v =
         (( _minEndpoint == OPENED_ENDPOINT ) ?
          ( fv > _min ) : ( fv >= _min )) &&
@@ -149,10 +149,10 @@ namespace fires
         for ( auto filter  = _filters.begin( );
               filter != _filters.end( ); ++filter )
         {
-          auto featureLabel = ( *filter ).first;
+          auto propertyLabel = ( *filter ).first;
           auto filterObject = ( *filter ).second;
           bool fulfilsFilter =
-            filterObject->eval(( obj->getFeature( featureLabel )));
+            filterObject->eval(( obj->getProperty( propertyLabel )));
           if ( !fulfilsFilter )
           {
             fulfilsFilters = false;

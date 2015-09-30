@@ -19,31 +19,31 @@ namespace fires
   namespace detail
   {
 
-    // class ObjectFeatures
-    //   : public std::map< std::string, Feature >
+    // class ObjectProperties
+    //   : public std::map< std::string, Property >
     // {
     // };
 
-    class ObjectFeatures
-      : public std::map< std::string, Feature >
+    class ObjectProperties
+      : public std::map< std::string, Property >
     {
 
     public:
 
-      ObjectFeatures( void )
+      ObjectProperties( void )
       {
       }
 
-      void registerFeature( const std::string& label,
-                            Feature& feature )
+      void registerProperty( const std::string& label,
+                            Property& property )
       {
-        this->insert( std::pair< std::string, Feature& >
-                      ( label, feature ));
+        this->insert( std::pair< std::string, Property& >
+                      ( label, property ));
       }
 
-      bool unregisterFeature( const std::string& label )
+      bool unregisterProperty( const std::string& label )
       {
-        ObjectFeatures::const_iterator it = this->find( label );
+        ObjectProperties::const_iterator it = this->find( label );
 
         if ( it == this->end( ) )
           return false;
@@ -52,35 +52,35 @@ namespace fires
         return true;
       }
 
-      Feature& get( const std::string& label )
+      Property& get( const std::string& label )
       {
-        ObjectFeatures::iterator it = this->find( label );
+        ObjectProperties::iterator it = this->find( label );
 
           // if ( it == this->end( ) )
           // {
-          //   std::cerr << "Fires::Object::getFeature: '" << label
+          //   std::cerr << "Fires::Object::getProperty: '" << label
           //             << "' not existing." << std::endl;
-          //   return std::move( Feature( ));
+          //   return std::move( Property( ));
           // }
 
         FIRES_CHECK_THROW( it != this->end( ),
-                           std::string( "non existing feature '" ) +
+                           std::string( "non existing property '" ) +
                            label + std::string( "'" ))
         return ( *it ).second;
       }
 
-      bool set( const std::string& label, const Feature& feature )
+      bool set( const std::string& label, const Property& property )
       {
-        ObjectFeatures::const_iterator it = this->find( label );
+        ObjectProperties::const_iterator it = this->find( label );
 
         if ( it == this->end( ))
           return false;
 
-        ( * this )[label] = feature;
+        ( * this )[label] = property;
         return true;
       }
 
-    }; // class ObjectFeatures
+    }; // class ObjectProperties
 
 
     class Object
@@ -89,51 +89,51 @@ namespace fires
     public:
 
       Object( void )
-        : _features( )
+        : _properties( )
         , _label( "" )
       {
       }
 
       Object( Object& object )
-        : _features( object._features )
+        : _properties( object._properties )
         , _label( object._label )
       {
       }
 
-      void registerFeature( const std::string& featureLabel, Feature feature )
+      void registerProperty( const std::string& propertyLabel, Property property )
       {
-        _features.registerFeature( featureLabel, feature );
+        _properties.registerProperty( propertyLabel, property );
       }
 
-      Feature& getFeature( const std::string& featureLabel )
+      Property& getProperty( const std::string& propertyLabel )
       {
-        return _features.get( featureLabel );
+        return _properties.get( propertyLabel );
       }
 
-      bool setFeature( const std::string& featureLabel,
-                       const Feature& feature)
+      bool setProperty( const std::string& propertyLabel,
+                       const Property& property)
       {
-        return _features.set( featureLabel, feature );
+        return _properties.set( propertyLabel, property );
       }
 
-      bool unregisterFeature( const std::string& featureLabel )
+      bool unregisterProperty( const std::string& propertyLabel )
       {
-        return _features.unregisterFeature( featureLabel );
+        return _properties.unregisterProperty( propertyLabel );
       }
 
-      void clearFeatures( void )
+      void clearProperties( void )
       {
-        _features.clear( );
+        _properties.clear( );
       }
 
-      bool hasFeature( const std::string& label_ ) const
+      bool hasProperty( const std::string& label_ ) const
       {
-        return _features.find( label_ ) != _features.end( );
+        return _properties.find( label_ ) != _properties.end( );
       }
 
-      ObjectFeatures& features( void )
+      ObjectProperties& properties( void )
       {
-        return _features;
+        return _properties;
       }
 
       std::string & label( void )
@@ -148,8 +148,8 @@ namespace fires
 
     protected:
 
-      //! Set of features of this object
-      ObjectFeatures _features;
+      //! Set of properties of this object
+      ObjectProperties _properties;
 
       //! Label of this object
       std::string _label;
@@ -176,41 +176,41 @@ namespace fires
   }
 
 
-  void Object::registerFeature( const std::string& featureLabel,
-                                const Feature& feature )
+  void Object::registerProperty( const std::string& propertyLabel,
+                                const Property& property )
   {
-    _impl->registerFeature( featureLabel, feature );
+    _impl->registerProperty( propertyLabel, property );
   }
 
-  bool Object::unregisterFeature( const std::string& featureLabel )
+  bool Object::unregisterProperty( const std::string& propertyLabel )
   {
-    return _impl->unregisterFeature( featureLabel );
+    return _impl->unregisterProperty( propertyLabel );
   }
 
-  Feature& Object::getFeature( const std::string& featureLabel )
+  Property& Object::getProperty( const std::string& propertyLabel )
   {
-    return _impl->getFeature( featureLabel );
+    return _impl->getProperty( propertyLabel );
   }
 
-  bool Object::setFeature( const std::string& featureLabel,
-                           const Feature& feature )
+  bool Object::setProperty( const std::string& propertyLabel,
+                           const Property& property )
   {
-    return _impl->setFeature( featureLabel, feature );
+    return _impl->setProperty( propertyLabel, property );
   }
 
-  void Object::clearFeatures( void )
+  void Object::clearProperties( void )
   {
-    return _impl->clearFeatures( );
+    return _impl->clearProperties( );
   }
 
-  bool Object::hasFeature( const std::string& label_ ) const
+  bool Object::hasProperty( const std::string& label_ ) const
   {
-    return _impl->hasFeature( label_ );
+    return _impl->hasProperty( label_ );
   }
 
-  std::map< std::string, Feature >& Object::getFeatures( void )
+  std::map< std::string, Property >& Object::getProperties( void )
   {
-    return _impl->features( );
+    return _impl->properties( );
   }
 
   std::string& Object::label( void )

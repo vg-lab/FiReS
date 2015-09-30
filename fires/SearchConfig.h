@@ -19,12 +19,12 @@
 namespace fires
 {
 
-  class QueryFeatureData
+  class QueryPropertyData
   {
   public:
 
     FIRES_API
-    QueryFeatureData( Comparer* comparer_ = 0,
+    QueryPropertyData( Comparer* comparer_ = 0,
                       Averager* averager_ = 0,
                       Normalizer* normalizer_ = 0,
                       const float weight_ = 1.0f )
@@ -95,10 +95,10 @@ namespace fires
   };
 
   /*! \class System::SearchConfig
-      \brief Container of the features for query
+      \brief Container of the properties for query
 
-      It holds a map for the features. The key of the map is a string
-      which represents the name of the feature
+      It holds a map for the properties. The key of the map is a string
+      which represents the name of the property
   */
   class SearchConfig
     : public TaskConfig
@@ -120,7 +120,7 @@ namespace fires
     SearchConfig( TDistanceToQuerySet distanceToQueryType_ =
                   DISTANCE_TO_AVERAGE_QUERY_OBJECT )
       : _distanceToQueryType( distanceToQueryType_ )
-      , _resultsFeatureLabel( "fires::score" )
+      , _resultsPropertyLabel( "fires::score" )
     {
     }
 
@@ -129,12 +129,12 @@ namespace fires
     }
 
     /**
-     * Adds a new feature to the container
-     * @param label is the name of the feature and the key to be
+     * Adds a new property to the container
+     * @param label is the name of the property and the key to be
      *        used afterwards
-     * @param weight weight of this feature
+     * @param weight weight of this property
      * @param comparer pointer to the comparer object to be used
-     *        with this feature
+     *        with this property
      */
     FIRES_API
     void add( const std::string& label,
@@ -145,19 +145,19 @@ namespace fires
     FIRES_API
     Comparer* comparer( const std::string& label )
     {
-      return _featuresConfig[ label ].comparer( );
+      return _propertiesConfig[ label ].comparer( );
     }
 
     FIRES_API
     Averager* averager( const std::string& label )
     {
-      return _featuresConfig[ label ].averager( );
+      return _propertiesConfig[ label ].averager( );
     }
 
     FIRES_API
     Normalizer* normalizer( const std::string& label )
     {
-      return _featuresConfig[ label ].normalizer( );
+      return _propertiesConfig[ label ].normalizer( );
     }
 
 
@@ -168,9 +168,9 @@ namespace fires
     }
 
     FIRES_API
-    std::map< std::string, QueryFeatureData >& features( void )
+    std::map< std::string, QueryPropertyData >& properties( void )
     {
-      return _featuresConfig;
+      return _propertiesConfig;
     }
 
     FIRES_API
@@ -180,14 +180,14 @@ namespace fires
     }
 
     FIRES_API
-    std::string& resultsFeatureLabel( void )
+    std::string& resultsPropertyLabel( void )
     {
-      return _resultsFeatureLabel;
+      return _resultsPropertyLabel;
     }
 
   protected:
-    //! Configuration for each feature
-    std::map< std::string, QueryFeatureData > _featuresConfig;
+    //! Configuration for each property
+    std::map< std::string, QueryPropertyData > _propertiesConfig;
 
     //! Query objects
     Objects _queryObjects;
@@ -195,7 +195,7 @@ namespace fires
     // Type of distance to the query set
     TDistanceToQuerySet _distanceToQueryType;
 
-    std::string _resultsFeatureLabel;
+    std::string _resultsPropertyLabel;
 
   }; // class SearchConfig
 

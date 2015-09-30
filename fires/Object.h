@@ -10,7 +10,7 @@
 #define __FIRES__OBJECT_H__
 
 #include <fires/api.h>
-#include "fires/Feature.h"
+#include "Property.h"
 
 #include <string>
 #include <iostream>
@@ -27,7 +27,7 @@ namespace fires
   /*! \class Object
     \brief A class to represent objects that can be used in fires.
 
-    This class provides access to object properties and features
+    This class provides access to object properties and properties
   */
   class Object
   {
@@ -53,54 +53,54 @@ namespace fires
     virtual ~Object( );
 
     /**
-     * Register a feature to this object
-     * @param label label string for the feature
-     * @param feature feature to be added
+     * Register a property to this object
+     * @param label label string for the property
+     * @param property property to be added
      */
     FIRES_API
-    void registerFeature( const std::string& label, const Feature& feature );
+    void registerProperty( const std::string& label, const Property& property );
 
     /**
-     * Unregister a feature of this object
-     * @param label label of the feature to be deleted
-     * @return true if the feature could be deleted
+     * Unregister a property of this object
+     * @param label label of the property to be deleted
+     * @return true if the property could be deleted
      */
     FIRES_API
-    bool unregisterFeature( const std::string& label );
+    bool unregisterProperty( const std::string& label );
 
     /**
-     * Get a feature of this object
-     * @param label label string to retrieve the feature
-     * @return the feature if found or nullptr otherwise
+     * Get a property of this object
+     * @param label label string to retrieve the property
+     * @return the property if found or nullptr otherwise
      */
     FIRES_API
-    Feature& getFeature( const std::string& label );
+    Property& getProperty( const std::string& label );
 
     /**
-     * Get a feature of this object
-     * @param label label string to retrieve the feature
-     * @param feature feature to be setted
-     * @return true in case feature was setted, false otherwise
+     * Get a property of this object
+     * @param label label string to retrieve the property
+     * @param property property to be setted
+     * @return true in case property was setted, false otherwise
      */
     FIRES_API
-    bool setFeature( const std::string& label, const Feature& feature);
+    bool setProperty( const std::string& label, const Property& property);
 
     /**
-     * Queries if a feature has been registered in this object
-     * @param label label string to retrieve the feature
+     * Queries if a property has been registered in this object
+     * @param label label string to retrieve the property
      * @return true if found
      */
     FIRES_API
-    bool hasFeature( const std::string& label ) const;
+    bool hasProperty( const std::string& label ) const;
 
     /**
-     * Clears the features of this object (no memory freeing)
+     * Clears the properties of this object (no memory freeing)
      */
     FIRES_API
-    void clearFeatures( void );
+    void clearProperties( void );
 
     FIRES_API
-    std::map< std::string, Feature >& getFeatures( void );
+    std::map< std::string, Property >& getProperties( void );
 
     /**
      * Get a reference to the label of the object

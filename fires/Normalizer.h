@@ -9,7 +9,7 @@
 #ifndef __FIRES_NORMALIZER_H__
 #define __FIRES_NORMALIZER_H__
 
-#include "Feature.h"
+#include "Property.h"
 #include "Definitions.h"
 
 #include <map>
@@ -37,13 +37,13 @@ namespace fires
 
     FIRES_API
     virtual void update( const std::string& label,
-                         const Feature& feature_ ) = 0;
+                         const Property& property_ ) = 0;
 
     FIRES_API
-    virtual Feature normalizeFeature( const std::string& /* label */,
-                                      const Feature& feature_ ) const
+    virtual Property normalizeProperty( const std::string& /* label */,
+                                      const Property& property_ ) const
     {
-      return feature_;
+      return property_;
     }
 
     FIRES_API
@@ -53,7 +53,7 @@ namespace fires
     }
 
     FIRES_API
-    virtual void freeNormalizedFeature( Feature& /* feature_ */ ) { };
+    virtual void freeNormalizedProperty( Property& /* property_ */ ) { };
   };
 
 
@@ -77,27 +77,27 @@ namespace fires
     }
 
     virtual void update( const std::string &label_,
-                         const Feature& feature_ )
+                         const Property& property_ )
     {
-      if ( feature_.value< T >( ) < _minValue[ label_ ] )
-        _minValue[ label_ ] = feature_.value< T >( );
-      if (  feature_.value< T >( ) > _maxValue[ label_ ] )
-        _maxValue[ label_ ] = feature_.value< T >( );
+      if ( property_.value< T >( ) < _minValue[ label_ ] )
+        _minValue[ label_ ] = property_.value< T >( );
+      if (  property_.value< T >( ) > _maxValue[ label_ ] )
+        _maxValue[ label_ ] = property_.value< T >( );
 
-      // std::cout << feature_.value< T >( ) << std::endl;
+      // std::cout << property_.value< T >( ) << std::endl;
       // std::cout << "New accum values " << _minValue[ label_ ] << " " << _maxValue[ label_ ] << std::endl;
 
     }
 
-    virtual Feature normalizeFeature( const std::string& label_,
-                                      const Feature& feature_ ) const
+    virtual Property normalizeProperty( const std::string& label_,
+                                      const Property& property_ ) const
     {
-      // std::cout <<  "Normalize " << std::endl << feature_.value< T >( ) << " " <<  _minValue.at( label_ ) << " "
+      // std::cout <<  "Normalize " << std::endl << property_.value< T >( ) << " " <<  _minValue.at( label_ ) << " "
       //           <<  _maxValue.at( label_ ) << std::endl
-      //           <<  ( feature_.value< T >( ) - _minValue.at( label_ )) /
+      //           <<  ( property_.value< T >( ) - _minValue.at( label_ )) /
       //                ( _maxValue.at( label_ ) - _minValue.at( label_ ))
       //           << std::endl;
-      return Feature(( feature_.value< T >( ) - _minValue.at( label_ )) /
+      return Property(( property_.value< T >( ) - _minValue.at( label_ )) /
                      ( _maxValue.at( label_ ) - _minValue.at( label_ )));
     }
 
@@ -125,31 +125,31 @@ namespace fires
     }
 
     virtual void update( const std::string& label_,
-                         const Feature& feature_ )
+                         const Property& property_ )
     {
-      if ( *feature_.value< T* >( ) < this->_minValue[ label_ ] )
-        this->_minValue[ label_ ] = *feature_.value< T* >( );
-      if (  *feature_.value< T* >( ) > this->_maxValue[ label_ ] )
-        this->_maxValue[ label_ ] = *feature_.value< T* >( );
+      if ( *property_.value< T* >( ) < this->_minValue[ label_ ] )
+        this->_minValue[ label_ ] = *property_.value< T* >( );
+      if (  *property_.value< T* >( ) > this->_maxValue[ label_ ] )
+        this->_maxValue[ label_ ] = *property_.value< T* >( );
 
-      // std::cout << feature_.value< T >( ) << std::endl;
+      // std::cout << property_.value< T >( ) << std::endl;
       // std::cout << "New accum values " << _minValue << " " << _maxValue << std::endl;
 
     }
 
-    virtual Feature normalizeFeature( const std::string& label_,
-                                      const Feature& feature_ ) const
+    virtual Property normalizeProperty( const std::string& label_,
+                                      const Property& property_ ) const
     {
-      // std::cout <<  *feature_.value< T* >( ) << " " <<  this->_minValue << " "
+      // std::cout <<  *property_.value< T* >( ) << " " <<  this->_minValue << " "
       //           <<  this->_maxValue << " "  << this->_minValue   << std::endl;
-      return Feature(
-        new T(( *feature_.value< T* >( ) - this->_minValue.at( label_ )) /
+      return Property(
+        new T(( *property_.value< T* >( ) - this->_minValue.at( label_ )) /
               ( this->_maxValue.at( label_ ) - this->_minValue.at( label_ ))));
     }
 
-    virtual void freeNormalizedFeature( Feature& feature_ )
+    virtual void freeNormalizedProperty( Property& property_ )
     {
-      delete feature_.value< T* >( );
+      delete property_.value< T* >( );
     }
 
   };
@@ -175,10 +175,10 @@ namespace fires
     }
 
     virtual void update( const std::string& label_,
-                         const Feature& feature_ )
+                         const Property& property_ )
     {
       // std::cout << "update vector" << std::endl;
-      this->_update( label_, feature_.value< vector< M, T >>( ));
+      this->_update( label_, property_.value< vector< M, T >>( ));
     }
 
     virtual float normalizeDistance( const float distance )
@@ -198,7 +198,7 @@ namespace fires
         if ( v[ idx ] > this->_maxValue[ label_ ][ idx ] )
           this->_maxValue[ label_ ][ idx ] = v[ idx ];
       }
-    //   // std::cout << feature_.value< T >( ) << std::endl;
+    //   // std::cout << property_.value< T >( ) << std::endl;
        // std::cout << "New accum values " << this->_minValue[ label_ ] << " " << this->_maxValue[ label_ ] << std::endl;
     }
 
@@ -216,26 +216,26 @@ namespace fires
     }
 
     virtual void update( const std::string& label_,
-                         const Feature& feature_ )
+                         const Property& property_ )
     {
       // std::cout << "update vector*" << std::endl;
-      this->_update( label_, *feature_.value< vector< M, T >* >( ));
+      this->_update( label_, *property_.value< vector< M, T >* >( ));
       // std::cout << "DONE" << std::endl;
     }
 
-    virtual Feature normalizeFeature( const std::string& label_,
-                                      const Feature& feature_ ) const
+    virtual Property normalizeProperty( const std::string& label_,
+                                      const Property& property_ ) const
     {
-      return Feature( new vector< M, T >(
-                        (( *feature_.value< vector< M, T >* >( )) -
+      return Property( new vector< M, T >(
+                        (( *property_.value< vector< M, T >* >( )) -
                          this->_minValue.at( label_ )) /
                         ( this->_maxValue.at( label_ ) -
                           this->_minValue.at( label_ ))));
     }
 
-    virtual void freeNormalizedFeature( Feature& feature_ )
+    virtual void freeNormalizedProperty( Property& property_ )
     {
-      delete feature_.value< vector< M, T >* >( );
+      delete property_.value< vector< M, T >* >( );
     }
 
 
@@ -253,10 +253,10 @@ namespace fires
     }
 
     virtual void update( const std::string& label_,
-                         const Feature& feature_ )
+                         const Property& property_ )
     {
       // std::cout << "update vector*" << std::endl;
-      auto v = feature_.value< vector< M, T* >* >( );
+      auto v = property_.value< vector< M, T* >* >( );
 
       for ( unsigned idx = 0; idx < M; idx++ )
       {
@@ -268,11 +268,11 @@ namespace fires
       // std::cout << "DONE" << std::endl;
     }
 
-    virtual Feature normalizeFeature( const std::string& label_,
-				      const Feature& feature_  ) const
+    virtual Property normalizeProperty( const std::string& label_,
+				      const Property& property_  ) const
     {
 
-      auto vp = feature_.value< vector< M, T* >* >( );
+      auto vp = property_.value< vector< M, T* >* >( );
 
       auto v = new vector< M, T* >; //(( T* ) 0 );
       // std::cout << *v << std::endl;
@@ -285,12 +285,12 @@ namespace fires
               this->_minValue.at( label_ )[ idx ] ));
       }
       // std::cout << *v << std::endl;
-      return Feature( v );
+      return Property( v );
     }
 
-    virtual void freeNormalizedFeature( Feature& feature_ )
+    virtual void freeNormalizedProperty( Property& property_ )
     {
-     auto v = feature_.value< vector< M, T* >* >( );
+     auto v = property_.value< vector< M, T* >* >( );
       for ( unsigned int idx = 0; idx < M; idx++ )
         delete ( *v )[ idx ];
 
@@ -314,10 +314,10 @@ namespace fires
 //     }
 
 //     FIRES_API
-//     virtual void accum( const Feature& feature_ )
+//     virtual void accum( const Property& property_ )
 //     {
 //       vector< M, T > v;
-//       vector< M, T * > vp = feature_.value< vector< M, T* >>( );
+//       vector< M, T * > vp = property_.value< vector< M, T* >>( );
 //       for ( unsigned int i = 0; i < M ; i++ )
 //         v( i ) = *vp( i );
 
@@ -325,7 +325,7 @@ namespace fires
 //     }
 
 //     FIRES_API
-//     virtual Feature feature( void )
+//     virtual Property property( void )
 //     {
 
 //       vector<M, T* > _vector;
@@ -336,7 +336,7 @@ namespace fires
 //         _vector( i ) = &_vectorValues[ i ];
 //       }
 
-//       return Feature( _vector );
+//       return Property( _vector );
 //     }
 
 //   protected:
@@ -357,12 +357,12 @@ namespace fires
 //     }
 
 //     FIRES_API
-//     virtual void accum( const Feature& feature_ )
+//     virtual void accum( const Property& property_ )
 //     {
 
-//       feature_.value< vector< M, T* >* >( );
+//       property_.value< vector< M, T* >* >( );
 //       vector< M, T > v;
-//       vector< M, T* > vp = *( feature_.value< vector< M, T* >* >( ));
+//       vector< M, T* > vp = *( property_.value< vector< M, T* >* >( ));
 //       for ( unsigned int i = 0; i < M ; i++ )
 //         v( i ) = *vp( i );
 
@@ -370,7 +370,7 @@ namespace fires
 //     }
 
 //     FIRES_API
-//     virtual Feature feature( void )
+//     virtual Property property( void )
 //     {
 //       for ( unsigned int i = 0; i < M ; i++ )
 //       {
@@ -378,7 +378,7 @@ namespace fires
 //         _vector( i ) = &_vectorValues[ i ];
 //       }
 
-//       return Feature( &_vector );
+//       return Property( &_vector );
 //     }
 
 //   protected:

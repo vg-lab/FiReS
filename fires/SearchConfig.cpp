@@ -9,10 +9,10 @@ namespace fires
                           Normalizer* normalizer_,
                           float weight )
   {
-    _featuresConfig.insert(
-      std::pair< std::string, QueryFeatureData >(
+    _propertiesConfig.insert(
+      std::pair< std::string, QueryPropertyData >(
         label,
-        QueryFeatureData( comparer_, averager_, normalizer_, weight )));
+        QueryPropertyData( comparer_, averager_, normalizer_, weight )));
   }
 
 } // namespace fires

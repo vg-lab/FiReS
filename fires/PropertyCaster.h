@@ -1,24 +1,24 @@
 /**
- * @file    FeatureCaster.h
+ * @file    PropertyCaster.h
  * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date
  * @remarks Copyright (c) GMRV/URJC. All rights reserved.
  *          Do not distribute without further notice.
  */
-#ifndef __FIRES__FEATURECASTER_H__
-#define __FIRES__FEATURECASTER_H__
+#ifndef __FIRES__PROPERTYCASTER_H__
+#define __FIRES__PROPERTYCASTER_H__
 
-#include "Feature.h"
+#include "Property.h"
 
 namespace fires
 {
 
-  class FeatureCaster
+  class PropertyCaster
   {
   public:
 
-    virtual ~FeatureCaster( void )
+    virtual ~PropertyCaster( void )
     {
     }
 
@@ -29,32 +29,32 @@ namespace fires
       FLOOR
     } TIntCasting;
 
-    virtual int toInt( Feature&, TIntCasting casting = ROUND ) = 0;
+    virtual int toInt( Property&, TIntCasting casting = ROUND ) = 0;
 
 
   };
 
   template < typename T >
-  class ScalarFeatureCaster : public FeatureCaster
+  class ScalarPropertyCaster : public PropertyCaster
   {
   public:
 
-    virtual ~ScalarFeatureCaster( void )
+    virtual ~ScalarPropertyCaster( void )
     {
     }
 
-    virtual int toInt( Feature& feature, TIntCasting casting = ROUND )
+    virtual int toInt( Property& property, TIntCasting casting = ROUND )
     {
       switch ( casting )
       {
       case ROUND:
-        return int( round( feature.value< T >( )));
+        return int( round( property.value< T >( )));
         break;
       case CEIL:
-        return int( ceil( feature.value< T >( )));
+        return int( ceil( property.value< T >( )));
         break;
       case FLOOR:
-        return int( floor( feature.value< T >( )));
+        return int( floor( property.value< T >( )));
         break;
       default:
         throw std::runtime_error( "Invalid casting type" );

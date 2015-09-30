@@ -1,7 +1,7 @@
 /**
- * @file    floatFeatures.cpp
+ * @file    floatPropertys.cpp
  * @brief   This example shows a simple use case for using fires with different
- *          types of scalar features.
+ *          types of scalar propertys.
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date
  * @remarks Copyright (c) GMRV/URJC. All rights reserved.
@@ -17,7 +17,7 @@ void printResults( fires::Objects& objects, std::string scoreLabel )
 {
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
   {
-    std::cout << ( *obj )->getFeature( scoreLabel ).value< float >( )
+    std::cout << ( *obj )->getProperty( scoreLabel ).value< float >( )
               << std::endl;
   }
 }
@@ -33,7 +33,7 @@ public:
 };
 
 // Derived object from Test and fires::Object. Its constructor
-// creates the features (but could be created afterwards).
+// creates the propertys (but could be created afterwards).
 class TestObject
   : public Test
   , public fires::Object
@@ -44,15 +44,15 @@ public:
   TestObject( void )
     : Test( )
   {
-    // Add a couple of features which hold pointer to already existing
+    // Add a couple of propertys which hold pointer to already existing
     // float attributes
-    this->registerFeature( std::string( "feature1" ), &this->attr1 );
-    this->registerFeature( std::string( "feature2" ), &this->attr2 );
+    this->registerProperty( std::string( "property1" ), &this->attr1 );
+    this->registerProperty( std::string( "property2" ), &this->attr2 );
 
-    // Add a couple of non-pointer features, in this case one float
+    // Add a couple of non-pointer propertys, in this case one float
     // and one integer.
-    this->registerFeature( std::string( "feature3" ), float( 0.0f ) );
-    this->registerFeature( std::string( "feature4" ), int( 0 ) );
+    this->registerProperty( std::string( "property3" ), float( 0.0f ) );
+    this->registerProperty( std::string( "property4" ), int( 0 ) );
   }
 
 
@@ -71,8 +71,8 @@ public:
     factor = 1.0f;
   }
 
-  virtual float distance( const fires::Feature& f1,
-                          const fires::Feature& f2 ) const
+  virtual float distance( const fires::Property& f1,
+                          const fires::Property& f2 ) const
   {
     std::cout << "distance custom: " << factor << std::endl;
     std::cout << factor << " " << fires::ScalarComparer< T >::distance( f1, f2 ) << std::endl;
@@ -94,7 +94,7 @@ public:
     factor = 1.0f;
   }
 
-  float distance( const fires::Feature& f1, const fires::Feature& f2 ) const
+  float distance( const fires::Property& f1, const fires::Property& f2 ) const
   {
     // std::cout << "distance custom: " << factor << std::endl;
     // std::cout << factor << " " << this->fires::ScalarComparer< T* >::distance( f1, f2 ) << std::endl;
@@ -111,28 +111,28 @@ public:
 int main ()
 {
 
-  // Create objects and give value to their features
+  // Create objects and give value to their propertys
   TestObject obj1, obj2, obj3, obj4;
 
   obj1.attr1 = 3.4f;
   obj1.attr2 = 4.3f;
-  obj1.getFeature( "feature3" ).set( 5.6f );
-  obj1.getFeature( "feature4" ).set( 6 );
+  obj1.getProperty( "property3" ).set( 5.6f );
+  obj1.getProperty( "property4" ).set( 6 );
 
   obj2.attr1 = 3.2f;
   obj2.attr2 = 2.1f;
-  obj2.getFeature( "feature3" ).set( 2.4f );
-  obj2.getFeature( "feature4" ).set( 3 );
+  obj2.getProperty( "property3" ).set( 2.4f );
+  obj2.getProperty( "property4" ).set( 3 );
 
   obj3.attr1 = 1.4f;
   obj3.attr2 = 2.2f;
-  obj3.getFeature( "feature3" ).set( 9.6f );
-  obj3.getFeature( "feature4" ).set( 4 );
+  obj3.getProperty( "property3" ).set( 9.6f );
+  obj3.getProperty( "property4" ).set( 4 );
 
   obj4.attr1 = 4.1f;
   obj4.attr2 = 1.8f;
-  obj4.getFeature( "feature3" ).set( 2.1f );
-  obj4.getFeature( "feature4" ).set( 7 );
+  obj4.getProperty( "property3" ).set( 2.1f );
+  obj4.getProperty( "property4" ).set( 7 );
 
 
   // Label objects
@@ -169,12 +169,12 @@ int main ()
   // // Create the collection of query objects
   // fires::Objects queryObjects;
 
-  // Create the set of features to be used in the queries
+  // Create the set of propertys to be used in the queries
   fires::SearchConfig sc;
-  sc.add( std::string("feature1"), &comparer1, &sapf, &snpf );
-  sc.add( std::string("feature2"), &comparer2, &sapf, &snpf );
-  sc.add( std::string("feature3"), &comparer3, &saf, &snf );
-  sc.add( std::string("feature4"), &comparer4, &sai, &sni );
+  sc.add( std::string("property1"), &comparer1, &sapf, &snpf );
+  sc.add( std::string("property2"), &comparer2, &sapf, &snpf );
+  sc.add( std::string("property3"), &comparer3, &saf, &snf );
+  sc.add( std::string("property4"), &comparer4, &sai, &sni );
 
   sc.queryObjects( ).add( &obj1 );
   sc.queryObjects( ).add( &obj2 );
@@ -191,17 +191,17 @@ int main ()
   std::cout << "-- Changing custom comparer parameter" << std::endl;
   comparer2.factor = 0.5f;
   search.eval( objects, sc );
-  // search.query( objects, queryObjects, features);
+  // search.query( objects, queryObjects, propertys);
   printResults( objects, "fires::score" );
   comparer2.factor = 1.0f;
   std::cout << std::endl;
 
-  // Change some attribute and due to the use of feature pointers
+  // Change some attribute and due to the use of property pointers
   // no need of an update step needed, query and print results.
   std::cout << "-- Changing attribute registered as pointer " << std::endl;
   obj1.attr2+= 1.3f;
   search.eval( objects, sc );
- // search.query( objects, queryObjects, features );
+ // search.query( objects, queryObjects, propertys );
   printResults( objects, "fires::score" );
   std::cout << std::endl;
 
@@ -210,7 +210,7 @@ int main ()
   std::cout << "-- Changing back the same attribute " << std::endl;
   obj1.attr2-= 1.3f;
   search.eval( objects, sc );
-  // search.query( objects, queryObjects, features,
+  // search.query( objects, queryObjects, propertys,
   //            "fires::score",
   //            fires::SearchConfig::DISTANCE_TO_AVERAGE_QUERY_OBJECT );
   sc.distanceToQueryType( ) =
@@ -223,7 +223,7 @@ int main ()
   sc.distanceToQueryType( ) =
     fires::SearchConfig::MINIMUM_DISTANCE_TO_QUERY_OBJECTS;
   search.eval( objects, sc );
-  // search.query( objects, queryObjects, features, "fires::score",
+  // search.query( objects, queryObjects, propertys, "fires::score",
   //            fires::SearchConfig::MINIMUM_DISTANCE_TO_QUERY_OBJECTS );
   printResults( objects, "fires::score" );
 

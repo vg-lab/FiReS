@@ -1,13 +1,13 @@
 /**
- * @file    Feature.h
+ * @file    Property.h
  * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date
  * @remarks Copyright (c) GMRV/URJC. All rights reserved.
  *          Do not distribute without further notice.
  */
-#ifndef __FIRES__FEATURE_H__
-#define __FIRES__FEATURE_H__
+#ifndef __FIRES__PROPERTY_H__
+#define __FIRES__PROPERTY_H__
 
 
 #include <fires/api.h>
@@ -20,27 +20,27 @@ namespace fires
 {
 
 
-  class Feature
+  class Property
   {
   public:
 
-    Feature( void )
+    Property( void )
       : _value( )
     {
     }
 
-    virtual ~Feature( void )
+    virtual ~Property( void )
     {
     }
 
-    Feature& operator= ( const Feature& other )
+    Property& operator= ( const Property& other )
     {
       this->_value = other._value;
       return *this;
     }
 
     template < class ValueType >
-    Feature( ValueType value_ )
+    Property( ValueType value_ )
     {
       _value = value_;
     }
@@ -60,7 +60,7 @@ namespace fires
       ValueType v;
 
       if ( _value.empty( ))
-	std::cerr << "fires::Feature::value( ): can not cast, feature is empty "
+	std::cerr << "fires::Property::value( ): can not cast, property is empty "
 		  << std::endl;
 
       try
@@ -70,7 +70,7 @@ namespace fires
       catch( ... )
       {
 	FIRES_LOG(
-		  std::string( "fires::Feature::value( ), can not cast from " ) +
+		  std::string( "fires::Property::value( ), can not cast from " ) +
 		  _value.type( ).name( ) + std::string( " to " ) +
 		  typeid( ValueType ).name( ));
 	throw boost::bad_any_cast( );
@@ -97,14 +97,14 @@ namespace fires
   protected:
     boost::any _value;
 
-  }; // class Feature
+  }; // class Property
 
 
-  // inline bool operator==( const Feature& lhs, const Feature& rhs )
+  // inline bool operator==( const Property& lhs, const Property& rhs )
   // {
   //   return ( lhs.value( ) == rhs.value( ));
   // }
-  // inline bool operator!=( const Feature& lhs, const Feature& rhs )
+  // inline bool operator!=( const Property& lhs, const Property& rhs )
   // {
   //   return !( lhs == rhs );
   // }

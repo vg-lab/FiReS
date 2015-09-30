@@ -9,7 +9,7 @@
 #ifndef __FIRES_COMPARER_H__
 #define __FIRES_COMPARER_H__
 
-#include "Feature.h"
+#include "Property.h"
 #include "Definitions.h"
 
 #include <math.h>
@@ -42,13 +42,13 @@ namespace fires
     /**
      * Virtual method to compute distance.
        Has to be rewritten by the specific comparers.
-     * @param f1 First feature to compare.
-     * @param f2 Second feature to compare.
-     * @return Distance between features
+     * @param f1 First property to compare.
+     * @param f2 Second property to compare.
+     * @return Distance between properties
      */
     FIRES_API
-    virtual float distance( const Feature& /* f1 */,
-                            const Feature& /* f2 */ ) const
+    virtual float distance( const Property& /* f1 */,
+                            const Property& /* f2 */ ) const
     {
       FIRES_LOG( "No valid Comparer registered. Returning 0." );
       return 0.0f;
@@ -69,11 +69,11 @@ namespace fires
     /**
      * Virtual method to compute distance.
        Has to be rewritten by the specific comparers.
-     * @param f1 First feature to compare.
-     * @param f2 Second feature to compare.
-     * @return Distance between features
+     * @param f1 First property to compare.
+     * @param f2 Second property to compare.
+     * @return Distance between properties
      */
-    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    virtual float distance( const Property& f1, const Property& f2 ) const
     {
       return _distance( f1.value< T >( ), f2.value< T >( ));
     }
@@ -93,7 +93,7 @@ namespace fires
   class ScalarComparer< T* > : public ScalarComparer< T >
   {
   public:
-    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    virtual float distance( const Property& f1, const Property& f2 ) const
     {
       // std::cout  << "Scalar Comparer * " << *f1.value< T* >( ) << " "
       //            << *f2.value< T* >( ) << std::endl;
@@ -133,11 +133,11 @@ namespace fires
     /**
      * Virtual method to compute distance.
        Has to be rewritten by the specific comparers.
-     * @param f1 First feature to compare.
-     * @param f2 Second feature to compare.
-     * @return Distance between features
+     * @param f1 First property to compare.
+     * @param f2 Second property to compare.
+     * @return Distance between properties
      */
-    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    virtual float distance( const Property& f1, const Property& f2 ) const
     {
       return _vectorDistance( f1.value< vector<M ,T>>( ),
                               f2.value< vector<M ,T> >( ));
@@ -175,7 +175,7 @@ namespace fires
     : public VectorComparer< V, M, T >
   {
   public:
-    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    virtual float distance( const Property& f1, const Property& f2 ) const
     {
       return VectorComparer< V, M, T >::_vectorDistance(
         *f1.value< vector< M, T >* >( ),
@@ -188,7 +188,7 @@ namespace fires
     : public VectorComparer< V, M, T >
   {
   public:
-    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    virtual float distance( const Property& f1, const Property& f2 ) const
     {
       vector< M, T > v1;
       vector< M, T * > vp = f1.value< vector< M, T* >>( );
@@ -210,7 +210,7 @@ namespace fires
     : public VectorComparer< V, M, T >
   {
   public:
-    virtual float distance( const Feature& f1, const Feature& f2 ) const
+    virtual float distance( const Property& f1, const Property& f2 ) const
     {
       vector< M, T > v1;
       vector< M, T * > vp = *f1.value< vector< M, T* >* >( );

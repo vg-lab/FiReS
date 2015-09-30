@@ -9,7 +9,7 @@
 #ifndef __FIRES_AVERAGER_H__
 #define __FIRES_AVERAGER_H__
 
-#include "Feature.h"
+#include "Property.h"
 #include "Definitions.h"
 
 #ifdef FIRES_USE_VMMLIB
@@ -32,7 +32,7 @@ namespace fires
     }
 
     FIRES_API
-    virtual void accum( const Feature& /* f1 */ ) = 0;
+    virtual void accum( const Property& /* f1 */ ) = 0;
 
     FIRES_API
     virtual void divide( const unsigned int /* f1 */ ) = 0;
@@ -40,10 +40,10 @@ namespace fires
     FIRES_API
     virtual void reset( void ) = 0;
 
-    // Altough this method should be const then feature constructed as
+    // Altough this method should be const then property constructed as
     // const and breaks
     FIRES_API
-    virtual Feature feature( void ) = 0;
+    virtual Property property( void ) = 0;
   };
 
 
@@ -61,9 +61,9 @@ namespace fires
     {
     }
 
-    virtual void accum( const Feature& feature_ )
+    virtual void accum( const Property& property_ )
     {
-      _accumValue += feature_.value< T >( );
+      _accumValue += property_.value< T >( );
     }
 
     virtual void divide( const unsigned int value )
@@ -76,9 +76,9 @@ namespace fires
       _accumValue = _resetValue;
     }
 
-    virtual Feature feature( void )
+    virtual Property property( void )
     {
-      return Feature( _accumValue );
+      return Property( _accumValue );
     }
 
   protected:
@@ -104,14 +104,14 @@ namespace fires
     {
     }
 
-    virtual void accum( const Feature& feature_ )
+    virtual void accum( const Property& property_ )
     {
-      this->_accumValue += *feature_.value< T* >( );
+      this->_accumValue += *property_.value< T* >( );
     }
 
-    virtual Feature feature( void )
+    virtual Property property( void )
     {
-      return Feature( &this->_accumValue );
+      return Property( &this->_accumValue );
     }
 
   };
@@ -154,19 +154,19 @@ namespace fires
     {
     }
 
-    
-    virtual void accum( const Feature& feature_ )
+
+    virtual void accum( const Property& property_ )
     {
       vector< M, T > v;
-      vector< M, T * > vp = feature_.value< vector< M, T* >>( );
+      vector< M, T * > vp = property_.value< vector< M, T* >>( );
       for ( unsigned int i = 0; i < M ; i++ )
         v( i ) = *vp( i );
 
       this->_accumValue += v;
     }
 
-    
-    virtual Feature feature( void )
+
+    virtual Property property( void )
     {
 
       vector<M, T* > _vector;
@@ -177,7 +177,7 @@ namespace fires
         _vector( i ) = &_vectorValues[ i ];
       }
 
-      return Feature( _vector );
+      return Property( _vector );
     }
 
   protected:
@@ -197,21 +197,21 @@ namespace fires
     {
     }
 
-    
-    virtual void accum( const Feature& feature_ )
+
+    virtual void accum( const Property& property_ )
     {
 
-      feature_.value< vector< M, T* >* >( );
+      property_.value< vector< M, T* >* >( );
       vector< M, T > v;
-      vector< M, T* > vp = *( feature_.value< vector< M, T* >* >( ));
+      vector< M, T* > vp = *( property_.value< vector< M, T* >* >( ));
       for ( unsigned int i = 0; i < M ; i++ )
         v( i ) = *vp( i );
 
       this->_accumValue += v;
     }
 
-    
-    virtual Feature feature( void )
+
+    virtual Property property( void )
     {
       for ( unsigned int i = 0; i < M ; i++ )
       {
@@ -219,7 +219,7 @@ namespace fires
         _vector( i ) = &_vectorValues[ i ];
       }
 
-      return Feature( &_vector );
+      return Property( &_vector );
     }
 
   protected:
