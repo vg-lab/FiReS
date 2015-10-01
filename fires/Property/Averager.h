@@ -21,6 +21,7 @@ namespace fires
 
   /*! \class Averager
 
+    This class serves as a tool for averaging properties
    */
 
   class Averager
@@ -47,6 +48,10 @@ namespace fires
   };
 
 
+  /*! \class ScalarAverager
+
+    This class serves as a tool for averaging scalar properties
+   */
   template < typename T >
   class ScalarAverager : public Averager
   {
@@ -89,6 +94,10 @@ namespace fires
   };
 
 
+  /*! \class ScalarAverager
+
+    Template specialization for averaging properties holding pointer to scalars.
+   */
   template < typename T >
   class ScalarAverager< T* >
     : public ScalarAverager< T >
