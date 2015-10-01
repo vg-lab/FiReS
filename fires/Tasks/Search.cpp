@@ -1,5 +1,5 @@
 #include "Search.h"
-#include "error.h"
+#include "../error.h"
 
 namespace fires
 {
