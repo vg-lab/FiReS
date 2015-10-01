@@ -8,7 +8,7 @@
  */
 
 #include "Object.h"
-#include "error.h"
+#include "../error.h"
 
 #include <map>
 
