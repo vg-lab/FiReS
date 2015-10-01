@@ -25,6 +25,7 @@ set(FIRES_HEADERS )
 set(FIRES_SOURCES
 Object/Object.cpp
 Object/Objects.cpp
+Property/Property.cpp
 Tasks/Engine.cpp
 Tasks/SearchConfig.cpp
 Tasks/Search.cpp

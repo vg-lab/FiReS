@@ -9,7 +9,6 @@
 #ifndef __FIRES__PROPERTY_H__
 #define __FIRES__PROPERTY_H__
 
-
 #include <fires/api.h>
 #include <boost/any.hpp>
 #include <iostream>
@@ -18,20 +17,13 @@
 
 namespace fires
 {
-
-
   class Property
   {
   public:
 
-    Property( void )
-      : _value( )
-    {
-    }
+    Property( void );
 
-    virtual ~Property( void )
-    {
-    }
+    virtual ~Property( void );
 
     Property& operator= ( const Property& other )
     {
@@ -60,54 +52,33 @@ namespace fires
       ValueType v;
 
       if ( _value.empty( ))
-	std::cerr << "fires::Property::value( ): can not cast, property is empty "
-		  << std::endl;
+        std::cerr << "fires::Property::value( ): property value is empty "
+                  << std::endl;
 
       try
       {
-	v = boost::any_cast< ValueType >( _value );
+        v = boost::any_cast< ValueType >( _value );
       }
       catch( ... )
       {
-	FIRES_LOG(
-		  std::string( "fires::Property::value( ), can not cast from " ) +
-		  _value.type( ).name( ) + std::string( " to " ) +
-		  typeid( ValueType ).name( ));
-	throw boost::bad_any_cast( );
+        FIRES_LOG(
+          std::string( "fires::Property::value( ), can not cast from " ) +
+          _value.type( ).name( ) + std::string( " to " ) +
+          typeid( ValueType ).name( ));
+        throw boost::bad_any_cast( );
       }
       return v;
       #endif
     }
 
-    std::string type( void ) const
-    {
-      return _value.type( ).name( );
-    }
+    std::string type( void ) const;
 
-    bool empty( void ) const
-    {
-      return _value.empty( );
-    }
-
-    // boost::any value( ) const
-    // {
-    //   return _value;
-    // }
+    bool empty( void ) const;
 
   protected:
     boost::any _value;
 
   }; // class Property
-
-
-  // inline bool operator==( const Property& lhs, const Property& rhs )
-  // {
-  //   return ( lhs.value( ) == rhs.value( ));
-  // }
-  // inline bool operator!=( const Property& lhs, const Property& rhs )
-  // {
-  //   return !( lhs == rhs );
-  // }
 
 
 } // namespace fires
