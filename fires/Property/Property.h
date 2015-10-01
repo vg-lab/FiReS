@@ -21,8 +21,10 @@ namespace fires
   {
   public:
 
+    FIRES_API
     Property( void );
 
+    FIRES_API
     virtual ~Property( void );
 
     Property& operator= ( const Property& other )
@@ -71,8 +73,10 @@ namespace fires
       #endif
     }
 
+    FIRES_API
     std::string type( void ) const;
 
+    FIRES_API
     bool empty( void ) const;
 
   protected:
