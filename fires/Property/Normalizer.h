@@ -10,7 +10,7 @@
 #define __FIRES_NORMALIZER_H__
 
 #include "Property.h"
-#include "Definitions.h"
+#include "../Definitions.h"
 
 #include <map>
 

@@ -9,9 +9,9 @@
 #ifndef __FIRES__SEARCH_CONFIG_H__
 #define __FIRES__SEARCH_CONFIG_H__
 
-#include "Comparer.h"
-#include "Averager.h"
-#include "Normalizer.h"
+#include "../Property/Comparer.h"
+#include "../Property/Averager.h"
+#include "../Property/Normalizer.h"
 #include "Task.h"
 #include <map>
 #include <string>

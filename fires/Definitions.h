@@ -31,7 +31,7 @@ namespace fires
   typedef vmml::vector< 4, int* > Vec4pi;
 #endif
 
-}
+} // namespace fires
 
 
 #endif

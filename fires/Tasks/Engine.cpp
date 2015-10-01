@@ -7,14 +7,9 @@
  *          Do not distribute without further notice.
  */
 
-// #ifdef FIRES_USE_OPENMP
-// #include <omp.h>
-// #endif
-// #include <stdio.h>
-// #include <stdlib.h>
-
 
 #include "Engine.h"
+#include "../Object/Objects.h"
 
 namespace fires
 {
@@ -28,7 +23,7 @@ namespace fires
   }
 
 
-  virtual void Engine::run( Objects& objects, Tasks& tasks )
+  void Engine::run( Objects& objects, Tasks& tasks )
   {
     Objects& objs = objects;
 

@@ -10,7 +10,7 @@
 #define __FIRES_TASK_H__
 
 #include <vector>
-#include "Objects.h"
+#include "../Object/Objects.h"
 
 namespace fires
 {

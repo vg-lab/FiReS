@@ -38,8 +38,8 @@ public:
 int main( void )
 {
 
-  fires::Aggregator aggregate;
-  fires::AggregatorConfig aggregateConfig;
+  fires::Aggregate aggregate;
+  fires::AggregateConfig aggregateConfig;
   fires::ScalarPropertyAggregator< float > sfaf;
   fires::ScalarPropertyAggregator< int > sfai;
   fires::Objects objs;

@@ -14,7 +14,7 @@
 #include <boost/any.hpp>
 #include <iostream>
 
-#include "error.h"
+#include "../error.h"
 
 namespace fires
 {

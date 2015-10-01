@@ -10,7 +10,7 @@
 #define __FIRES__OBJECT_H__
 
 #include <fires/api.h>
-#include "Property.h"
+#include "../Property/Property.h"
 
 #include <string>
 #include <iostream>

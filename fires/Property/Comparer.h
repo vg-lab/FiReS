@@ -10,7 +10,7 @@
 #define __FIRES_COMPARER_H__
 
 #include "Property.h"
-#include "Definitions.h"
+#include "../Definitions.h"
 
 #include <math.h>
 

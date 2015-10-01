@@ -10,7 +10,7 @@
 #define __FIRES_AVERAGER_H__
 
 #include "Property.h"
-#include "Definitions.h"
+#include "../Definitions.h"
 
 #ifdef FIRES_USE_VMMLIB
 #include <vmmlib/vmmlib.hpp>
