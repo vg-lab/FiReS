@@ -73,18 +73,18 @@ namespace fires
                      PropertySorter* sorter_,
                      TSortOrder order_ = ASCENDING )
     {
-      _propertys.push_back( TSortProperty{ propertyLabel_, sorter_, order_ });
+      _properties.push_back( TSortProperty{ propertyLabel_, sorter_, order_ });
     }
 
     void clear( void )
     {
-      _propertys.clear( );
+      _properties.clear( );
     }
 
     virtual bool operator( ) ( Object* obj1, Object* obj2 ) const
     {
-      for ( auto propertyIt = _propertys.cbegin( );
-            propertyIt != _propertys.cend( ); ++propertyIt )
+      for ( auto propertyIt = _properties.cbegin( );
+            propertyIt != _properties.cend( ); ++propertyIt )
       {
         const std::string label = ( *propertyIt ).label;
 
@@ -120,7 +120,7 @@ namespace fires
       TSortOrder order;
     } TSortProperty;
 
-    std::vector< TSortProperty > _propertys;
+    std::vector< TSortProperty > _properties;
 
   };
 

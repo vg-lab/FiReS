@@ -7,7 +7,7 @@ gmrv@gmrv.es
 ## Introduction
 
 FiReS is a library to ease filtering, search and content-based
-retrieval operations over any kind of object that can be caracterized
+retrieval operations over any kind of object that can be characterized
 by a set of properties.
 
 ## Features and usage:

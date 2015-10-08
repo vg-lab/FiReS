@@ -118,7 +118,7 @@ int main ( void )
   //   struct timeval startTime, endTime;
   //   long totalTime;
   //   gettimeofday(&startTime, NULL);
-  //   engine.parallelQuery( objects, queryObjects, propertys,
+  //   engine.parallelQuery( objects, queryObjects, properties,
   //                      "fires::score::parallel" );
   //   gettimeofday(&endTime, NULL);
 

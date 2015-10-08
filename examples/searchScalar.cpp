@@ -1,7 +1,6 @@
 /**
- * @file    floatPropertys.cpp
  * @brief   This example shows a simple use case for using fires with different
- *          types of scalar propertys.
+ *          types of scalar properties.
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date
  * @remarks Copyright (c) GMRV/URJC. All rights reserved.
@@ -33,7 +32,7 @@ public:
 };
 
 // Derived object from Test and fires::Object. Its constructor
-// creates the propertys (but could be created afterwards).
+// creates the properties (but could be created afterwards).
 class TestObject
   : public Test
   , public fires::Object
@@ -44,12 +43,12 @@ public:
   TestObject( void )
     : Test( )
   {
-    // Add a couple of propertys which hold pointer to already existing
+    // Add a couple of properties which hold pointer to already existing
     // float attributes
     this->registerProperty( std::string( "property1" ), &this->attr1 );
     this->registerProperty( std::string( "property2" ), &this->attr2 );
 
-    // Add a couple of non-pointer propertys, in this case one float
+    // Add a couple of non-pointer properties, in this case one float
     // and one integer.
     this->registerProperty( std::string( "property3" ), float( 0.0f ) );
     this->registerProperty( std::string( "property4" ), int( 0 ) );
@@ -111,7 +110,7 @@ public:
 int main ()
 {
 
-  // Create objects and give value to their propertys
+  // Create objects and give value to their properties
   TestObject obj1, obj2, obj3, obj4;
 
   obj1.attr1 = 3.4f;
@@ -169,7 +168,7 @@ int main ()
   // // Create the collection of query objects
   // fires::Objects queryObjects;
 
-  // Create the set of propertys to be used in the queries
+  // Create the set of properties to be used in the queries
   fires::SearchConfig sc;
   sc.add( std::string("property1"), &comparer1, &sapf, &snpf );
   sc.add( std::string("property2"), &comparer2, &sapf, &snpf );
@@ -191,7 +190,7 @@ int main ()
   std::cout << "-- Changing custom comparer parameter" << std::endl;
   comparer2.factor = 0.5f;
   search.eval( objects, sc );
-  // search.query( objects, queryObjects, propertys);
+  // search.query( objects, queryObjects, properties);
   printResults( objects, "fires::score" );
   comparer2.factor = 1.0f;
   std::cout << std::endl;
@@ -201,7 +200,7 @@ int main ()
   std::cout << "-- Changing attribute registered as pointer " << std::endl;
   obj1.attr2+= 1.3f;
   search.eval( objects, sc );
- // search.query( objects, queryObjects, propertys );
+ // search.query( objects, queryObjects, properties );
   printResults( objects, "fires::score" );
   std::cout << std::endl;
 
@@ -210,7 +209,7 @@ int main ()
   std::cout << "-- Changing back the same attribute " << std::endl;
   obj1.attr2-= 1.3f;
   search.eval( objects, sc );
-  // search.query( objects, queryObjects, propertys,
+  // search.query( objects, queryObjects, properties,
   //            "fires::score",
   //            fires::SearchConfig::DISTANCE_TO_AVERAGE_QUERY_OBJECT );
   sc.distanceToQueryType( ) =
@@ -223,7 +222,7 @@ int main ()
   sc.distanceToQueryType( ) =
     fires::SearchConfig::MINIMUM_DISTANCE_TO_QUERY_OBJECTS;
   search.eval( objects, sc );
-  // search.query( objects, queryObjects, propertys, "fires::score",
+  // search.query( objects, queryObjects, properties, "fires::score",
   //            fires::SearchConfig::MINIMUM_DISTANCE_TO_QUERY_OBJECTS );
   printResults( objects, "fires::score" );
 

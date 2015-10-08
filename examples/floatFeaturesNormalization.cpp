@@ -82,14 +82,14 @@ int main ()
   fires::Objects queryObjects;
   queryObjects.add( & objMax );
 
-  fires::QueryPropertys propertys;
-  propertys.add( std::string( "property1" ),
+  fires::QueryProperties properties;
+  properties.add( std::string( "property1" ),
            &comparer1 );
 
-  propertys.add( std::string( "property2" ),
+  properties.add( std::string( "property2" ),
                 &comparer2 );
 
-  engine.query( objects, queryObjects, propertys );
+  engine.query( objects, queryObjects, properties );
 
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
     std::cout << ( *obj )->label( ) << ": "

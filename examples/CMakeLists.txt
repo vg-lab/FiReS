@@ -30,5 +30,5 @@ target_link_libraries( tasks fires )
 
 
 # add_executable(floatPropertiesNormalization
-# floatPropertysNormalization.cpp)
-# target_link_libraries(floatPropertiessNormalization fires)
+# floatPropertiesNormalization.cpp)
+# target_link_libraries(floatPropertiesNormalization fires)

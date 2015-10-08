@@ -32,7 +32,7 @@ public:
 int main( void )
 {
 
-  // Create objects and give value to their propertys
+  // Create objects and give value to their propertiess
   TestObject obj1, obj2, obj3, obj4;
 
   obj1.attr1 = 3.4f;
