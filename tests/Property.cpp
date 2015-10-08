@@ -1,5 +1,5 @@
 /**
- * @file    Feature.cpp
+ * @file    Property.cpp
  * @brief
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date
@@ -10,11 +10,11 @@
 #include "firesTests.h"
 
 
-BOOST_AUTO_TEST_CASE( test_feature )
+BOOST_AUTO_TEST_CASE( test_property )
 {
 
-  fires::Feature *f1 = new fires::Feature;
-  fires::Feature f2;
+  fires::Property *f1 = new fires::Property;
+  fires::Property f2;
   BOOST_CHECK( f1->empty( ) == true );
   BOOST_CHECK( f2.empty( ) == true );
   BOOST_REQUIRE_THROW( f1->value< int >( ), boost::bad_any_cast);
@@ -32,8 +32,8 @@ BOOST_AUTO_TEST_CASE( test_feature )
   BOOST_CHECK( typeid( float ).name( ) == f2.type( ));
 
 
-  *f1 = fires::Feature( );
-  f2 = fires::Feature( );
+  *f1 = fires::Property( );
+  f2 = fires::Property( );
   BOOST_CHECK( f1->empty( ) == true );
   BOOST_CHECK( f2.empty( ) == true );
   BOOST_REQUIRE_THROW( f1->value< int >( ), boost::bad_any_cast );

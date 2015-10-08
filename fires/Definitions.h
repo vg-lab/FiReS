@@ -1,6 +1,8 @@
 #ifndef __DIRES__DEFINITIONS__
 #define __DIRES__DEFINITIONS__
 
+#include <fires/api.h>
+
 
 #ifdef FIRES_USE_VMMLIB
 #include <vmmlib/vmmlib.hpp>
@@ -31,7 +33,7 @@ namespace fires
   typedef vmml::vector< 4, int* > Vec4pi;
 #endif
 
-}
+} // namespace fires
 
 
 #endif

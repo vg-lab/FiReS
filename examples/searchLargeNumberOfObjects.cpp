@@ -47,7 +47,7 @@ public:
   {
 
     for ( int i = 0; i < NUM_ATTRIBS; i++ )
-      this->registerFeature( std::string( "feature" ) + std::to_string( i ),
+      this->registerProperty( std::string( "property" ) + std::to_string( i ),
                              &this->attrs[i]);
   }
 
@@ -88,7 +88,7 @@ int main ( void )
 
   fires::SearchConfig sc;
   for ( int i = 0; i < NUM_ATTRIBS; i++ )
-    sc.add( std::string( "feature" ) + std::to_string( i ),
+    sc.add( std::string( "property" ) + std::to_string( i ),
             &comparer, &averager );
 
   sc.queryObjects( ).add( queryObj );
@@ -97,7 +97,7 @@ int main ( void )
   {
 
     std::cout << "Performing query" << std::endl;
-    sc.resultsFeatureLabel( ) = "fires::score::serial";
+    sc.resultsPropertyLabel( ) = "fires::score::serial";
 
     fires::Search search;
     struct timeval startTime, endTime;
@@ -118,7 +118,7 @@ int main ( void )
   //   struct timeval startTime, endTime;
   //   long totalTime;
   //   gettimeofday(&startTime, NULL);
-  //   engine.parallelQuery( objects, queryObjects, features,
+  //   engine.parallelQuery( objects, queryObjects, properties,
   //                      "fires::score::parallel" );
   //   gettimeofday(&endTime, NULL);
 
@@ -132,8 +132,8 @@ int main ( void )
 
   // std::cout << "Check results: ";
   // for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
-  //   if (( *obj )->getFeature( "fires::score::serial" ) !=
-  //       ( *obj )->getFeature( "fires::score::parallel" ))
+  //   if (( *obj )->getProperty( "fires::score::serial" ) !=
+  //       ( *obj )->getProperty( "fires::score::parallel" ))
   //   {
   //     std::cerr << "ERROR" << std::endl;
   //     return -1;

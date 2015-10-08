@@ -19,9 +19,9 @@ class TestObject :
 public:
   TestObject( )
   {
-    this->registerFeature( std::string( "feature1" ), &this->attr1 );
-    this->registerFeature( std::string( "feature2" ), &this->attr2 );
-    this->registerFeature( std::string( "feature3" ), 1.0f );
+    this->registerProperty( std::string( "property1" ), &this->attr1 );
+    this->registerProperty( std::string( "property2" ), &this->attr2 );
+    this->registerProperty( std::string( "property3" ), 1.0f );
   }
 
 public:
@@ -32,24 +32,24 @@ public:
 int main( void )
 {
 
-  // Create objects and give value to their features
+  // Create objects and give value to their propertiess
   TestObject obj1, obj2, obj3, obj4;
 
   obj1.attr1 = 3.4f;
   obj1.attr2 = 4.3f;
-  obj1.getFeature( "feature3" ).set( 2.3f );
+  obj1.getProperty( "property3" ).set( 2.3f );
 
   obj2.attr1 = 3.2f;
   obj2.attr2 = 42.1f;
-  obj2.getFeature( "feature3" ).set( 3.4f );
+  obj2.getProperty( "property3" ).set( 3.4f );
 
   obj3.attr1 = 1.4f;
   obj3.attr2 = 2.2f;
-  obj3.getFeature( "feature3" ).set( 4.5f );
+  obj3.getProperty( "property3" ).set( 4.5f );
 
   obj4.attr1 = 4.1f;
   obj4.attr2 = 1.8f;
-  obj4.getFeature( "feature3" ).set( 5.6f );
+  obj4.getProperty( "property3" ).set( 5.6f );
 
   // Label objects
   obj1.label( ) = "Object 1";
@@ -69,7 +69,7 @@ int main( void )
 
   printObjects( objects );
 
-  fsc.filters( ).push_back( std::make_pair( "feature3", &ff1 ));
+  fsc.filters( ).push_back( std::make_pair( "property3", &ff1 ));
   fs.eval( objects, fsc );
   printObjects( objects );
 

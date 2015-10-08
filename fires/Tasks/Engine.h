@@ -9,16 +9,9 @@
 #ifndef __FIRES__ENGINE_H__
 #define __FIRES__ENGINE_H__
 
-
-#include "Comparer.h"
-#include "Object.h"
-#include "Objects.h"
-#include "SearchConfig.h"
+#include <fires/api.h>
+#include "../Object/Objects.h"
 #include "Task.h"
-
-#include <vector>
-#include <map>
-
 
 namespace fires
 {
@@ -41,17 +34,7 @@ namespace fires
 
 
     FIRES_API
-    virtual void run( Objects& objects, Tasks& tasks )
-    {
-      Objects& objs = objects;
-
-      for ( auto t = tasks.begin( ); t != tasks.end( ); ++t )
-        ( *t ).task( )->eval( objs, *(( *t ).config( )));
-
-      return;
-
-    }
-
+    virtual void run( Objects& objects, Tasks& tasks );
 
   };
 

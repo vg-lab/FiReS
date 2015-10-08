@@ -19,7 +19,7 @@ namespace fires
 
     Simple class to hold a set of objects
   */
-  class Objects : public std::vector<Object* >
+  class Objects : public std::vector< Object* >
   {
 
   public:

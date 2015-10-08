@@ -4,8 +4,8 @@ include_directories(
   ${CMAKE_BINARY_DIR}
 )
 
-add_executable( features features.cpp )
-target_link_libraries( features fires )
+add_executable( properties properties.cpp )
+target_link_libraries( properties fires )
 
 add_executable( searchScalar searchScalar.cpp )
 target_link_libraries( searchScalar fires )
@@ -29,6 +29,6 @@ add_executable( tasks tasks.cpp )
 target_link_libraries( tasks fires )
 
 
-# add_executable(floatFeaturesNormalization
-# floatFeaturesNormalization.cpp)
-# target_link_libraries(floatFeaturesNormalization fires)
+# add_executable(floatPropertiesNormalization
+# floatPropertiesNormalization.cpp)
+# target_link_libraries(floatPropertiesNormalization fires)

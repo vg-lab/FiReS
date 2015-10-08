@@ -32,7 +32,7 @@ include(Common)
 set(FIRES_DESCRIPTION "FiReS - Filter and retrieval System")
 set(COMMON_PROJECT_DOMAIN gmrv.es)
 
-common_package( Boost COMPONENTS unit_test_framework)
+common_package( Boost REQUIRED COMPONENTS unit_test_framework)
 common_package( vmmlib )
 common_package( OpenMP )
 common_package_post( )

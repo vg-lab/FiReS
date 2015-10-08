@@ -1,6 +1,6 @@
 /**
  * @file    example2.cpp
- * @brief   This example show how to use vector-based features
+ * @brief   This example show how to use vector-based properties
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date
  * @remarks Copyright (c) GMRV/URJC. All rights reserved.
@@ -21,7 +21,7 @@ void printResults( fires::Objects& objects, std::string scoreLabel )
 {
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
   {
-    fires::Feature f = ( *obj )->getFeature( scoreLabel );
+    fires::Property f = ( *obj )->getProperty( scoreLabel );
 
     std::cout << ( *obj )->label( ) << ": ";
     if ( !f.empty( ) )
@@ -71,7 +71,7 @@ public:
   fires::Vec3pf vector3;
 //  fires::Vec3pf vector3;
 
-//  fires::Feature* f1, * f2, * f3, * f4;
+//  fires::Property* f1, * f2, * f3, * f4;
 
   TestObject ()
   {
@@ -82,19 +82,19 @@ public:
 
     vector3 = fires::Vec3pf( &attr31, &attr32, &attr33 );
 
-    // Create the features
-    // f1 = new fires::FeaturePtrToVec2f( &vector1 );
-    // f2 = new fires::FeaturePtrToVec3i( & vector2 );
-    // f3 = new fires::FeaturePtrToVec3pf( & vector3 );
-    // f4 = new fires::FeaturePtrToScalar< float >( & this->attr1);
+    // Create the properties
+    // f1 = new fires::PropertyPtrToVec2f( &vector1 );
+    // f2 = new fires::PropertyPtrToVec3i( & vector2 );
+    // f3 = new fires::PropertyPtrToVec3pf( & vector3 );
+    // f4 = new fires::PropertyPtrToScalar< float >( & this->attr1);
 
-    // Add the different features of different types, giving a name
-    // and the feature itself
-    this->registerFeature( "feature1", fires::Feature( &vector1 ));
-    this->registerFeature( "feature2", fires::Feature( &vector2 ));
-    this->registerFeature( "feature3", fires::Feature( &vector3 ));
-    this->registerFeature( "feature4", fires::Feature( &this->attr1 ));
-    this->registerFeature( "feature5", fires::Feature( fires::Vec3f::ZERO ));
+    // Add the different properties of different types, giving a name
+    // and the property itself
+    this->registerProperty( "property1", fires::Property( &vector1 ));
+    this->registerProperty( "property2", fires::Property( &vector2 ));
+    this->registerProperty( "property3", fires::Property( &vector3 ));
+    this->registerProperty( "property4", fires::Property( &this->attr1 ));
+    this->registerProperty( "property5", fires::Property( fires::Vec3f::ZERO ));
 
   }
 
@@ -163,19 +163,19 @@ int main( void )
   // have to be updated
   obj1.vector1 = fires::Vec2f( obj1.attr11, obj1.attr12 );
   obj1.vector2 = fires::Vec3i( obj1.attr21, obj1.attr22, obj1.attr23 );
-  obj1.getFeature( "feature5" ).set( fires::Vec3f( 1.1f, 3.4f, 5.3f ));
+  obj1.getProperty( "property5" ).set( fires::Vec3f( 1.1f, 3.4f, 5.3f ));
 
   obj2.vector1 = fires::Vec2f( obj2.attr11, obj2.attr12 );
   obj2.vector2 = fires::Vec3i( obj2.attr21, obj2.attr22, obj2.attr23 );
-  obj2.getFeature( "feature5" ).set( fires::Vec3f( 6.3f, 4.2f, 2.1f ));
+  obj2.getProperty( "property5" ).set( fires::Vec3f( 6.3f, 4.2f, 2.1f ));
 
   obj3.vector1 = fires::Vec2f( obj3.attr11, obj3.attr12 );
   obj3.vector2 = fires::Vec3i( obj3.attr21, obj3.attr22, obj3.attr23 );
-  obj3.getFeature( "feature5" ).set( fires::Vec3f( 4.6f, 5.7f, 6.9f ));
+  obj3.getProperty( "property5" ).set( fires::Vec3f( 4.6f, 5.7f, 6.9f ));
 
   obj4.vector1 = fires::Vec2f( obj4.attr11, obj4.attr12 );
   obj4.vector2 = fires::Vec3i( obj4.attr21, obj4.attr22, obj4.attr23 );
-  obj4.getFeature( "feature5" ).set( fires::Vec3f( 7.3f, 5.2f, 6.2f ));
+  obj4.getProperty( "property5" ).set( fires::Vec3f( 7.3f, 5.2f, 6.2f ));
 
   // Asign labels
   obj1.label( ) = "Object 1";
@@ -185,10 +185,10 @@ int main( void )
 
 
   // Set-up comparers
-  // fires::FeaturePtrToVec2fComparer comparer1;
-  // fires::FeaturePtrToVec3iComparer comparer2;
-  // fires::FeaturePtrToVec3pfComparer comparer3;
-  // fires::FeaturePtrToScalarComparer< float > comparer4;
+  // fires::PropertyPtrToVec2fComparer comparer1;
+  // fires::PropertyPtrToVec3iComparer comparer2;
+  // fires::PropertyPtrToVec3pfComparer comparer3;
+  // fires::PropertyPtrToScalarComparer< float > comparer4;
 
   // fires::VectorComparer< fires::vector<>*, 2, float > comp1;
   // fires::VectorComparer< fires::vector<>*, 3, int > comp2;
@@ -237,14 +237,14 @@ int main( void )
   // Add query objects
   // fires::Objects queryObjects;
 
-  // Add the features to the system
+  // Add the properties to the system
   fires::SearchConfig sc;
 
-  sc.add( "feature1", &pvc2f, &pva2f, &pvn2f );
-  sc.add( "feature2", &pvc3i, &pva3i, &pvn3i );
-  sc.add( "feature3", &pvc3pf, &pva3pf, &pvn3pf );
-  sc.add( "feature4", &scpf, &sapf, &snpf );
-  sc.add( "feature5", &vc3f, &va3f, &vn3f );
+  sc.add( "property1", &pvc2f, &pva2f, &pvn2f );
+  sc.add( "property2", &pvc3i, &pva3i, &pvn3i );
+  sc.add( "property3", &pvc3pf, &pva3pf, &pvn3pf );
+  sc.add( "property4", &scpf, &sapf, &snpf );
+  sc.add( "property5", &vc3f, &va3f, &vn3f );
 
   sc.queryObjects( ).add( &obj1 );
   sc.queryObjects( ).add( &obj2 );

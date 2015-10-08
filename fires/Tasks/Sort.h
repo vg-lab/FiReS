@@ -13,34 +13,34 @@
 namespace fires
 {
 
-  class FeatureSorter
+  class PropertySorter
   {
   public:
-    virtual ~FeatureSorter( void )
+    virtual ~PropertySorter( void )
     {
     }
 
-    virtual bool isLowerThan( Feature&, Feature& ) = 0;
+    virtual bool isLowerThan( Property&, Property& ) = 0;
 
-    virtual bool isEqual( Feature&, Feature& ) = 0;
+    virtual bool isEqual( Property&, Property& ) = 0;
 
   };
 
   template < typename T >
-  class ScalarFeatureSorter : public FeatureSorter
+  class ScalarPropertySorter : public PropertySorter
   {
   public:
 
-    virtual ~ScalarFeatureSorter( void )
+    virtual ~ScalarPropertySorter( void )
     {
     }
 
-    virtual bool isLowerThan( Feature& f1, Feature& f2 )
+    virtual bool isLowerThan( Property& f1, Property& f2 )
     {
       return  f1.value< T >( ) < f2.value< T >( );
     }
 
-    virtual bool isEqual( Feature& f1, Feature& f2 )
+    virtual bool isEqual( Property& f1, Property& f2 )
     {
       return  f1.value< T >( ) == f2.value< T >( );
     }
@@ -69,41 +69,41 @@ namespace fires
     {
     }
 
-    void addFeature( std::string featureLabel_,
-                     FeatureSorter* sorter_,
+    void addProperty( std::string propertyLabel_,
+                     PropertySorter* sorter_,
                      TSortOrder order_ = ASCENDING )
     {
-      _features.push_back( TSortFeature{ featureLabel_, sorter_, order_ });
+      _properties.push_back( TSortProperty{ propertyLabel_, sorter_, order_ });
     }
 
     void clear( void )
     {
-      _features.clear( );
+      _properties.clear( );
     }
 
     virtual bool operator( ) ( Object* obj1, Object* obj2 ) const
     {
-      for ( auto featureIt = _features.cbegin( );
-            featureIt != _features.cend( ); ++featureIt )
+      for ( auto propertyIt = _properties.cbegin( );
+            propertyIt != _properties.cend( ); ++propertyIt )
       {
-        const std::string label = ( *featureIt ).label;
+        const std::string label = ( *propertyIt ).label;
 
-        if ( !obj1->hasFeature( label ))
+        if ( !obj1->hasProperty( label ))
           return false;
 
-        if ( !obj2->hasFeature( label ))
+        if ( !obj2->hasProperty( label ))
           return true;
 
-        if (( *featureIt ).sorter->isEqual(
-              obj1->getFeature( label ),
-              obj2->getFeature( label )))
+        if (( *propertyIt ).sorter->isEqual(
+              obj1->getProperty( label ),
+              obj2->getProperty( label )))
           continue;
 
-        bool lt = ( *featureIt ).sorter->isLowerThan(
-          obj1->getFeature( label ),
-          obj2->getFeature( label ));
+        bool lt = ( *propertyIt ).sorter->isLowerThan(
+          obj1->getProperty( label ),
+          obj2->getProperty( label ));
 
-        return (( *featureIt ).order == TSortOrder::ASCENDING ) ?
+        return (( *propertyIt ).order == TSortOrder::ASCENDING ) ?
           lt : !lt;
 
 
@@ -116,11 +116,11 @@ namespace fires
     typedef struct
     {
       std::string label;
-      FeatureSorter* sorter;
+      PropertySorter* sorter;
       TSortOrder order;
-    } TSortFeature;
+    } TSortProperty;
 
-    std::vector< TSortFeature > _features;
+    std::vector< TSortProperty > _properties;
 
   };
 

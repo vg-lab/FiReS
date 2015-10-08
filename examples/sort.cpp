@@ -29,8 +29,8 @@ int main( void )
 
   fires::Sort sorter;
   fires::SortConfig sortConfig;
-  fires::ScalarFeatureSorter< float > sfsf;
-  fires::ScalarFeatureSorter< int > sfsi;
+  fires::ScalarPropertySorter< float > sfsf;
+  fires::ScalarPropertySorter< int > sfsi;
   fires::Objects objs;
 
   TestObject o1, o2, o3, o4;
@@ -45,10 +45,10 @@ int main( void )
   objs.add( &o3 );
   objs.add( &o4 );
 
-  o1.registerFeature( "f1", 3.1f );
-  o2.registerFeature( "f1", 4.1f );
-  o3.registerFeature( "f1", 1.2f );
-  o4.registerFeature( "f1", 3.1f );
+  o1.registerProperty( "f1", 3.1f );
+  o2.registerProperty( "f1", 4.1f );
+  o3.registerProperty( "f1", 1.2f );
+  o4.registerProperty( "f1", 3.1f );
 
   std::cout << std::endl << "Original" << std::endl;
 
@@ -58,44 +58,44 @@ int main( void )
   std::cout << std::endl << "Ascending and descending" << std::endl;
 
   sortConfig.clear( );
-  sortConfig.addFeature( "f1", &sfsf );
+  sortConfig.addProperty( "f1", &sfsf );
   sorter.eval( objs, sortConfig );
   printObjects( objs );
 
   sortConfig.clear( );
-  sortConfig.addFeature( "f1", &sfsf, fires::SortConfig::DESCENDING );
+  sortConfig.addProperty( "f1", &sfsf, fires::SortConfig::DESCENDING );
   sorter.eval( objs, sortConfig  );
   printObjects( objs );
 
-  o1.registerFeature( "f2", 1 );
-  o2.registerFeature( "f2", 2 );
-  o3.registerFeature( "f2", 3 );
-  o4.registerFeature( "f2", 4 );
+  o1.registerProperty( "f2", 1 );
+  o2.registerProperty( "f2", 2 );
+  o3.registerProperty( "f2", 3 );
+  o4.registerProperty( "f2", 4 );
 
-  std::cout << std::endl << "Adding second feature" << std::endl;
-
-  sortConfig.clear( );
-  sortConfig.addFeature( "f1", &sfsf );
-  sortConfig.addFeature( "f2", &sfsi );
-  sorter.eval( objs, sortConfig  );
-  printObjects( objs );
+  std::cout << std::endl << "Adding second property" << std::endl;
 
   sortConfig.clear( );
-  sortConfig.addFeature( "f1", &sfsf );
-  sortConfig.addFeature( "f2", &sfsi, fires::SortConfig::DESCENDING );
-  sorter.eval( objs, sortConfig  );
-  printObjects( objs );
-
-
-  sortConfig.clear( );
-  sortConfig.addFeature( "f1", &sfsf, fires::SortConfig::DESCENDING );
-  sortConfig.addFeature( "f2", &sfsi, fires::SortConfig::DESCENDING );
+  sortConfig.addProperty( "f1", &sfsf );
+  sortConfig.addProperty( "f2", &sfsi );
   sorter.eval( objs, sortConfig  );
   printObjects( objs );
 
   sortConfig.clear( );
-  sortConfig.addFeature( "f1", &sfsf, fires::SortConfig::DESCENDING );
-  sortConfig.addFeature( "f2", &sfsi, fires::SortConfig::ASCENDING );
+  sortConfig.addProperty( "f1", &sfsf );
+  sortConfig.addProperty( "f2", &sfsi, fires::SortConfig::DESCENDING );
+  sorter.eval( objs, sortConfig  );
+  printObjects( objs );
+
+
+  sortConfig.clear( );
+  sortConfig.addProperty( "f1", &sfsf, fires::SortConfig::DESCENDING );
+  sortConfig.addProperty( "f2", &sfsi, fires::SortConfig::DESCENDING );
+  sorter.eval( objs, sortConfig  );
+  printObjects( objs );
+
+  sortConfig.clear( );
+  sortConfig.addProperty( "f1", &sfsf, fires::SortConfig::DESCENDING );
+  sortConfig.addProperty( "f2", &sfsi, fires::SortConfig::ASCENDING );
   sorter.eval( objs, sortConfig  );
   printObjects( objs );
 
@@ -105,14 +105,14 @@ int main( void )
   objs.add( &o5 );
 
   std::cout << std::endl
-            << "Adding object without features being sorted" << std::endl;
+            << "Adding object without propertys being sorted" << std::endl;
 
   printObjects( objs );
 
 
   sortConfig.clear( );
-  sortConfig.addFeature( "f1", &sfsf, fires::SortConfig::ASCENDING );
-  sortConfig.addFeature( "f2", &sfsi, fires::SortConfig::DESCENDING );
+  sortConfig.addProperty( "f1", &sfsf, fires::SortConfig::ASCENDING );
+  sortConfig.addProperty( "f2", &sfsi, fires::SortConfig::DESCENDING );
   sorter.eval( objs, sortConfig  );
 
   printObjects( objs );
@@ -130,8 +130,8 @@ int main( void )
 
 
   sortConfig.clear( );
-  sortConfig.addFeature( "f1", &sfsf, fires::SortConfig::ASCENDING );
-  sortConfig.addFeature( "f2", &sfsi, fires::SortConfig::DESCENDING );
+  sortConfig.addProperty( "f1", &sfsf, fires::SortConfig::ASCENDING );
+  sortConfig.addProperty( "f2", &sfsi, fires::SortConfig::DESCENDING );
   sorter.eval( objs, sortConfig  );
 
   printObjects( objs );

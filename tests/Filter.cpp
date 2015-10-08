@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE( test_filter )
   BOOST_CHECK_EQUAL( fsr.maxEndpoint( ), fires::FilterRange::OPENED_ENDPOINT );
   BOOST_CHECK_EQUAL( fsr.rangeInclusion( ), fires::FilterRange::INSIDE_RANGE );
 
-  fires::Feature f1( 2.0f ), f2( 3.0f ), f3( 3.5f ), f4( 4.0f ), f5 ( 5.0f );
+  fires::Property f1( 2.0f ), f2( 3.0f ), f3( 3.5f ), f4( 4.0f ), f5 ( 5.0f );
 
   BOOST_CHECK( !fsr.eval( f1 ));
   BOOST_CHECK( !fsr.eval( f2 ));

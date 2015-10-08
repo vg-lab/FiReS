@@ -10,9 +10,9 @@
 #define __FIRES__SEARCH_H__
 
 
-#include "Comparer.h"
-#include "Object.h"
-#include "Objects.h"
+#include "../Property/Comparer.h"
+#include "../Object/Object.h"
+#include "../Object/Objects.h"
 #include "SearchConfig.h"
 #include "Task.h"
 
