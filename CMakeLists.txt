@@ -37,6 +37,12 @@ common_package( vmmlib )
 common_package( OpenMP )
 common_package_post( )
 
+list(APPEND FIRES_DEPENDENT_LIBRARIES Boost)
+
+if (VMMLIB_FOUND)
+  list(APPEND FIRES_DEPENDENT_LIBRARIES vmmlib)
+endif( )
+
 add_subdirectory(fires)
 add_subdirectory(tests)
 add_subdirectory(examples)
