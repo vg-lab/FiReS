@@ -54,12 +54,15 @@ namespace fires
       {
         ObjectProperties::iterator it = this->find( label );
 
-          // if ( it == this->end( ) )
-          // {
-          //   std::cerr << "Fires::Object::getProperty: '" << label
-          //             << "' not existing." << std::endl;
-          //   return std::move( Property( ));
-          // }
+        FIRES_CHECK_THROW( it != this->end( ),
+                           std::string( "non existing property '" ) +
+                           label + std::string( "'" ))
+        return ( *it ).second;
+      }
+
+      const Property& get( const std::string& label ) const
+      {
+        ObjectProperties::const_iterator it = this->find( label );
 
         FIRES_CHECK_THROW( it != this->end( ),
                            std::string( "non existing property '" ) +
@@ -98,12 +101,18 @@ namespace fires
       {
       }
 
-      void registerProperty( const std::string& propertyLabel, Property property )
+      void registerProperty( const std::string& propertyLabel,
+                             Property property )
       {
         _properties.registerProperty( propertyLabel, property );
       }
 
       Property& getProperty( const std::string& propertyLabel )
+      {
+        return _properties.get( propertyLabel );
+      }
+
+      const Property& getProperty( const std::string& propertyLabel ) const
       {
         return _properties.get( propertyLabel );
       }
@@ -190,8 +199,13 @@ namespace fires
     return _impl->getProperty( propertyLabel );
   }
 
+  const Property& Object::getProperty( const std::string& propertyLabel ) const
+  {
+    return _impl->getProperty( propertyLabel );
+  }
+
   bool Object::setProperty( const std::string& propertyLabel,
-                           const Property& property )
+                            const Property& property )
   {
     return _impl->setProperty( propertyLabel, property );
   }
