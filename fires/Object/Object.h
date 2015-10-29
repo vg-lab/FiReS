@@ -18,10 +18,27 @@
 namespace fires
 {
 
-  namespace detail
+  class ObjectProperties
+    : public std::map< std::string, Property >
   {
-    class Object;
-  }
+
+  public:
+
+    ObjectProperties( void );
+
+    void registerProperty( const std::string& label,
+                           const Property& property );
+
+    bool unregisterProperty( const std::string& label );
+
+    Property& get( const std::string& label );
+
+    const Property& get( const std::string& label ) const;
+
+    bool set( const std::string& label, const Property& property );
+
+  }; // class ObjectProperties
+
 
   /*! \class Object
     \brief A class to represent objects that can be used in fires.
@@ -98,9 +115,15 @@ namespace fires
 
     /**
      * Get all properties
-     * @return map with all properties
+     * @return all properties
      */
-    std::map< std::string, Property >& getProperties( void );
+    ObjectProperties& getProperties( void );
+
+    /**
+     * Get all properties as const
+     * @return all properties
+     */
+    const ObjectProperties& getProperties( void ) const;
 
     /**
      * Get a reference to the label of the object
@@ -114,9 +137,20 @@ namespace fires
      */
     std::string label( void ) const;
 
+    /** @name Operators */
+    ///@{
+
+    Object& operator= ( const Object& other );
+    ///@}
+
+
   protected:
 
-    detail::Object* _impl;
+    //! Set of properties of this object
+    ObjectProperties _properties;
+
+    //! Label of this object
+    std::string _label;
 
   };
 

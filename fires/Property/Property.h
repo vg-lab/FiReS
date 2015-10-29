@@ -73,6 +73,7 @@ namespace fires
       #endif
     }
 
+
     FIRES_API
     std::string type( void ) const;
 

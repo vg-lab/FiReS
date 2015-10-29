@@ -51,15 +51,30 @@ namespace fires
       return _properties;
     }
 
-    void clear( void )
-    {
-      _properties.clear( );
-    }
-
     Object& aggregatedObject( )
     {
       return _aggregatedObject;
     }
+
+    FIRES_API
+    void clearAggregatedObject( void )
+    {
+      return _aggregatedObject.clearProperties( );
+    }
+
+    FIRES_API
+    void clearProperties( void )
+    {
+      return _properties.clear( );
+    }
+
+    FIRES_API
+    void clear( void )
+    {
+      clearAggregatedObject( );
+      clearProperties( );
+    }
+
 
   protected:
 

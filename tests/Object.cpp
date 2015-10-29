@@ -55,3 +55,36 @@ BOOST_AUTO_TEST_CASE( test_object )
   obj.label( ) = "";
   BOOST_CHECK( obj.label() != TEST_LABEL );
 }
+
+BOOST_AUTO_TEST_CASE( test_assignation )
+{
+  fires::Object o1, o2;
+
+  o1.registerProperty( "p1", 3.0f );
+  o1.registerProperty( "p2", std::string( "hello" ));
+
+  BOOST_CHECK( o1.getProperty( "p1" ).value< float >( ) == 3.0f );
+  BOOST_CHECK( o1.getProperty( "p2" ).value< std::string >( ) ==
+               std::string( "hello" ));
+
+  BOOST_REQUIRE_THROW( o2.getProperty( "p1" ), fires::exception );
+  BOOST_REQUIRE_THROW( o2.getProperty( "p2" ), fires::exception );
+
+  fires::Object o3( o1 );
+  o2 = o1;
+
+  o1.setProperty( "p1", 4.0f );
+  o1.setProperty( "p2", std::string( "bye" ));
+
+  BOOST_CHECK( o1.getProperty( "p1" ).value< float >( ) == 4.0f );
+  BOOST_CHECK( o1.getProperty( "p2" ).value< std::string >( ) ==
+               std::string( "bye" ));
+  BOOST_CHECK( o2.getProperty( "p1" ).value< float >( ) == 3.0f );
+  BOOST_CHECK( o2.getProperty( "p2" ).value< std::string >( ) ==
+               std::string( "hello" ));
+  BOOST_CHECK( o3.getProperty( "p1" ).value< float >( ) == 3.0f );
+  BOOST_CHECK( o3.getProperty( "p2" ).value< std::string >( ) ==
+               std::string( "hello" ));
+
+
+}
