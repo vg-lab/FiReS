@@ -13,7 +13,6 @@
 #include "../Property/Property.h"
 
 #include <string>
-#include <iostream>
 #include <map>
 
 namespace fires
@@ -29,7 +28,7 @@ namespace fires
 
     This class provides access to object properties and properties
   */
-  class Object
+  class FIRES_API Object
   {
 
   public:
@@ -37,19 +36,16 @@ namespace fires
     /**
      * Default constructor
      */
-    FIRES_API
     Object( );
 
     /**
      * Copy constructor
      */
-    FIRES_API
     Object( Object& object );
 
     /**
      * Destructor
      */
-    FIRES_API
     virtual ~Object( );
 
     /**
@@ -57,7 +53,6 @@ namespace fires
      * @param label label string for the property
      * @param property property to be added
      */
-    FIRES_API
     void registerProperty( const std::string& label, const Property& property );
 
     /**
@@ -65,16 +60,21 @@ namespace fires
      * @param label label of the property to be deleted
      * @return true if the property could be deleted
      */
-    FIRES_API
     bool unregisterProperty( const std::string& label );
 
     /**
      * Get a property of this object
      * @param label label string to retrieve the property
-     * @return the property if found or nullptr otherwise
+     * @return the property if found and throw exception otherwise
      */
-    FIRES_API
     Property& getProperty( const std::string& label );
+
+    /**
+     * Get a property of this object as const
+     * @param label label string to retrieve the property
+     * @return the property if found and throw exception otherwise
+     */
+    const Property& getProperty( const std::string& label ) const;
 
     /**
      * Get a property of this object
@@ -82,7 +82,6 @@ namespace fires
      * @param property property to be setted
      * @return true in case property was setted, false otherwise
      */
-    FIRES_API
     bool setProperty( const std::string& label, const Property& property);
 
     /**
@@ -90,30 +89,29 @@ namespace fires
      * @param label label string to retrieve the property
      * @return true if found
      */
-    FIRES_API
     bool hasProperty( const std::string& label ) const;
 
     /**
      * Clears the properties of this object (no memory freeing)
      */
-    FIRES_API
     void clearProperties( void );
 
-    FIRES_API
+    /**
+     * Get all properties
+     * @return map with all properties
+     */
     std::map< std::string, Property >& getProperties( void );
 
     /**
      * Get a reference to the label of the object
      * @return reference to label
      */
-    FIRES_API
     std::string& label( void );
 
     /**
      * Get the label of the object
      * @return label of the object
      */
-    FIRES_API
     std::string label( void ) const;
 
   protected:

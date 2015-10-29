@@ -55,8 +55,8 @@ namespace fires
     {
     }
 
-    FilterScalarRange( const T min_, //= -1.0f, // std::numeric_limits< T >::min,
-                       const T max_, // = 1.0f, //std::numeric_limits< T >::max,
+    FilterScalarRange( const T min_,
+                       const T max_,
                        const TRangeEndpoint minEndpoint_ = OPENED_ENDPOINT,
                        const TRangeEndpoint maxEndpoint_ = OPENED_ENDPOINT,
                        const TRangeInclusion rangeInclusion_ = INSIDE_RANGE )
@@ -133,13 +133,24 @@ namespace fires
 
     typedef std::vector< std::pair< std::string, Filter* >> TFilterPairs;
 
+    FilterSetConfig( //bool removeFiltered_ = true,
+      const std::string &filterPropertyLabel_ = std::string( "" ))
+      // : _removeFiltered( removeFiltered_ )
+      : _filterPropertyLabel( filterPropertyLabel_ )
+    {
+    }
+
     class ObjectFulfilsFilter
     {
+    protected:
       TFilterPairs _filters;
+      const std::string _filterPropertyLabel;
 
     public:
-      ObjectFulfilsFilter( TFilterPairs filters_ )
+      ObjectFulfilsFilter( TFilterPairs filters_,
+                           const std::string& filterPropertyLabel_ = "" )
         : _filters( filters_ )
+        , _filterPropertyLabel( filterPropertyLabel_ )
       {
       }
 
@@ -159,19 +170,35 @@ namespace fires
             break;
           }
         }
+
+        if ( _filterPropertyLabel != "" )
+          obj->registerProperty( _filterPropertyLabel, fulfilsFilters );
+
         return !fulfilsFilters;
       }
     };
 
-  public:
-    TFilterPairs& filters( )
+    TFilterPairs& filters( void )
     {
       return _filters;
     }
 
+    // bool& removeFiltered( void )
+    // {
+    //   return _removeFiltered;
+    // }
+
+    std::string& filterPropertyLabel( void )
+    {
+      return _filterPropertyLabel;
+    }
+
   protected:
 
+    bool _removeFiltered;
+    std::string _filterPropertyLabel;
     TFilterPairs _filters;
+
 
   };
 
@@ -186,6 +213,9 @@ namespace fires
         static_cast< FilterSetConfig* >( &config );
 
       auto filters = filterSetConfig->filters( );
+      // const bool& removeFiltered = filterSetConfig->removeFiltered( );
+      const std::string& filterPropertyLabel =
+        filterSetConfig->filterPropertyLabel( );
 
       // Avoid going through all objects if no filter needed
       if ( filters.size( ) == 0 )
@@ -193,10 +223,20 @@ namespace fires
         return objs;
       }
 
-      objs.erase(
-        std::remove_if( objs.begin( ), objs.end( ),
-                        FilterSetConfig::ObjectFulfilsFilter( filters )) ,
-        objs.end( ));
+      if ( filterPropertyLabel == "" )
+      {
+
+        objs.erase(
+          std::remove_if( objs.begin( ), objs.end( ),
+                          FilterSetConfig::ObjectFulfilsFilter( filters )) ,
+          objs.end( ));
+      }
+      else
+      {
+        std::for_each( objs.begin( ), objs.end( ),
+                       FilterSetConfig::ObjectFulfilsFilter(
+                         filters, filterPropertyLabel ));
+      }
 
       return objs;
 
