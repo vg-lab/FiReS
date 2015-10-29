@@ -18,7 +18,7 @@
 namespace fires
 {
 
-  class ObjectProperties
+  class FIRES_API ObjectProperties
     : public std::map< std::string, Property >
   {
 
