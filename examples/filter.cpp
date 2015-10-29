@@ -1,12 +1,17 @@
 #include <fires/fires.h>
 
 // Function to print out query results
-void printObjects( fires::Objects& objects )
+void printObjects( fires::Objects& objects,
+                   const std::string& filterLabel = "" )
 {
   std::cout << "[ ";
   for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
   {
     std::cout << ( *obj )->label( ) << " ";
+    if ( filterLabel != "" )
+      std::cout << std::boolalpha << "("
+                << ( *obj )->getProperty( filterLabel ).value< bool >( )
+                << ") ";
   }
   std::cout << "] " << std::endl;
 }
@@ -76,5 +81,19 @@ int main( void )
   ff1.rangeInclusion( ) = fires::FilterRange::OUTSIDE_RANGE;
   fs.eval( objects, fsc );
   printObjects( objects );
+
+  objects.add( &obj1 );
+  objects.add( &obj2 );
+  objects.add( &obj3 );
+  objects.add( &obj4 );
+
+  ff1.rangeInclusion( ) = fires::FilterRange::INSIDE_RANGE;
+  fsc.filterPropertyLabel( ) = std::string( "fires::filter" );
+  fs.eval( objects, fsc );
+  printObjects( objects, "fires::filter" );
+
+  ff1.rangeInclusion( ) = fires::FilterRange::OUTSIDE_RANGE;
+  fs.eval( objects, fsc );
+  printObjects( objects, "fires::filter" );
 
 }

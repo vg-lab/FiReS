@@ -19,11 +19,6 @@ namespace fires
   namespace detail
   {
 
-    // class ObjectProperties
-    //   : public std::map< std::string, Property >
-    // {
-    // };
-
     class ObjectProperties
       : public std::map< std::string, Property >
     {
@@ -37,8 +32,11 @@ namespace fires
       void registerProperty( const std::string& label,
                             Property& property )
       {
-        this->insert( std::pair< std::string, Property& >
-                      ( label, property ));
+        auto ret = this->insert( std::pair< std::string, Property& >
+                                 ( label, property ));
+
+        if ( !ret.second )
+          ( *this )[ label ] = property;
       }
 
       bool unregisterProperty( const std::string& label )

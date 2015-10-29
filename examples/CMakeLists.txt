@@ -1,7 +1,7 @@
 # Include directories
 include_directories(
-  ${CMAKE_SOURCE_DIR}/
-  ${CMAKE_BINARY_DIR}
+  ${PROJECT_SOURCE_DIR}/
+  ${PROJECT_BINARY_DIR}
 )
 
 add_executable( properties properties.cpp )
