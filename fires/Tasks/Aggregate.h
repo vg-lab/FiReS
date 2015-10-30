@@ -51,15 +51,27 @@ namespace fires
       return _properties;
     }
 
-    void clear( void )
-    {
-      _properties.clear( );
-    }
-
     Object& aggregatedObject( )
     {
       return _aggregatedObject;
     }
+
+    void clearAggregatedObject( void )
+    {
+      return _aggregatedObject.clearProperties( );
+    }
+
+    void clearProperties( void )
+    {
+      return _properties.clear( );
+    }
+
+    void clear( void )
+    {
+      clearAggregatedObject( );
+      clearProperties( );
+    }
+
 
   protected:
 

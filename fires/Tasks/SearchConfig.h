@@ -185,6 +185,25 @@ namespace fires
       return _resultsPropertyLabel;
     }
 
+    FIRES_API
+    void clearQueryObjects( void )
+    {
+      return _queryObjects.clear( );
+    }
+
+    FIRES_API
+    void clearProperties( void )
+    {
+      return _propertiesConfig.clear( );
+    }
+
+    FIRES_API
+    void clear( void )
+    {
+      clearQueryObjects( );
+      clearProperties( );
+    }
+
   protected:
     //! Configuration for each property
     std::map< std::string, QueryPropertyData > _propertiesConfig;

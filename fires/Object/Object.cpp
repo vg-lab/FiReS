@@ -16,225 +16,147 @@
 
 namespace fires
 {
-  namespace detail
+
+  ObjectProperties::ObjectProperties( void )
   {
-
-    class ObjectProperties
-      : public std::map< std::string, Property >
-    {
-
-    public:
-
-      ObjectProperties( void )
-      {
-      }
-
-      void registerProperty( const std::string& label,
-                            Property& property )
-      {
-        auto ret = this->insert( std::pair< std::string, Property& >
-                                 ( label, property ));
-
-        if ( !ret.second )
-          ( *this )[ label ] = property;
-      }
-
-      bool unregisterProperty( const std::string& label )
-      {
-        ObjectProperties::const_iterator it = this->find( label );
-
-        if ( it == this->end( ) )
-          return false;
-
-        this->erase( it );
-        return true;
-      }
-
-      Property& get( const std::string& label )
-      {
-        ObjectProperties::iterator it = this->find( label );
-
-        FIRES_CHECK_THROW( it != this->end( ),
-                           std::string( "non existing property '" ) +
-                           label + std::string( "'" ))
-        return ( *it ).second;
-      }
-
-      const Property& get( const std::string& label ) const
-      {
-        ObjectProperties::const_iterator it = this->find( label );
-
-        FIRES_CHECK_THROW( it != this->end( ),
-                           std::string( "non existing property '" ) +
-                           label + std::string( "'" ))
-        return ( *it ).second;
-      }
-
-      bool set( const std::string& label, const Property& property )
-      {
-        ObjectProperties::const_iterator it = this->find( label );
-
-        if ( it == this->end( ))
-          return false;
-
-        ( * this )[label] = property;
-        return true;
-      }
-
-    }; // class ObjectProperties
-
-
-    class Object
-    {
-
-    public:
-
-      Object( void )
-        : _properties( )
-        , _label( "" )
-      {
-      }
-
-      Object( Object& object )
-        : _properties( object._properties )
-        , _label( object._label )
-      {
-      }
-
-      void registerProperty( const std::string& propertyLabel,
-                             Property property )
-      {
-        _properties.registerProperty( propertyLabel, property );
-      }
-
-      Property& getProperty( const std::string& propertyLabel )
-      {
-        return _properties.get( propertyLabel );
-      }
-
-      const Property& getProperty( const std::string& propertyLabel ) const
-      {
-        return _properties.get( propertyLabel );
-      }
-
-      bool setProperty( const std::string& propertyLabel,
-                       const Property& property)
-      {
-        return _properties.set( propertyLabel, property );
-      }
-
-      bool unregisterProperty( const std::string& propertyLabel )
-      {
-        return _properties.unregisterProperty( propertyLabel );
-      }
-
-      void clearProperties( void )
-      {
-        _properties.clear( );
-      }
-
-      bool hasProperty( const std::string& label_ ) const
-      {
-        return _properties.find( label_ ) != _properties.end( );
-      }
-
-      ObjectProperties& properties( void )
-      {
-        return _properties;
-      }
-
-      std::string & label( void )
-      {
-        return _label;
-      }
-
-      std::string label( void ) const
-      {
-        return _label;
-      }
-
-    protected:
-
-      //! Set of properties of this object
-      ObjectProperties _properties;
-
-      //! Label of this object
-      std::string _label;
-
-    }; // class Object
-
-  } // namespace detail
-
-
-  Object::Object( )
-    : _impl ( new detail::Object )
-  {
-
   }
 
-  Object::~Object( )
+  void ObjectProperties::registerProperty( const std::string& label,
+                                           const Property& property )
   {
-    delete _impl;
+//    Property p = property
+
+    auto ret = this->insert( std::pair< std::string, Property >
+                             ( label, property ));
+
+    if ( !ret.second )
+      ( *this )[ label ] = property;
+  }
+
+  bool ObjectProperties::unregisterProperty( const std::string& label )
+  {
+    ObjectProperties::const_iterator it = this->find( label );
+
+    if ( it == this->end( ) )
+      return false;
+
+    this->erase( it );
+    return true;
+  }
+
+  Property& ObjectProperties::get( const std::string& label )
+  {
+    ObjectProperties::iterator it = this->find( label );
+
+    FIRES_CHECK_THROW( it != this->end( ),
+                       std::string( "non existing property '" ) +
+                       label + std::string( "'" ))
+      return ( *it ).second;
+  }
+
+  const Property& ObjectProperties::get( const std::string& label ) const
+  {
+    ObjectProperties::const_iterator it = this->find( label );
+
+    FIRES_CHECK_THROW( it != this->end( ),
+                       std::string( "non existing property '" ) +
+                       label + std::string( "'" ))
+      return ( *it ).second;
+  }
+
+  bool ObjectProperties::set( const std::string& label,
+                              const Property& property )
+  {
+    ObjectProperties::const_iterator it = this->find( label );
+
+    if ( it == this->end( ))
+      return false;
+
+    ( * this )[label] = property;
+    return true;
+  }
+
+  Object::Object( void )
+    : _properties( )
+    , _label( "" )
+  {
   }
 
   Object::Object( Object& object )
-    : _impl( new detail::Object( *object._impl ))
+    : _properties( object._properties )
+    , _label( object._label )
+  {
+  }
+
+  Object::~Object( void )
   {
   }
 
 
   void Object::registerProperty( const std::string& propertyLabel,
-                                const Property& property )
+                                 const Property& property )
   {
-    _impl->registerProperty( propertyLabel, property );
-  }
-
-  bool Object::unregisterProperty( const std::string& propertyLabel )
-  {
-    return _impl->unregisterProperty( propertyLabel );
+    _properties.registerProperty( propertyLabel, property );
   }
 
   Property& Object::getProperty( const std::string& propertyLabel )
   {
-    return _impl->getProperty( propertyLabel );
+    return _properties.get( propertyLabel );
   }
 
   const Property& Object::getProperty( const std::string& propertyLabel ) const
   {
-    return _impl->getProperty( propertyLabel );
+    return _properties.get( propertyLabel );
   }
 
   bool Object::setProperty( const std::string& propertyLabel,
-                            const Property& property )
+                            const Property& property)
   {
-    return _impl->setProperty( propertyLabel, property );
+    return _properties.set( propertyLabel, property );
+  }
+
+  bool Object::unregisterProperty( const std::string& propertyLabel )
+  {
+    return _properties.unregisterProperty( propertyLabel );
   }
 
   void Object::clearProperties( void )
   {
-    return _impl->clearProperties( );
+    _properties.clear( );
   }
 
   bool Object::hasProperty( const std::string& label_ ) const
   {
-    return _impl->hasProperty( label_ );
+    return _properties.find( label_ ) != _properties.end( );
   }
 
-  std::map< std::string, Property >& Object::getProperties( void )
+  ObjectProperties& Object::getProperties( void )
   {
-    return _impl->properties( );
+    return _properties;
+  }
+
+  const ObjectProperties& Object::getProperties( void ) const
+  {
+    return _properties;
   }
 
   std::string& Object::label( void )
   {
-    return _impl->label( );
+    return _label;
   }
 
   std::string Object::label( void ) const
   {
-    return _impl->label( );
+    return _label;
   }
 
-} // namespace fires
+  Object& Object::operator= ( const Object& other )
+  {
+    this->_properties = other.getProperties( );
+    _label = other.label( );
+    return *this;
+  }
+
+ } // namespace fires
 
 // EOF
