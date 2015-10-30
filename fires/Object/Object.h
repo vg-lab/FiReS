@@ -45,7 +45,7 @@ namespace fires
 
     This class provides access to object properties and properties
   */
-  class FIRES_API Object
+  class Object
   {
 
   public:
@@ -53,16 +53,19 @@ namespace fires
     /**
      * Default constructor
      */
+    FIRES_API 
     Object( );
 
     /**
      * Copy constructor
      */
+    FIRES_API 
     Object( Object& object );
 
     /**
      * Destructor
      */
+    FIRES_API 
     virtual ~Object( );
 
     /**
@@ -70,6 +73,7 @@ namespace fires
      * @param label label string for the property
      * @param property property to be added
      */
+    FIRES_API 
     void registerProperty( const std::string& label, const Property& property );
 
     /**
@@ -77,6 +81,7 @@ namespace fires
      * @param label label of the property to be deleted
      * @return true if the property could be deleted
      */
+    FIRES_API 
     bool unregisterProperty( const std::string& label );
 
     /**
@@ -84,6 +89,7 @@ namespace fires
      * @param label label string to retrieve the property
      * @return the property if found and throw exception otherwise
      */
+    FIRES_API 
     Property& getProperty( const std::string& label );
 
     /**
@@ -91,6 +97,7 @@ namespace fires
      * @param label label string to retrieve the property
      * @return the property if found and throw exception otherwise
      */
+    FIRES_API 
     const Property& getProperty( const std::string& label ) const;
 
     /**
@@ -99,6 +106,7 @@ namespace fires
      * @param property property to be setted
      * @return true in case property was setted, false otherwise
      */
+    FIRES_API 
     bool setProperty( const std::string& label, const Property& property);
 
     /**
@@ -106,40 +114,46 @@ namespace fires
      * @param label label string to retrieve the property
      * @return true if found
      */
+    FIRES_API 
     bool hasProperty( const std::string& label ) const;
 
     /**
      * Clears the properties of this object (no memory freeing)
      */
+    FIRES_API 
     void clearProperties( void );
 
     /**
      * Get all properties
      * @return all properties
      */
+    FIRES_API 
     ObjectProperties& getProperties( void );
 
     /**
      * Get all properties as const
      * @return all properties
      */
+    FIRES_API 
     const ObjectProperties& getProperties( void ) const;
 
     /**
      * Get a reference to the label of the object
      * @return reference to label
      */
+    FIRES_API 
     std::string& label( void );
 
     /**
      * Get the label of the object
      * @return label of the object
      */
+    FIRES_API 
     std::string label( void ) const;
 
     /** @name Operators */
     ///@{
-
+    FIRES_API 
     Object& operator= ( const Object& other );
     ///@}
 
