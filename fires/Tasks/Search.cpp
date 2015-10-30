@@ -62,8 +62,9 @@ namespace fires
                                   obj2->getProperty( featLabel ));
 
 
-//      dist += fabs( qfd->second.weight( )) * d * d;
-      dist += d;
+        //dist += fabs( qfd->second.weight( )) * d * d;
+        dist += fabs( qfd->second.weight( )) * d;
+        //dist += d;
 
     }
 
@@ -107,6 +108,7 @@ namespace fires
 
       if ( n )
       {
+
         n->reset( featLabel );
 
         for ( auto obj = objects.begin( );
