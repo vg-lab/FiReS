@@ -10,6 +10,7 @@
 #define __FIRES__PROPERTYCASTER_H__
 
 #include "Property.h"
+#include <sstream>
 
 namespace fires
 {
@@ -29,8 +30,8 @@ namespace fires
       FLOOR
     } TIntCasting;
 
-    virtual int toInt( Property&, TIntCasting casting = ROUND ) = 0;
-
+    virtual int toInt( const Property&, TIntCasting casting = ROUND ) = 0;
+    virtual std::string toString( const Property& property ) = 0;
 
   };
 
@@ -43,7 +44,7 @@ namespace fires
     {
     }
 
-    virtual int toInt( Property& property, TIntCasting casting = ROUND )
+    virtual int toInt( const Property& property, TIntCasting casting = ROUND )
     {
       switch ( casting )
       {
@@ -61,6 +62,12 @@ namespace fires
       }
     }
 
+    virtual std::string toString( const Property& property )
+    {
+      std::ostringstream iss;
+      iss << property.value< T >( );
+      return std::string( iss.str( ));
+    }
   };
 
 } // namespace fires
