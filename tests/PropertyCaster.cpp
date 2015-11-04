@@ -10,7 +10,7 @@
 #include "firesTests.h"
 
 
-BOOST_AUTO_TEST_CASE( test_property )
+BOOST_AUTO_TEST_CASE( property_scalar_to_int )
 {
 
   fires::Property f1( 3.7f );
@@ -18,8 +18,6 @@ BOOST_AUTO_TEST_CASE( test_property )
 
   fires::ScalarPropertyCaster< float > sfcf;
   fires::PropertyCaster* pfc = new fires::ScalarPropertyCaster< float >;
-
-  std::cout << sfcf.toInt( f1 ) << std::endl;
 
   // default rounding
   BOOST_CHECK( sfcf.toInt( f1 ) == 4 );
@@ -45,7 +43,23 @@ BOOST_AUTO_TEST_CASE( test_property )
   BOOST_CHECK( pfc->toInt( f1, fires::PropertyCaster::CEIL ) == 4 );
   BOOST_CHECK( pfc->toInt( f2, fires::PropertyCaster::CEIL ) == 5 );
 
-
   delete pfc;
+
+}
+
+BOOST_AUTO_TEST_CASE( property_scalar_to_string )
+{
+
+  fires::Property p1( 3.7f );
+  fires::Property p2( 4.3434 );
+  fires::Property p3( 5 );
+
+  fires::ScalarPropertyCaster< float > spcf;
+  fires::ScalarPropertyCaster< double > spcd;
+  fires::ScalarPropertyCaster< int > spci;
+
+  BOOST_CHECK( spcf.toString( p1 ) == std::string( "3.7" ));
+  BOOST_CHECK( spcd.toString( p2 ) == std::string( "4.3434" ));
+  BOOST_CHECK( spci.toString( p3 ) == std::string( "5" ));
 
 }
