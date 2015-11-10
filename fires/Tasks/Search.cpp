@@ -56,6 +56,10 @@ namespace fires
           d = n->normalizeDistance( d );
           n->freeNormalizedProperty( f1 );
           n->freeNormalizedProperty( f2 );
+
+          if ( qfd->second.weight( ) < 0 )
+            d = 1.0f - d;
+
         }
         else
           d = comparer->distance( obj1->getProperty( featLabel ),
