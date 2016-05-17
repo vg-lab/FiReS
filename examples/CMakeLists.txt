@@ -10,9 +10,6 @@ target_link_libraries( properties fires )
 add_executable( searchScalar searchScalar.cpp )
 target_link_libraries( searchScalar fires )
 
-add_executable( searchVector searchVector.cpp)
-target_link_libraries( searchVector fires)
-
 add_executable( searchLargeNumberOfObjects searchLargeNumberOfObjects.cpp)
 target_link_libraries( searchLargeNumberOfObjects fires)
 
