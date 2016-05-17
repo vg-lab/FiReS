@@ -1,4 +1,4 @@
-# FiReS - Filtering, Retrieval and Search System
+# FiReS - Filtering, Retrieval and Search
 (c) 2015. GMRV / URJC
 
 www.gmrv.es
@@ -26,8 +26,8 @@ Yosemite and Windows 7/8 (Visual Studio 2013 Win64). The following steps
 should be enough to build it:
 
 ```bash
-git clone https://gitlab.gmrv.es/retrieval/fires.git
-mkdir fires/build && cd fires/build
+git clone https://github.com/gmrvvis/FiReS.git
+mkdir FiReS/build && cd FiReS/build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make
 ```
