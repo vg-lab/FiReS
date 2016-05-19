@@ -1,20 +1,29 @@
-/**
- * @file    Averager.h
- * @brief
- * @author  Pablo Toharia <pablo.toharia@urjc.es>
- * @date
- * @remarks Copyright (c) GMRV/URJC. All rights reserved.
- *          Do not distribute without further notice.
+/*
+ * Copyright (c) 2014-2016 GMRV/URJC.
+ *
+ * Authors: Pablo Toharia <pablo.toharia@urjc.es>
+ *
+ * This file is part of FiReS <https://github.com/gmrvvis/FiReS>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License version 3.0 as published
+ * by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
  */
 #ifndef __FIRES_AVERAGER_H__
 #define __FIRES_AVERAGER_H__
 
 #include "Property.h"
-#include "../Definitions.h"
 
-#ifdef FIRES_USE_VMMLIB
-#include <vmmlib/vmmlib.hpp>
-#endif
 
 namespace fires
 {
@@ -125,124 +134,124 @@ namespace fires
 
   };
 
-  #ifdef FIRES_USE_VMMLIB
+// #ifdef FIRES_USE_VMMLIB
 
-  template < class V, size_t M, typename T >
-  class VectorAverager
-    : public ScalarAverager< vmml::vector< M, T >>
-  {
-  public:
-    VectorAverager( )
-      : ScalarAverager< vmml::vector< M, T >>( vmml::vector< M, T >::ZERO )
-    {
-    }
+//   template < class V, size_t M, typename T >
+//   class VectorAverager
+//     : public ScalarAverager< vmml::vector< M, T >>
+//   {
+//   public:
+//     VectorAverager( )
+//       : ScalarAverager< vmml::vector< M, T >>( vmml::vector< M, T >::ZERO )
+//     {
+//     }
 
-  };
+//   };
 
-  template < class V, size_t M, typename T >
-  class VectorAverager< V*, M, T >
-    : public ScalarAverager< vmml::vector< M, T >* >
-  {
-  public:
-    VectorAverager( )
-      : ScalarAverager< vmml::vector< M, T >* >( vmml::vector< M, T >::ZERO )
-    {
-    }
+//   template < class V, size_t M, typename T >
+//   class VectorAverager< V*, M, T >
+//     : public ScalarAverager< vmml::vector< M, T >* >
+//   {
+//   public:
+//     VectorAverager( )
+//       : ScalarAverager< vmml::vector< M, T >* >( vmml::vector< M, T >::ZERO )
+//     {
+//     }
 
-  };
-
-
-
-  template < class V, size_t M, typename T >
-  class VectorAverager< V, M, T* >
-    : public ScalarAverager< vmml::vector< M, T >>
-  {
-  public:
-    VectorAverager( )
-      : ScalarAverager< vmml::vector< M, T >>( vmml::vector< M, T >::ZERO )
-    {
-    }
-
-
-    virtual void accum( const Property& property_ )
-    {
-      vector< M, T > v;
-      vector< M, T * > vp = property_.value< vector< M, T* >>( );
-      for ( unsigned int i = 0; i < M ; i++ )
-        v( i ) = *vp( i );
-
-      this->_accumValue += v;
-    }
-
-
-    virtual Property property( void )
-    {
-
-      vector<M, T* > _vector;
-
-      for ( unsigned int i = 0; i < M ; i++ )
-      {
-        _vectorValues[ i ] = this->_accumValue( i );
-        _vector( i ) = &_vectorValues[ i ];
-      }
-
-      return Property( _vector );
-    }
-
-  protected:
-
-    T _vectorValues[ M ];
-
-
-  };
-
-  template < class V, size_t M, typename T >
-  class VectorAverager< V*, M, T* >
-    : public ScalarAverager< vmml::vector< M, T >>
-  {
-  public:
-    VectorAverager( )
-      : ScalarAverager< vmml::vector< M, T >>( vmml::vector< M, T >::ZERO )
-    {
-    }
-
-
-    virtual void accum( const Property& property_ )
-    {
-
-      property_.value< vector< M, T* >* >( );
-      vector< M, T > v;
-      vector< M, T* > vp = *( property_.value< vector< M, T* >* >( ));
-      for ( unsigned int i = 0; i < M ; i++ )
-        v( i ) = *vp( i );
-
-      this->_accumValue += v;
-    }
-
-
-    virtual Property property( void )
-    {
-      for ( unsigned int i = 0; i < M ; i++ )
-      {
-        _vectorValues[ i ] = this->_accumValue( i );
-        _vector( i ) = &_vectorValues[ i ];
-      }
-
-      return Property( &_vector );
-    }
-
-  protected:
-
-    T _vectorValues[ M ];
-    vector<M, T* > _vector;
-
-  };
+//   };
 
 
 
-#endif
+//   template < class V, size_t M, typename T >
+//   class VectorAverager< V, M, T* >
+//     : public ScalarAverager< vmml::vector< M, T >>
+//   {
+//   public:
+//     VectorAverager( )
+//       : ScalarAverager< vmml::vector< M, T >>( vmml::vector< M, T >::ZERO )
+//     {
+//     }
 
-}
+
+//     virtual void accum( const Property& property_ )
+//     {
+//       vector< M, T > v;
+//       vector< M, T * > vp = property_.value< vector< M, T* >>( );
+//       for ( unsigned int i = 0; i < M ; i++ )
+//         v( i ) = *vp( i );
+
+//       this->_accumValue += v;
+//     }
+
+
+//     virtual Property property( void )
+//     {
+
+//       vector<M, T* > _vector;
+
+//       for ( unsigned int i = 0; i < M ; i++ )
+//       {
+//         _vectorValues[ i ] = this->_accumValue( i );
+//         _vector( i ) = &_vectorValues[ i ];
+//       }
+
+//       return Property( _vector );
+//     }
+
+//   protected:
+
+//     T _vectorValues[ M ];
+
+
+//   };
+
+//   template < class V, size_t M, typename T >
+//   class VectorAverager< V*, M, T* >
+//     : public ScalarAverager< vmml::vector< M, T >>
+//   {
+//   public:
+//     VectorAverager( )
+//       : ScalarAverager< vmml::vector< M, T >>( vmml::vector< M, T >::ZERO )
+//     {
+//     }
+
+
+//     virtual void accum( const Property& property_ )
+//     {
+
+//       property_.value< vector< M, T* >* >( );
+//       vector< M, T > v;
+//       vector< M, T* > vp = *( property_.value< vector< M, T* >* >( ));
+//       for ( unsigned int i = 0; i < M ; i++ )
+//         v( i ) = *vp( i );
+
+//       this->_accumValue += v;
+//     }
+
+
+//     virtual Property property( void )
+//     {
+//       for ( unsigned int i = 0; i < M ; i++ )
+//       {
+//         _vectorValues[ i ] = this->_accumValue( i );
+//         _vector( i ) = &_vectorValues[ i ];
+//       }
+
+//       return Property( &_vector );
+//     }
+
+//   protected:
+
+//     T _vectorValues[ M ];
+//     vector<M, T* > _vector;
+
+//   };
+
+
+
+// #endif
+
+} // namespace fires
 
 
 #endif

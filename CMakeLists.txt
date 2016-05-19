@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
-#   FiReS - Filtering and Retrieval System
-#   2014 (c) GMRV / Universidad Rey Juan Carlos
+#   FiReS - Filter, Retrieval and Search
+#   2014 - 2016 (c) GMRV / Universidad Rey Juan Carlos
 #   gmrv@gmrv.es
 #   www.gmrv.es
 #
@@ -20,7 +20,7 @@ endif(NOT CMAKE_BUILD_TYPE)
 include(GitExternal)
 
 # fires version
-set(LAST_RELEASE 0.0.0)
+set(LAST_RELEASE 0.1.0)
 set(VERSION_MAJOR "0")
 set(VERSION_MINOR "1")
 set(VERSION_PATCH "0")
@@ -29,19 +29,14 @@ set(VERSION_ABI 1)
 include(Common)
 
 # description
-set(FIRES_DESCRIPTION "FiReS - Filter and retrieval System")
+set(FIRES_DESCRIPTION "FiReS - Filter, Retrieval and Search")
 set(COMMON_PROJECT_DOMAIN gmrv.es)
 
 common_package( Boost REQUIRED COMPONENTS unit_test_framework )
-common_package( vmmlib )
 common_package( OpenMP )
 common_package_post( )
 
 set( FIRES_DEPENDENT_LIBRARIES Boost )
-
-if ( VMMLIB_FOUND )
-  list( APPEND FIRES_DEPENDENT_LIBRARIES vmmlib )
-endif( )
 
 add_subdirectory( fires )
 add_subdirectory( tests )
