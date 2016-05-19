@@ -32,8 +32,4 @@ set(FIRES_SOURCES
   Tasks/Search.cpp
 )
 
-if(VMMLIB_FOUND)
-  set(FIRES_LINK_LIBRARIES ${FIRES_LINK_LIBRARIES} PUBLIC vmmlib)
-endif()
-
 common_library(fires)

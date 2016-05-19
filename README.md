@@ -10,10 +10,6 @@ FiReS is a library to ease filtering, search and content-based
 retrieval operations over any kind of object that can be characterized
 by a set of properties.
 
-## Features and usage:
-
-TODO
-
 ## Dependencies
 
 Boost.Any is the only required dependency. OpenMP and Boost's Unit

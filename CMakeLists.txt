@@ -1,7 +1,7 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
-#   FiReS - Filtering and Retrieval System
-#   2014 (c) GMRV / Universidad Rey Juan Carlos
+#   FiReS - Filter, Retrieval and Search
+#   2014 - 2016 (c) GMRV / Universidad Rey Juan Carlos
 #   gmrv@gmrv.es
 #   www.gmrv.es
 #
@@ -20,7 +20,7 @@ endif(NOT CMAKE_BUILD_TYPE)
 include(GitExternal)
 
 # fires version
-set(LAST_RELEASE 0.0.0)
+set(LAST_RELEASE 0.1.0)
 set(VERSION_MAJOR "0")
 set(VERSION_MINOR "1")
 set(VERSION_PATCH "0")
