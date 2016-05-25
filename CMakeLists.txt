@@ -6,8 +6,9 @@
 #   www.gmrv.es
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-cmake_minimum_required(VERSION 2.8)
-project(fires)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+project(fires VERSION 0.1.0 )
+set(fires_VERSION_ABI 1)
 
 list(APPEND CMAKE_MODULE_PATH
   ${PROJECT_SOURCE_DIR}/CMake
@@ -19,12 +20,6 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 include(GitExternal)
 
-# fires version
-set(LAST_RELEASE 0.1.0)
-set(VERSION_MAJOR "0")
-set(VERSION_MINOR "1")
-set(VERSION_PATCH "0")
-set(VERSION_ABI 1)
 
 include(Common)
 
@@ -32,9 +27,9 @@ include(Common)
 set(FIRES_DESCRIPTION "FiReS - Filter, Retrieval and Search")
 set(COMMON_PROJECT_DOMAIN gmrv.es)
 
-common_package( Boost REQUIRED COMPONENTS unit_test_framework )
-common_package( OpenMP )
-common_package_post( )
+common_find_package( Boost REQUIRED COMPONENTS unit_test_framework )
+common_find_package( OpenMP )
+common_find_package_post( )
 
 set( FIRES_DEPENDENT_LIBRARIES Boost )
 
