@@ -45,7 +45,7 @@ namespace fires
   {
   public:
 
-    #define NS_LOG_HEADER                                           \
+#define FIRES_LOG_HEADER                                  \
   std::string( "FiReS: " +                                \
                std::string( __FILE__ ) + std::string( "(" ) +   \
                std::to_string( __LINE__ ) +                     \
