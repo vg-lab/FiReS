@@ -1,5 +1,5 @@
 if (${Boost_FOUND})
   message(STATUS "Test wil be built." )
-  set(TEST_LIBRARIES ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} fires)
+  set(TEST_LIBRARIES ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} FiReS)
   include(CommonCTest)
 endif()
