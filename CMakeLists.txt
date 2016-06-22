@@ -7,8 +7,8 @@
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
-project(fires VERSION 0.1.0 )
-set(fires_VERSION_ABI 1)
+project(FiReS VERSION 0.1.0 )
+set(FiReS_VERSION_ABI 1)
 
 list(APPEND CMAKE_MODULE_PATH
   ${PROJECT_SOURCE_DIR}/CMake

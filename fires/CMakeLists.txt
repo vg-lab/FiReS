@@ -32,4 +32,4 @@ set(FIRES_SOURCES
   Tasks/Search.cpp
 )
 
-common_library(fires)
+common_library(FiReS)
