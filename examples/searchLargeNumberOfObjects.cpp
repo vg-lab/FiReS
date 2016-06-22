@@ -1,4 +1,4 @@
-#ifdef Win32 || _WINDOWS || MSVC
+#if defined( Win32 ) || defined( _WINDOWS ) || defined( MSVC )
 #include <iostream>
 int main( void )
 {
