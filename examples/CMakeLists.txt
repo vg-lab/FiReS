@@ -4,23 +4,23 @@ include_directories(
   ${PROJECT_BINARY_DIR}
 )
 
-add_executable( firesProperties properties.cpp )
-target_link_libraries( firesProperties fires )
+add_executable( FiReSProperties properties.cpp )
+target_link_libraries( FiReSProperties FiReS )
 
-add_executable( firesSearchScalar searchScalar.cpp )
-target_link_libraries( firesSearchScalar fires )
+add_executable( FiReSSearchScalar searchScalar.cpp )
+target_link_libraries( FiReSSearchScalar FiReS )
 
-add_executable( firesSearchLargeNumberOfObjects searchLargeNumberOfObjects.cpp)
-target_link_libraries( firesSearchLargeNumberOfObjects fires)
+add_executable( FiReSSearchLargeNumberOfObjects searchLargeNumberOfObjects.cpp)
+target_link_libraries( FiReSSearchLargeNumberOfObjects FiReS)
 
-add_executable( firesFilter filter.cpp )
-target_link_libraries( firesFilter fires )
+add_executable( FiReSFilter filter.cpp )
+target_link_libraries( FiReSFilter FiReS )
 
-add_executable( firesSort sort.cpp )
-target_link_libraries( firesSort fires )
+add_executable( FiReSSort sort.cpp )
+target_link_libraries( FiReSSort FiReS )
 
-add_executable( firesAggregate aggregate.cpp )
-target_link_libraries( firesAggregate fires )
+add_executable( FiReSAggregate aggregate.cpp )
+target_link_libraries( FiReSAggregate FiReS )
 
-add_executable( firesTasks tasks.cpp )
-target_link_libraries( firesTasks fires )
+add_executable( FiReSTasks tasks.cpp )
+target_link_libraries( FiReSTasks FiReS )
