@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE( test_property )
   BOOST_CHECK( f2.empty( ) == true );
   BOOST_REQUIRE_THROW( f1->value< int >( ), boost::bad_any_cast);
   BOOST_REQUIRE_THROW( f2.value< int >( ), boost::bad_any_cast );
-  
+
   *f1 = 3;
   f2 = 5.4f;
   BOOST_CHECK( f1->empty( ) == false );
@@ -62,8 +62,17 @@ BOOST_AUTO_TEST_CASE( test_property )
   BOOST_CHECK( typeid( unsigned int ).name( ) == f1->type( ));
   BOOST_CHECK( typeid( float ).name( ) == f2.type( ));
 
-
-
+  // Check return pointer to value
+  *f1 = fires::Property( 3 );
+  f2 = fires::Property( 3.5f );
+  BOOST_CHECK( f1->value< int >( ) == 3 );
+  BOOST_CHECK( f2.value< float >( ) == 3.5f );
+  auto intPtr = f1->ptrToValue< int >( );
+  auto floatPtr = f2.ptrToValue< float >( );
+  *intPtr = 4;
+  *floatPtr = 4.5f;
+  BOOST_CHECK( f1->value< int >( ) == 4 );
+  BOOST_CHECK( f2.value< float >( ) == 4.5f );
 
   delete f1;
 

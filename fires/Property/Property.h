@@ -84,7 +84,35 @@ namespace fires
         throw boost::bad_any_cast( );
       }
       return v;
-      #endif
+#endif
+    }
+
+    template < typename ValueType >
+    ValueType* ptrToValue( void )
+    {
+#ifdef NDEBUG
+      return boost::any_cast< ValueType >( &_value );
+#else
+      ValueType* v;
+
+      if ( _value.empty( ))
+        std::cerr << "fires::Property::value( ): property value is empty "
+                  << std::endl;
+
+      try
+      {
+        v = boost::any_cast< ValueType >( &_value );
+      }
+      catch( ... )
+      {
+        Log::log(
+          std::string( "fires::Property::value( ), can not cast from " ) +
+          _value.type( ).name( ) + std::string( " to " ) +
+          typeid( ValueType ).name( ), LOG_LEVEL_ERROR );
+        throw boost::bad_any_cast( );
+      }
+      return v;
+#endif
     }
 
 
