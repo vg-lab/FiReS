@@ -5,15 +5,15 @@ void printObjects( fires::Objects& objects )
 {
 
   std::cout << "[ ";
-  for ( auto obj = objects.begin( ); obj != objects.end( ); obj++ )
+  for ( auto obj : objects )
   {
-    std::cout << ( *obj )->label( ) << " = ( ";
+    std::cout << obj->label( ) << " = ( ";
 
-    for ( auto f = ( *obj )->getProperties( ).begin( );
-          f != ( *obj )->getProperties( ).end( ); ++f )
+    for ( auto f = obj->properties( ).begin( );
+          f != obj ->properties( ).end( ); ++f )
     {
       std::cout << "" << ( *f ).first << ": "
-                << ( *obj )->getProperty(( *f ).first ).value< float >( ) << " ";
+                << obj->getProperty(( *f ).first ).value< float >( ) << " ";
     }
 
     std::cout << ") ";

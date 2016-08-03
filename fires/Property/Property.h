@@ -88,7 +88,7 @@ namespace fires
     }
 
     template < typename ValueType >
-    ValueType* ptrToValue( void )
+    ValueType* valuePtr( void )
     {
 #ifdef NDEBUG
       return boost::any_cast< ValueType >( &_value );

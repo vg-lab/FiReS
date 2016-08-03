@@ -67,8 +67,8 @@ BOOST_AUTO_TEST_CASE( test_property )
   f2 = fires::Property( 3.5f );
   BOOST_CHECK( f1->value< int >( ) == 3 );
   BOOST_CHECK( f2.value< float >( ) == 3.5f );
-  auto intPtr = f1->ptrToValue< int >( );
-  auto floatPtr = f2.ptrToValue< float >( );
+  auto intPtr = f1->valuePtr< int >( );
+  auto floatPtr = f2.valuePtr< float >( );
   *intPtr = 4;
   *floatPtr = 4.5f;
   BOOST_CHECK( f1->value< int >( ) == 4 );

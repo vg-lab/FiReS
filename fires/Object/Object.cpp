@@ -36,8 +36,6 @@ namespace fires
   void ObjectProperties::registerProperty( const std::string& label,
                                            const Property& property )
   {
-//    Property p = property
-
     auto ret = this->insert( std::pair< std::string, Property >
                              ( label, property ));
 
@@ -47,7 +45,7 @@ namespace fires
 
   bool ObjectProperties::unregisterProperty( const std::string& label )
   {
-    ObjectProperties::const_iterator it = this->find( label );
+    const auto it = this->find( label );
 
     if ( it == this->end( ) )
       return false;
@@ -62,8 +60,8 @@ namespace fires
 
     FIRES_CHECK_THROW( it != this->end( ),
                        std::string( "non existing property '" ) +
-                       label + std::string( "'" ))
-      return ( *it ).second;
+                       label + std::string( "'" ));
+    return ( *it ).second;
   }
 
   const Property& ObjectProperties::get( const std::string& label ) const
@@ -72,8 +70,8 @@ namespace fires
 
     FIRES_CHECK_THROW( it != this->end( ),
                        std::string( "non existing property '" ) +
-                       label + std::string( "'" ))
-      return ( *it ).second;
+                       label + std::string( "'" ));
+    return ( *it ).second;
   }
 
   bool ObjectProperties::set( const std::string& label,
@@ -142,12 +140,12 @@ namespace fires
     return _properties.find( label_ ) != _properties.end( );
   }
 
-  ObjectProperties& Object::getProperties( void )
+  ObjectProperties& Object::properties( void )
   {
     return _properties;
   }
 
-  const ObjectProperties& Object::getProperties( void ) const
+  const ObjectProperties& Object::properties( void ) const
   {
     return _properties;
   }
@@ -157,14 +155,14 @@ namespace fires
     return _label;
   }
 
-  std::string Object::label( void ) const
+  const std::string& Object::label( void ) const
   {
     return _label;
   }
 
   Object& Object::operator= ( const Object& other )
   {
-    this->_properties = other.getProperties( );
+    this->_properties = other.properties( );
     _label = other.label( );
     return *this;
   }

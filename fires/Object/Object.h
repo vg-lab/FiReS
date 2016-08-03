@@ -141,14 +141,14 @@ namespace fires
      * @return all properties
      */
     FIRES_API
-    ObjectProperties& getProperties( void );
+    ObjectProperties& properties( void );
 
     /**
      * Get all properties as const
      * @return all properties
      */
     FIRES_API
-    const ObjectProperties& getProperties( void ) const;
+    const ObjectProperties& properties( void ) const;
 
     /**
      * Get a reference to the label of the object
@@ -158,11 +158,11 @@ namespace fires
     std::string& label( void );
 
     /**
-     * Get the label of the object
-     * @return label of the object
+     * Get the label of the object as const
+     * @return label of the object as const
      */
     FIRES_API
-    std::string label( void ) const;
+    const std::string& label( void ) const;
 
     /** @name Operators */
     ///@{
