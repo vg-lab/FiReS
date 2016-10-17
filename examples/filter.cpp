@@ -49,7 +49,7 @@ int main( void )
 
   obj2.attr1 = 3.2f;
   obj2.attr2 = 10;
-  obj2.getProperty( "property3" ).set( 3.4f );
+  obj2["property3"].set( 3.4f );
   obj2.getProperty( "property4" ).set( 10 );
 
   obj3.attr1 = 1.4f;
@@ -69,10 +69,29 @@ int main( void )
   obj4.label( ) = "Object 4";
 
   fires::Objects objects;
-  objects.add( &obj1 );
-  objects.add( &obj2 );
-  objects.add( &obj3 );
-  objects.add( &obj4 );
+
+  {
+    objects.addList( { &obj1, &obj2, &obj3, &obj4 } );
+    fires::FilterSet fs0;
+    fires::FilterSetConfig fsc0;
+    fires::FilterMinValue< float > ff10( 5.0f );
+
+    fsc0.filters( ).push_back( std::make_pair( "property3", &ff10 ));
+    fs0.eval( objects, fsc0 );
+    printObjects( objects );
+  }
+  {
+    objects.addList( { &obj1, &obj2, &obj3, &obj4 } );
+    fires::FilterSet fs0;
+    fires::FilterSetConfig fsc0;
+    fires::FilterMaxValue< float > ff10( 5.0f );
+
+    fsc0.filters( ).push_back( std::make_pair( "property3", &ff10 ));
+    fs0.eval( objects, fsc0 );
+    printObjects( objects );
+  }
+
+  objects.clearAdds( { &obj1, &obj2, &obj3, &obj4 } );
 
   fires::FilterSet fs;
   fires::FilterSetConfig fsc;
@@ -89,11 +108,7 @@ int main( void )
   fs.eval( objects, fsc );
   printObjects( objects );
 
-  objects.clear( );
-  objects.add( &obj1 );
-  objects.add( &obj2 );
-  objects.add( &obj3 );
-  objects.add( &obj4 );
+  objects.clearAdds( { &obj1, &obj2, &obj3, &obj4 } );
 
   fsc.filters( ).push_back( std::make_pair( "property4", &fi1 ));
   fs.eval( objects, fsc );

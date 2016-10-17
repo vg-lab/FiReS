@@ -34,6 +34,23 @@ namespace fires
     auto newEnd = std::remove( this->begin( ), this->end( ), object );
     this->erase( newEnd, this->end( ));
   }
+  
+  void Objects::addList( std::initializer_list<Object*> objects )
+  {
+    for ( auto obj: objects )
+    {
+      this->push_back(obj);
+    }
+  }
+  
+  void Objects::clearAdds( std::initializer_list<Object*> objects )
+  {
+    this->clear( );
+    for ( auto obj: objects )
+    {
+      this->push_back(obj);
+    }
+  }
 
 
 } // namespace fires

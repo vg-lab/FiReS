@@ -112,6 +112,14 @@ namespace fires
      */
     FIRES_API
     const Property& getProperty( const std::string& label ) const;
+    
+    /**
+     * Get a property of this object
+     * @param label label string to retrieve the property
+     * @return the property if found and throw exception otherwise
+     */
+    FIRES_API
+    Property& operator[]( const std::string& label );
 
     /**
      * Get a property of this object

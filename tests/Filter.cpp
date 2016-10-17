@@ -108,10 +108,27 @@ BOOST_AUTO_TEST_CASE( test_filter_set )
   obj4.label( ) = "Object 4";
 
   fires::Objects objs;
-  objs.add( &obj1 );
-  objs.add( &obj2 );
-  objs.add( &obj3 );
-  objs.add( &obj4 );
+  {
+    objs.addList( { &obj1, &obj2, &obj3, &obj4 } );
+    fires::FilterSet fs0;
+    fires::FilterSetConfig fsc0;
+    fires::FilterMinValue< float > ff10( 5.0f );
+
+    fsc0.filters( ).push_back( std::make_pair( "p3", &ff10 ));
+    fs0.eval( objs, fsc0 );
+    BOOST_CHECK( objs.size( ) == 1);
+  }
+  {
+    objs.addList( { &obj1, &obj2, &obj3, &obj4 } );
+    fires::FilterSet fs0;
+    fires::FilterSetConfig fsc0;
+    fires::FilterMaxValue< float > ff10( 5.0f );
+
+    fsc0.filters( ).push_back( std::make_pair( "p3", &ff10 ));
+    fs0.eval( objs, fsc0 );
+    BOOST_CHECK( objs.size( ) == 3);
+  }
+  objs.addList( { &obj1, &obj2, &obj3, &obj4 } );
 
   fires::FilterSet fs;
   fires::FilterSetConfig fsc;
