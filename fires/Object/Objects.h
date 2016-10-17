@@ -46,6 +46,12 @@ namespace fires
     FIRES_API
     void del( Object* object );
 
+    FIRES_API
+    void addList( std::initializer_list<Object*> objects );
+
+    FIRES_API
+    void clearAdds( std::initializer_list<Object*> objects );
+
   }; // class Objects
 
 } // namespace fires

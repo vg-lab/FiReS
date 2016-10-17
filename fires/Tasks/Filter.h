@@ -58,6 +58,75 @@ namespace fires
   };
 
   template < typename T >
+  class FilterValue:
+    public Filter
+  {
+  public:
+    FilterValue( const T value_ )
+      : _value( value_ )
+    {
+    }
+
+    virtual bool eval( const Property& property ) const
+    {
+      return ( property.value< T >( ) == _value );
+    }
+
+    protected:
+      T _value;
+  };
+
+  template < typename T >
+  class FilterMinValue:
+    public FilterRange
+  {
+  public:
+    FilterMinValue( const T min_, const TRangeEndpoint minEndpoint__ = OPENED_ENDPOINT )
+      : _min( min_ ),
+        _minEndpoint( minEndpoint__ )
+    {
+    }
+
+    virtual bool eval( const Property& property ) const
+    {
+      T fv = property.value< T >( );
+      bool v =
+        (( _minEndpoint == OPENED_ENDPOINT ) ?
+         ( fv > _min ) : ( fv >= _min ));
+      return v;
+    }
+
+    protected:
+      T _min;
+      TRangeEndpoint _minEndpoint;
+  };
+
+  template < typename T >
+  class FilterMaxValue:
+    public FilterRange
+  {
+  public:
+    FilterMaxValue( const T max_, const TRangeEndpoint maxEndpoint__ = OPENED_ENDPOINT )
+      : _max( max_ ),
+        _maxEndpoint( maxEndpoint__ )
+    {
+    }
+
+    virtual bool eval( const Property& property ) const
+    {
+      T fv = property.value< T >( );
+      bool v =
+        (( _maxEndpoint == OPENED_ENDPOINT ) ?
+         ( fv < _max ) : ( fv <= _max ));
+      return v;
+    }
+
+    protected:
+      T _max;
+      TRangeEndpoint _maxEndpoint;
+  };
+
+  template < typename T >
   class FilterScalarRange
     : public FilterRange
   {

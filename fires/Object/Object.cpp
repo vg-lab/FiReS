@@ -118,6 +118,11 @@ namespace fires
   {
     return _properties.get( propertyLabel );
   }
+  
+  Property& Object::operator[]( const std::string& propertyLabel )
+  {
+    return this->getProperty( propertyLabel );
+  }
 
   bool Object::setProperty( const std::string& propertyLabel,
                             const Property& property)
