@@ -22,9 +22,15 @@
 #ifndef __FIRES__SORT_H__
 #define __FIRES__SORT_H__
 
+#include "../Property/Property.h"
+#include "Task.h"
+#include "../Object/Objects.h"
 
 namespace fires
 {
+
+  class Object;
+  class Objects;
 
   class PropertySorter
   {
@@ -74,55 +80,13 @@ namespace fires
     } TSortOrder;
 
 
-    SortConfig( void )
-    {
-    }
-
-    virtual ~SortConfig( void )
-    {
-    }
-
+    SortConfig( void );
+    virtual ~SortConfig( void );
     void addProperty( std::string propertyLabel_,
                      PropertySorter* sorter_,
-                     TSortOrder order_ = ASCENDING )
-    {
-      _properties.push_back( TSortProperty{ propertyLabel_, sorter_, order_ });
-    }
-
-    void clear( void )
-    {
-      _properties.clear( );
-    }
-
-    virtual bool operator( ) ( Object* obj1, Object* obj2 ) const
-    {
-      for ( auto propertyIt = _properties.cbegin( );
-            propertyIt != _properties.cend( ); ++propertyIt )
-      {
-        const std::string label = ( *propertyIt ).label;
-
-        if ( !obj1->hasProperty( label ))
-          return false;
-
-        if ( !obj2->hasProperty( label ))
-          return true;
-
-        if (( *propertyIt ).sorter->isEqual(
-              obj1->getProperty( label ),
-              obj2->getProperty( label )))
-          continue;
-
-        bool lt = ( *propertyIt ).sorter->isLowerThan(
-          obj1->getProperty( label ),
-          obj2->getProperty( label ));
-
-        return (( *propertyIt ).order == TSortOrder::ASCENDING ) ?
-          lt : !lt;
-
-
-      }
-      return false;
-    }
+                      TSortOrder order_ = ASCENDING );
+    void clear( void );
+    virtual bool operator( ) ( Object* obj1, Object* obj2 ) const;
 
   protected:
 
@@ -142,18 +106,7 @@ namespace fires
 
   public:
 
-    virtual Objects& eval( Objects &objs, TaskConfig& config )
-    {
-      SortConfig* sortConfig =
-        static_cast< SortConfig* >( &config );
-
-      if ( !sortConfig )
-        return objs;
-
-      std::sort( objs.begin( ), objs.end( ), *sortConfig );
-
-      return objs;
-    }
+    virtual Objects& eval( Objects &objs, TaskConfig& config );
 
   };
 

@@ -27,6 +27,7 @@
 
 namespace fires
 {
+  class Object;
   /*! \class System::Objects
     \brief Container of objects
 

@@ -26,6 +26,7 @@
 
 namespace fires
 {
+  class Object;
 
   class PropertyAggregator
   {
