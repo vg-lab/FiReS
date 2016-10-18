@@ -45,57 +45,35 @@ namespace fires
       fires::PropertyCaster* caster;
     } TPropertyInfo;
 
-    template< bool B, class T = void >
-    using enable_if_t = typename std::enable_if< B, T >::type;
-
-    // template < typename T >
-    // template < typename T,
-    //            enable_if_t< !std::is_scalar < T >::value, T>>
-    template < typename T ,
-               typename enable_if_t< !std::is_scalar< T >::value, T >
+    template < typename T >
+    static
     void registerProperty(
       fires::Object* obj,
       const std::string& label,
-      T value )
+      T value,
+      typename std::enable_if< std::is_class< T >::value >::type* = 0 )
     {
-      std::cout << "fires::register non scalar" << label << std::endl;
       obj->registerProperty( label, value );
     }
 
-    //! Specialization for scalars
-    // template < typename T >
-    // static void registerProperty(
-    //   fires::Object* obj,
-    //   const std::string& label,
-    //   enable_if_t<std::is_scalar<T>::value, T> value = 0 )
-
-    // template < typename T ,
-    //            typename std::enable_if< !std::is_scalar< T >::value >::type >
-    template < typename T ,
-               typename enable_if_t< std::is_scalar< T >::value, T >>
-      static void registerProperty(
-        fires::Object* obj,
-        const std::string& label,
-        T value )
-    {
-      std::cout << "fires::register1" << label << std::endl;
-      obj->registerProperty( label, value );
-      if ( std::is_scalar< T >( ))
-        registerProperty( label, value );
-    }
-
-    //! Specialization for scalars
-    template < typename T, typename =
-               enable_if_t< std::is_scalar < T >::value, T>>
-    static void registerPropertyyyyyy(
+    template < typename T >
+    static void registerProperty(
+      fires::Object* obj,
       const std::string& label,
-      T value = 0 )
+      T value,
+      typename std::enable_if< std::is_scalar< T >::value >::type* = 0 )
     {
-      std::cout << "fires::register2" << label << std::endl;
-      if ( !std::is_scalar< T >( ))
-        return;
-      std::cout << "SCALAR" << label << std::endl;
+      obj->registerProperty( label, fires::Property( ( T ) value ));
+      registerProperty( label, value );
+    }
 
+    //! Specialization for scalars
+    template < typename T >
+    static void registerProperty(
+      const std::string& label,
+      T /* value */,
+      typename std::enable_if< std::is_scalar< T >::value >::type* = 0 )
+    {
       if ( _properties.find( label ) == _properties.end( ))
       {
         fires::ScalarPropertySorter< T >* sorter = nullptr;
@@ -243,6 +221,9 @@ namespace fires
       }
 
       _properties.clear( );
+      _sorters.clear( );
+      _aggregators.clear( );
+      _casters.clear( );
     }
 
   protected:
