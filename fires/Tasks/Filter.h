@@ -217,14 +217,19 @@ namespace fires
  {
   public:
 
-    typedef std::vector< std::pair< std::string, Filter* >> TFilterPairs;
+   typedef std::pair< std::string, Filter* > TFilterPair;
+   typedef std::vector< TFilterPair > TFilterPairs;
 
-    FilterSetConfig( //bool removeFiltered_ = true,
-      const std::string &filterPropertyLabel_ = std::string( "" ));
-      // : _removeFiltered( removeFiltered_ )
+   FilterSetConfig( //bool removeFiltered_ = true,
+     const std::string &filterPropertyLabel_ = std::string( "" ));
+   // : _removeFiltered( removeFiltered_ )
 
+   void clear( void )
+   {
+     _filters.clear( );
+   }
    class ObjectFulfilsFilter
-    {
+   {
     protected:
       TFilterPairs _filters;
       const std::string _filterPropertyLabel;

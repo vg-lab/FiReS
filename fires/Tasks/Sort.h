@@ -79,25 +79,25 @@ namespace fires
       DESCENDING
     } TSortOrder;
 
-
-    SortConfig( void );
-    virtual ~SortConfig( void );
-    void addProperty( std::string propertyLabel_,
-                     PropertySorter* sorter_,
-                      TSortOrder order_ = ASCENDING );
-    void clear( void );
-    virtual bool operator( ) ( Object* obj1, Object* obj2 ) const;
-
-  protected:
-
     typedef struct
     {
       std::string label;
       PropertySorter* sorter;
       TSortOrder order;
     } TSortProperty;
+    typedef std::vector< TSortProperty > TSortProperties;
+    SortConfig( void );
+    virtual ~SortConfig( void );
+    void addProperty( std::string propertyLabel_,
+                     PropertySorter* sorter_,
+                      TSortOrder order_ = ASCENDING );
+    TSortProperties& properties( void ) { return _properties; }
+    void clear( void );
+    virtual bool operator( ) ( Object* obj1, Object* obj2 ) const;
 
-    std::vector< TSortProperty > _properties;
+  protected:
+
+     TSortProperties _properties;
 
   };
 
