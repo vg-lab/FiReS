@@ -241,6 +241,7 @@ namespace fires
     };
 
    TFilterPairs& filters( void );
+   const TFilterPairs& filters( void ) const;
    std::string& filterPropertyLabel( void );
 
   protected:

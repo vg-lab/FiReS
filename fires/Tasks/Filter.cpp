@@ -67,6 +67,11 @@ namespace fires
     return _filters;
   }
 
+  const FilterSetConfig::TFilterPairs& FilterSetConfig::filters( void ) const
+  {
+    return _filters;
+  }
+
   std::string& FilterSetConfig::filterPropertyLabel( void )
   {
     return _filterPropertyLabel;
