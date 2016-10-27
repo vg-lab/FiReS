@@ -24,6 +24,7 @@
 
 #include "Property.h"
 #include <sstream>
+#include <math.h>
 
 namespace fires
 {
