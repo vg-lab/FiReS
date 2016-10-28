@@ -220,6 +220,7 @@ namespace fires
    typedef std::pair< std::string, Filter* > TFilterPair;
    typedef std::vector< TFilterPair > TFilterPairs;
 
+   FIRES_API
    FilterSetConfig( //bool removeFiltered_ = true,
      const std::string &filterPropertyLabel_ = std::string( "" ));
    // : _removeFiltered( removeFiltered_ )
@@ -235,14 +236,16 @@ namespace fires
       const std::string _filterPropertyLabel;
 
     public:
-      ObjectFulfilsFilter( TFilterPairs filters_,
-                           const std::string& filterPropertyLabel_ = "" );
-      bool operator( )( Object* obj ) const;
+     FIRES_API
+     ObjectFulfilsFilter( TFilterPairs filters_,
+                          const std::string& filterPropertyLabel_ = "" );
+     FIRES_API
+     bool operator( )( Object* obj ) const;
     };
 
-   TFilterPairs& filters( void );
-   const TFilterPairs& filters( void ) const;
-   std::string& filterPropertyLabel( void );
+   FIRES_API TFilterPairs& filters( void );
+   FIRES_API const TFilterPairs& filters( void ) const;
+   FIRES_API std::string& filterPropertyLabel( void );
 
   protected:
 
@@ -256,7 +259,7 @@ namespace fires
   class FilterSet : public Task
   {
   public:
-    virtual Objects& eval( Objects &objs, TaskConfig &config );
+    FIRES_API virtual Objects& eval( Objects &objs, TaskConfig &config );
 
   }; // class FilterSet
 
