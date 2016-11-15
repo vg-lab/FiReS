@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fires/fires.h>
 #include <math.h>
-#include <cxxabi.h>
 
 class ClassProperty
 {
@@ -268,103 +267,6 @@ int main( void )
 
       }
 
-
-  }
-
-  {
-    int v = -3;
-    fires::Property p( v );
-    fires::ScalarPropertyCaster< int > pc;
-    std::cout << "Int casted to string: " << pc.toString( p ) << std::endl;
-  }
-
-  {
-    unsigned int v = 3;
-    fires::Property p( v );
-    fires::ScalarPropertyCaster< unsigned int > pc;
-    pc.toString( p );
-    std::cout << "Int casted to string: " << pc.toString( p ) << std::endl;
-  }
-
-  {
-    class A
-    {
-    public:
-      typedef enum { a, b, c, d } TEnumA;
-    };
-    A::TEnumA v = A::TEnumA::b;
-    fires::Property p( v );
-    fires::ScalarPropertyCaster< A::TEnumA > pc;
-    pc.toString( p );
-    std::cout << "Int casted to string: " << pc.toString( p ) << std::endl;
-  }
-
-  {
-    std::cout << "Test 1 ------------------" << std::endl;
-    class B
-    {
-    public:
-      typedef enum { a, b, c, d } TEnumB;
-    };
-    B::TEnumB v = B::TEnumB::b;
-    fires::Property p( v );
-    fires::PropertyManager::registerProperty( "test", v );
-    auto pc = fires::PropertyManager::getPropertyCaster( "test" );
-    pc->toString( p );
-    std::cout << "Int casted to string: " << pc->toString( p ) << std::endl;
-  }
-
-  fires::PropertyManager::clear( );
-  {
-    std::cout << "Test 2 ------------------" << std::endl;
-    class C : public fires::Object
-    {
-    public:
-      typedef enum { a, b, c, d } TEnumC;
-    };
-    C* obj = new C;
-    C::TEnumC v// = C::TEnumC::c
-      ;
-    int status;
-    char* realname;
-    std::cout << typeid( C::TEnumC ).name( ) << std::endl;
-    fires::PropertyManager::registerProperty< C::TEnumC >( obj, "test", v );
-    auto pc = fires::PropertyManager::getPropertyCaster( "test" );
-    std::cout << "Int casted to string: "
-              << obj->getProperty( "test" ).type( ) << " "
-              << obj->getProperty( "test" ).value< C::TEnumC >( )
-              << std::endl;
-    std::cout << "Int casted to string: "
-              << pc->toString( obj->getProperty( "test" ))
-              << std::endl;
-
-    std::cout << "Test 2 END --------------" << std::endl;
-  }
-
-  {
-    fires::PropertyManager::clear( );
-    std::cout << "Test 3 ------------------" << std::endl;
-    class D : public fires::Object
-    {
-    public:
-      typedef enum { a, b, c, d } TEnumD;
-      D ( TEnumD init )
-      {
-        fires::PropertyManager::registerProperty< D::TEnumD >(
-          this, "test", init );
-      }
-    };
-
-    D* obj = new D( D::TEnumD::a );
-    std::cout << typeid( D::TEnumD ).name( ) << std::endl;
-    auto pc = fires::PropertyManager::getPropertyCaster( "test" );
-    std::cout << "Int casted to string: "
-              << obj->getProperty( "test" ).type( ) << " "
-              << obj->getProperty( "test" ).value< D::TEnumD >( )
-              << std::endl;
-    std::cout << "Int casted to string: "
-              << pc->toString( obj->getProperty( "test" ))
-              << std::endl;
 
   }
 

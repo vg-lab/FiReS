@@ -63,13 +63,13 @@ namespace fires
       switch ( casting )
       {
       case ROUND:
-        return int( round( property.value< T >( )));
+        return int( round( double( property.value< T >( ))));
         break;
       case CEIL:
-        return int( ceil( property.value< T >( )));
+        return int( ceil( double( property.value< T >( ))));
         break;
       case FLOOR:
-        return int( floor( property.value< T >( )));
+        return int( floor( double( property.value< T >( ))));
         break;
       default:
         throw std::runtime_error( "Invalid casting type" );

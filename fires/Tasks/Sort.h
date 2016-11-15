@@ -86,14 +86,14 @@ namespace fires
       TSortOrder order;
     } TSortProperty;
     typedef std::vector< TSortProperty > TSortProperties;
-    SortConfig( void );
-    virtual ~SortConfig( void );
-    void addProperty( std::string propertyLabel_,
-                     PropertySorter* sorter_,
-                      TSortOrder order_ = ASCENDING );
+    FIRES_API SortConfig( void );
+    FIRES_API virtual ~SortConfig( void );
+    FIRES_API void addProperty( std::string propertyLabel_,
+                                PropertySorter* sorter_,
+                                TSortOrder order_ = ASCENDING );
     TSortProperties& properties( void ) { return _properties; }
-    void clear( void );
-    virtual bool operator( ) ( Object* obj1, Object* obj2 ) const;
+    FIRES_API void clear( void );
+    FIRES_API virtual bool operator( ) ( Object* obj1, Object* obj2 ) const;
 
   protected:
 
@@ -106,7 +106,7 @@ namespace fires
 
   public:
 
-    virtual Objects& eval( Objects &objs, TaskConfig& config );
+    FIRES_API virtual Objects& eval( Objects &objs, TaskConfig& config );
 
   };
 

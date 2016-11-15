@@ -22,6 +22,7 @@
 #ifndef __FIRES_PROPERTY_MANAGER__
 #define __FIRES_PROPERTY_MANAGER__
 
+#include <fires/api.h>
 #include "Tasks/Sort.h"
 #include "Tasks/Filter.h"
 #include "Property/PropertyCaster.h"
@@ -174,8 +175,8 @@ namespace fires
       {
         auto fsrf =
           dynamic_cast< fires::FilterScalarRange< float >* >( filter );
-        fsrf->min( ) = ( int ) minValue;
-        fsrf->max( ) = ( int ) maxValue;
+        fsrf->min( ) = ( float ) minValue;
+        fsrf->max( ) = ( float ) maxValue;
       }
       else if ( dynamic_cast< fires::FilterScalarRange< int >* >( filter ))
       {
@@ -228,10 +229,11 @@ namespace fires
 
   protected:
 
-    static std::map< std::string, TPropertyInfo > _properties;
-    static std::map< std::type_index, PropertySorter* > _sorters;
+    FIRES_API static std::map< std::string, TPropertyInfo > _properties;
+    FIRES_API static std::map< std::type_index, PropertySorter* > _sorters;
+    FIRES_API
     static std::map< std::type_index, PropertyAggregator* > _aggregators;
-    static std::map< std::type_index, PropertyCaster* > _casters;
+    FIRES_API static std::map< std::type_index, PropertyCaster* > _casters;
 
 
   };
