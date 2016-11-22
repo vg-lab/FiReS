@@ -88,7 +88,7 @@ namespace fires
     typedef std::vector< TSortProperty > TSortProperties;
     FIRES_API SortConfig( void );
     FIRES_API virtual ~SortConfig( void );
-    FIRES_API void addProperty( std::string propertyLabel_,
+    FIRES_API void addProperty( const std::string& propertyLabel_,
                                 PropertySorter* sorter_,
                                 TSortOrder order_ = ASCENDING );
     TSortProperties& properties( void ) { return _properties; }

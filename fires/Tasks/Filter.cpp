@@ -56,7 +56,7 @@ namespace fires
       }
     }
 
-    if ( _filterPropertyLabel != "" )
+    if ( !_filterPropertyLabel.empty( ))
       obj->registerProperty( _filterPropertyLabel, fulfilsFilters );
 
     return !fulfilsFilters;

@@ -33,7 +33,7 @@ namespace fires
   {
   }
 
-  void SortConfig::addProperty( std::string propertyLabel_,
+  void SortConfig::addProperty( const std::string& propertyLabel_,
                                 PropertySorter* sorter_,
                                 TSortOrder order_ )
   {
