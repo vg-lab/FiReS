@@ -5,6 +5,7 @@ set(FIRES_PUBLIC_HEADERS
   Log.h
   Object/Object.h
   Object/Objects.h
+  PropertyManager.h
   Property/Aggregator.h
   Property/Averager.h
   Property/Comparer.h
@@ -26,10 +27,13 @@ set(FIRES_SOURCES
   Log.cpp
   Object/Object.cpp
   Object/Objects.cpp
+  PropertyManager.cpp
   Property/Property.cpp
   Tasks/Engine.cpp
+  Tasks/Filter.cpp
   Tasks/SearchConfig.cpp
   Tasks/Search.cpp
+  Tasks/Sort.cpp
 )
 
 common_library(FiReS)

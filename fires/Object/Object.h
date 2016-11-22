@@ -24,6 +24,7 @@
 
 #include <fires/api.h>
 #include "../Property/Property.h"
+//#include "../PropertyManager.h"
 
 #include <string>
 #include <map>
@@ -38,6 +39,7 @@ namespace fires
   public:
 
     ObjectProperties( void );
+
 
     void registerProperty( const std::string& label,
                            const Property& property );
@@ -80,6 +82,14 @@ namespace fires
      */
     FIRES_API
     virtual ~Object( );
+
+    // FIRES_API
+    // template< typename ValueType >
+    // void registerProperty( const std::string& label, ValueType value )
+    // {
+    //   this->registerProperty( label, Property( value ));
+    //   PropertyManager::register< ValueType >( label, value );
+    // }
 
     /**
      * Register a property to this object

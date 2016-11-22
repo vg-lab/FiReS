@@ -27,6 +27,8 @@
 namespace fires
 {
 
+  class Objects;
+  
   class Filter
   {
 
@@ -81,7 +83,8 @@ namespace fires
     public FilterRange
   {
   public:
-    FilterMinValue( const T min_, const TRangeEndpoint minEndpoint__ = OPENED_ENDPOINT )
+    FilterMinValue( const T min_,
+                    const TRangeEndpoint minEndpoint__ = OPENED_ENDPOINT )
       : _min( min_ ),
         _minEndpoint( minEndpoint__ )
     {
@@ -106,7 +109,8 @@ namespace fires
     public FilterRange
   {
   public:
-    FilterMaxValue( const T max_, const TRangeEndpoint maxEndpoint__ = OPENED_ENDPOINT )
+    FilterMaxValue( const T max_,
+                    const TRangeEndpoint maxEndpoint__ = OPENED_ENDPOINT )
       : _max( max_ ),
         _maxEndpoint( maxEndpoint__ )
     {
@@ -210,70 +214,38 @@ namespace fires
 
 
  class FilterSetConfig : public TaskConfig
-  {
+ {
   public:
 
-    typedef std::vector< std::pair< std::string, Filter* >> TFilterPairs;
+   typedef std::pair< std::string, Filter* > TFilterPair;
+   typedef std::vector< TFilterPair > TFilterPairs;
 
-    FilterSetConfig( //bool removeFiltered_ = true,
-      const std::string &filterPropertyLabel_ = std::string( "" ))
-      // : _removeFiltered( removeFiltered_ )
-      : _filterPropertyLabel( filterPropertyLabel_ )
-    {
-    }
+   FIRES_API
+   FilterSetConfig( //bool removeFiltered_ = true,
+     const std::string &filterPropertyLabel_ = std::string( "" ));
+   // : _removeFiltered( removeFiltered_ )
 
-    class ObjectFulfilsFilter
-    {
+   void clear( void )
+   {
+     _filters.clear( );
+   }
+   class ObjectFulfilsFilter
+   {
     protected:
       TFilterPairs _filters;
       const std::string _filterPropertyLabel;
 
     public:
-      ObjectFulfilsFilter( TFilterPairs filters_,
-                           const std::string& filterPropertyLabel_ = "" )
-        : _filters( filters_ )
-        , _filterPropertyLabel( filterPropertyLabel_ )
-      {
-      }
-
-      bool operator( )( Object* obj ) const
-      {
-        bool fulfilsFilters = true;
-        for ( auto filter  = _filters.begin( );
-              filter != _filters.end( ); ++filter )
-        {
-          auto propertyLabel = ( *filter ).first;
-          auto filterObject = ( *filter ).second;
-          bool fulfilsFilter =
-            filterObject->eval(( obj->getProperty( propertyLabel )));
-          if ( !fulfilsFilter )
-          {
-            fulfilsFilters = false;
-            break;
-          }
-        }
-
-        if ( _filterPropertyLabel != "" )
-          obj->registerProperty( _filterPropertyLabel, fulfilsFilters );
-
-        return !fulfilsFilters;
-      }
+     FIRES_API
+     ObjectFulfilsFilter( TFilterPairs filters_,
+                          const std::string& filterPropertyLabel_ = "" );
+     FIRES_API
+     bool operator( )( Object* obj ) const;
     };
 
-    TFilterPairs& filters( void )
-    {
-      return _filters;
-    }
-
-    // bool& removeFiltered( void )
-    // {
-    //   return _removeFiltered;
-    // }
-
-    std::string& filterPropertyLabel( void )
-    {
-      return _filterPropertyLabel;
-    }
+   FIRES_API TFilterPairs& filters( void );
+   FIRES_API const TFilterPairs& filters( void ) const;
+   FIRES_API std::string& filterPropertyLabel( void );
 
   protected:
 
@@ -287,42 +259,7 @@ namespace fires
   class FilterSet : public Task
   {
   public:
-
-    virtual Objects& eval( Objects &objs, TaskConfig &config )
-    {
-
-      FilterSetConfig* filterSetConfig =
-        static_cast< FilterSetConfig* >( &config );
-
-      auto filters = filterSetConfig->filters( );
-      // const bool& removeFiltered = filterSetConfig->removeFiltered( );
-      const std::string& filterPropertyLabel =
-        filterSetConfig->filterPropertyLabel( );
-
-      // Avoid going through all objects if no filter needed
-      if ( filters.size( ) == 0 )
-      {
-        return objs;
-      }
-
-      if ( filterPropertyLabel == "" )
-      {
-
-        objs.erase(
-          std::remove_if( objs.begin( ), objs.end( ),
-                          FilterSetConfig::ObjectFulfilsFilter( filters )) ,
-          objs.end( ));
-      }
-      else
-      {
-        std::for_each( objs.begin( ), objs.end( ),
-                       FilterSetConfig::ObjectFulfilsFilter(
-                         filters, filterPropertyLabel ));
-      }
-
-      return objs;
-
-    }
+    FIRES_API virtual Objects& eval( Objects &objs, TaskConfig &config );
 
   }; // class FilterSet
 

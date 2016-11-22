@@ -21,6 +21,7 @@
  */
 #include "Object.h"
 #include "../error.h"
+#include "../PropertyManager.h"
 
 #include <map>
 
@@ -41,6 +42,8 @@ namespace fires
 
     if ( !ret.second )
       ( *this )[ label ] = property;
+
+    // PropertyManager::registerProperty( label, property );
   }
 
   bool ObjectProperties::unregisterProperty( const std::string& label )

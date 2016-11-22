@@ -24,6 +24,7 @@
 
 #include "Property.h"
 #include <sstream>
+#include <math.h>
 
 namespace fires
 {
@@ -62,13 +63,13 @@ namespace fires
       switch ( casting )
       {
       case ROUND:
-        return int( round( property.value< T >( )));
+        return int( round( double( property.value< T >( ))));
         break;
       case CEIL:
-        return int( ceil( property.value< T >( )));
+        return int( ceil( double( property.value< T >( ))));
         break;
       case FLOOR:
-        return int( floor( property.value< T >( )));
+        return int( floor( double( property.value< T >( ))));
         break;
       default:
         throw std::runtime_error( "Invalid casting type" );
@@ -78,7 +79,11 @@ namespace fires
     virtual std::string toString( const Property& property )
     {
       std::ostringstream iss;
-      iss << property.value< T >( );
+// Avoiding choose int over unsigned int for enum types
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-promo"
+      iss << (( T ) property.value< T >( ));
+#pragma GCC diagnostic pop
       return std::string( iss.str( ));
     }
   };

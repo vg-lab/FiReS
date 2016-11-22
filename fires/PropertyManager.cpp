@@ -19,65 +19,26 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  */
-#ifndef __FIRES_TASK_H__
-#define __FIRES_TASK_H__
-
-#include <vector>
-#include "../Object/Objects.h"
+#include "PropertyManager.h"
 
 namespace fires
 {
 
-  class Objects;
+  std::map< std::string, PropertyManager::TPropertyInfo >
+  PropertyManager::_properties =
+    std::map< std::string, PropertyManager::TPropertyInfo >( );
 
-  class TaskConfig
-  {
+  std::map< std::type_index, PropertySorter* >
+  PropertyManager::_sorters =
+    std::map< std::type_index, PropertySorter* >( );
 
-  };
+  std::map< std::type_index, PropertyAggregator* >
+  PropertyManager::_aggregators =
+    std::map< std::type_index, PropertyAggregator* >( );
 
-  class Task
-  {
-  public:
+  std::map< std::type_index, PropertyCaster* >
+  PropertyManager::_casters =
+    std::map< std::type_index, PropertyCaster* >( );
 
-    virtual ~Task( void )
-    {
-    }
 
-    virtual Objects& eval( Objects &objs, TaskConfig &config ) = 0;
-
-  };
-
-  class TasksConfig
-  {
-
-  public:
-
-    TasksConfig( Task* task_, TaskConfig* config_ )
-      : _task( task_ ), _config( config_ )
-    {
-    }
-
-    virtual ~TasksConfig( void )
-    {
-    }
-
-    Task* task( void )
-    {
-      return _task;
-    }
-
-    TaskConfig* config( void )
-    {
-      return _config;
-    }
-
-  protected:
-    Task* _task;
-    TaskConfig* _config;
-  };
-
-  typedef std::vector< TasksConfig > Tasks;
-
-} // namespace fires
-
-#endif
+}

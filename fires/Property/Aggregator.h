@@ -23,9 +23,12 @@
 #define __FIRES__AGGREGATOR_H__
 
 #include "../Object/Object.h"
+#include <type_traits>
 
 namespace fires
 {
+  class Object;
+
 
   class PropertyAggregator
   {
@@ -38,22 +41,21 @@ namespace fires
       MEAN
     } TAggregation;
 
-
     virtual ~PropertyAggregator( void )
     {
     }
 
     virtual void add( Object&, Object&,
-                      std::string propertyLabel,
+                      const std::string& propertyLabel,
                       TAggregation type = TAggregation::MAX ) = 0;
 
-    virtual void divide( Object&, std::string propertyLabel,
+    virtual void divide( Object&, const std::string& propertyLabel,
                          unsigned int size ) = 0;
 
 
   };
 
-  template < typename T >
+  template < typename T, class Enable = void >
   class ScalarPropertyAggregator : public PropertyAggregator
   {
   public:
@@ -63,7 +65,7 @@ namespace fires
     }
 
     virtual void add( Object& aggregatedObject, Object& objectToAggregator,
-                      std::string propertyLabel,
+                      const std::string& propertyLabel,
                       TAggregation type = TAggregation::MAX )
     {
 
@@ -96,12 +98,41 @@ namespace fires
 
     }
 
-    virtual void divide( Object& aggregatedObject, std::string propertyLabel,
+    virtual void divide( Object& aggregatedObject,
+                         const std::string& propertyLabel,
                          unsigned int size )
     {
       aggregatedObject.getProperty( propertyLabel ).set(
           T ( aggregatedObject.getProperty( propertyLabel ).value< T >( ) /
               float( size )));
+    }
+
+  };
+
+  template < typename T >
+  class ScalarPropertyAggregator
+  < T, typename std::enable_if< std::is_enum< T >::value >::type >
+    : public PropertyAggregator
+  {
+  public:
+
+    virtual ~ScalarPropertyAggregator( void )
+    {
+    }
+
+    virtual void add( Object& /* aggregatedObject */,
+                      Object& /* objectToAggregator */,
+                      const std::string& /* propertyLabel */,
+                      TAggregation type = TAggregation::MAX )
+    {
+      ( void ) type;
+    }
+
+    virtual void divide( Object& aggregatedObject,
+                         const std::string& propertyLabel,
+                         unsigned int /* size */ )
+    {
+      aggregatedObject.getProperty( propertyLabel ).set( T( 0 ));
     }
 
   };
