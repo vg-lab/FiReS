@@ -1,6 +1,6 @@
 #include <fires/fires.h>
 
-// Function to print out query results
+// Function to print out results
 void printObjects( fires::Objects& objects )
 {
   std::cout << "[ ";

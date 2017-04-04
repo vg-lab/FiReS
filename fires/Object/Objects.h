@@ -28,11 +28,10 @@
 namespace fires
 {
   class Object;
-  /*! \class System::Objects
-    \brief Container of objects
-
-    Simple class to hold a set of objects
-  */
+  /**
+   * Simple class used as a container of objects based on std::vector
+   *
+   */
   class Objects : public std::vector< Object* >
   {
 

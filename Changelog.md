@@ -1,2 +1,5 @@
-v 0.1.0
-  - First implementation
+# FiReS
+
+## git master
+* [!15] Added notifier/observer functionallity
+* [!14] Added property manager

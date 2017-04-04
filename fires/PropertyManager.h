@@ -23,6 +23,7 @@
 #define __FIRES_PROPERTY_MANAGER__
 
 #include <fires/api.h>
+#include "PropertyGIDsManager.h"
 #include "Tasks/Sort.h"
 #include "Tasks/Filter.h"
 #include "Property/PropertyCaster.h"
@@ -33,6 +34,7 @@
 
 namespace fires
 {
+
   class PropertyManager
   {
 
@@ -75,7 +77,8 @@ namespace fires
       T /* value */,
       typename std::enable_if< std::is_scalar< T >::value >::type* = 0 )
     {
-      if ( _properties.find( label ) == _properties.end( ))
+      auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      if ( _properties.find( propertyGID ) == _properties.end( ))
       {
         fires::ScalarPropertySorter< T >* sorter = nullptr;
         fires::ScalarPropertyAggregator< T >* aggregator = nullptr;
@@ -123,7 +126,7 @@ namespace fires
         }
 
 
-        _properties[ label ] = {
+        _properties[ propertyGID ] = {
           sorter,
           aggregator,
           new fires::FilterScalarRange< T >(
@@ -138,34 +141,38 @@ namespace fires
 
     static fires::PropertySorter* getSorter( const std::string& label )
     {
-      if ( _properties.find( label ) == _properties.end( ))
+      auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
 
-      return _properties[ label ].sorter;
+      return _properties[ propertyGID ].sorter;
     }
 
     static fires::Filter* getFilter( const std::string& label )
     {
-      if ( _properties.find( label ) == _properties.end( ))
+      auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
 
-      return _properties[ label ].filter;
+      return _properties[ propertyGID ].filter;
     }
 
     static fires::PropertyAggregator* getAggregator( const std::string& label )
     {
-      if ( _properties.find( label ) == _properties.end( ))
+      auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
 
-      return _properties[ label ].aggregator;
+      return _properties[ propertyGID ].aggregator;
     }
 
     static fires::PropertyCaster* getPropertyCaster( const std::string& label )
     {
-      if ( _properties.find( label ) == _properties.end( ))
+      auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
 
-      return _properties[ label ].caster;
+      return _properties[ propertyGID ].caster;
     }
 
     static void setFilterRange( fires::Filter* filter,
@@ -227,9 +234,10 @@ namespace fires
       _casters.clear( );
     }
 
+
   protected:
 
-    FIRES_API static std::map< std::string, TPropertyInfo > _properties;
+    FIRES_API static std::map< PropertyGID, TPropertyInfo > _properties;
     FIRES_API static std::map< std::type_index, PropertySorter* > _sorters;
     FIRES_API
     static std::map< std::type_index, PropertyAggregator* > _aggregators;

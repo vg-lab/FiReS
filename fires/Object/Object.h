@@ -24,7 +24,7 @@
 
 #include <fires/api.h>
 #include "../Property/Property.h"
-//#include "../PropertyManager.h"
+#include "../PropertyGIDsManager.h"
 
 #include <string>
 #include <map>
@@ -33,23 +33,17 @@ namespace fires
 {
 
   class FIRES_API ObjectProperties
-    : public std::map< std::string, Property >
+    : public std::map< PropertyGID, Property >
   {
 
   public:
 
     ObjectProperties( void );
-
-
     void registerProperty( const std::string& label,
                            const Property& property );
-
     bool unregisterProperty( const std::string& label );
-
     Property& get( const std::string& label );
-
     const Property& get( const std::string& label ) const;
-
     bool set( const std::string& label, const Property& property );
 
   }; // class ObjectProperties
@@ -75,7 +69,7 @@ namespace fires
      * Copy constructor
      */
     FIRES_API
-    Object( Object& object );
+    Object( const Object& object );
 
     /**
      * Destructor
@@ -122,7 +116,7 @@ namespace fires
      */
     FIRES_API
     const Property& getProperty( const std::string& label ) const;
-    
+
     /**
      * Get a property of this object
      * @param label label string to retrieve the property

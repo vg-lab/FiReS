@@ -12,8 +12,9 @@ void printObjects( fires::Objects& objects )
     for ( auto f = obj->properties( ).begin( );
           f != obj ->properties( ).end( ); ++f )
     {
-      std::cout << "" << ( *f ).first << ": "
-                << obj->getProperty(( *f ).first ).value< float >( ) << " ";
+      auto label = fires::PropertyGIDsManager::getPropertyLabel( f->first );
+      std::cout << "" << label << ": "
+                << obj->getProperty( label ).value< float >( ) << " ";
     }
 
     std::cout << ") ";

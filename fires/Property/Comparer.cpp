@@ -19,26 +19,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  */
-#include "PropertyManager.h"
+#include "Comparer.h"
 
 namespace fires
 {
 
-  std::map< PropertyGID, PropertyManager::TPropertyInfo >
-  PropertyManager::_properties =
-    std::map< PropertyGID, PropertyManager::TPropertyInfo >( );
 
-  std::map< std::type_index, PropertySorter* >
-  PropertyManager::_sorters =
-    std::map< std::type_index, PropertySorter* >( );
-
-  std::map< std::type_index, PropertyAggregator* >
-  PropertyManager::_aggregators =
-    std::map< std::type_index, PropertyAggregator* >( );
-
-  std::map< std::type_index, PropertyCaster* >
-  PropertyManager::_casters =
-    std::map< std::type_index, PropertyCaster* >( );
-
+  float Comparer::distance( const Property& /* f1 */ ,
+                            const Property& /* f2 */ ) const
+    {
+      Log::log( std::string( "No valid Comparer registered. Returning 0." ),
+                LOG_LEVEL_WARNING );
+      return 0.0f;
+    }
 
 }

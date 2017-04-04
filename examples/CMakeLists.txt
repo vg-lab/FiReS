@@ -24,3 +24,9 @@ target_link_libraries( FiReSAggregate FiReS )
 
 add_executable( FiReSTasks tasks.cpp )
 target_link_libraries( FiReSTasks FiReS )
+
+add_executable( FiReSObserver observer.cpp )
+target_link_libraries( FiReSObserver FiReS )
+
+add_executable( FiReSDependencies dependencies.cpp )
+target_link_libraries( FiReSDependencies FiReS )
