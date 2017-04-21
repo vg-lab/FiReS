@@ -39,7 +39,7 @@ namespace fires
     Property( void );
 
     FIRES_API
-    virtual ~Property( void );
+    ~Property( void );
 
     Property& operator= ( const Property& other )
     {

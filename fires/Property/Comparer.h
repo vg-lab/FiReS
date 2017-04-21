@@ -30,14 +30,10 @@
 namespace fires
 {
 
-  /*! \class Comparer
-   \brief Parent comparer class that provides the distance computation
-   virtual method.
-
-   Parent comparer class that provides the distance computation
-   virtual method. This method has to be rewritten by the actual comparer
-   which have to be derived from this class.
-
+  /**
+   * Parent comparer class that provides the distance computation
+   * virtual method. This method has to be rewritten by the actual comparer
+   * which have to be derived from this class.
    */
   class Comparer
   {
@@ -48,20 +44,16 @@ namespace fires
     }
 
     /**
-     * Virtual method to compute distance.
-       Has to be rewritten by the specific comparers.
+     * Virtual method to compute distance.   Has to be rewritten by the
+     * specific comparers.
+     *
      * @param f1 First property to compare.
      * @param f2 Second property to compare.
      * @return Distance between properties
      */
     FIRES_API
-    virtual float distance( const Property& /* f1 */,
-                            const Property& /* f2 */ ) const
-    {
-      Log::log( std::string( "No valid Comparer registered. Returning 0." ),
-                LOG_LEVEL_WARNING );
-      return 0.0f;
-    }
+    virtual float distance( const Property& f1 ,
+                            const Property& f2 ) const;
 
   };
 

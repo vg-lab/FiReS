@@ -45,15 +45,15 @@ namespace fires
   {
   public:
 
-#define FIRES_LOG_HEADER                                  \
-  std::string( "FiReS: " +                                \
-               std::string( __FILE__ ) + std::string( "(" ) +   \
-               std::to_string( __LINE__ ) +                     \
-               std::string( "): " ))
+#define FIRES_LOG_HEADER                                        \
+    std::string( "FiReS: " +                                    \
+                 std::string( __FILE__ ) + std::string( "(" ) + \
+                 std::to_string( __LINE__ ) +                   \
+                 std::string( "): " ))
 
     /**
      * Set current log level
-     * @param level level to be set
+     * @param logLevel level to be set
      */
     FIRES_API
     static void setLogLevel( const TLogLevel logLevel );

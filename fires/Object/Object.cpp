@@ -21,7 +21,9 @@
  */
 #include "Object.h"
 #include "../error.h"
+#include "../DependenciesManager.h"
 #include "../PropertyManager.h"
+#include "../ObserverManager.h"
 
 #include <map>
 
@@ -37,18 +39,22 @@ namespace fires
   void ObjectProperties::registerProperty( const std::string& label,
                                            const Property& property )
   {
-    auto ret = this->insert( std::pair< std::string, Property >
-                             ( label, property ));
+    auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+
+    auto ret = this->insert( std::pair< PropertyGID, Property >
+                             ( propertyGID, property ));
 
     if ( !ret.second )
-      ( *this )[ label ] = property;
+      ( *this )[ propertyGID ] = property;
 
     // PropertyManager::registerProperty( label, property );
   }
 
   bool ObjectProperties::unregisterProperty( const std::string& label )
   {
-    const auto it = this->find( label );
+    auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+
+    const auto it = this->find( propertyGID );
 
     if ( it == this->end( ) )
       return false;
@@ -59,7 +65,9 @@ namespace fires
 
   Property& ObjectProperties::get( const std::string& label )
   {
-    ObjectProperties::iterator it = this->find( label );
+    auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+
+    ObjectProperties::iterator it = this->find( propertyGID );
 
     FIRES_CHECK_THROW( it != this->end( ),
                        std::string( "non existing property '" ) +
@@ -69,7 +77,8 @@ namespace fires
 
   const Property& ObjectProperties::get( const std::string& label ) const
   {
-    ObjectProperties::const_iterator it = this->find( label );
+    auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+    ObjectProperties::const_iterator it = this->find( propertyGID );
 
     FIRES_CHECK_THROW( it != this->end( ),
                        std::string( "non existing property '" ) +
@@ -80,12 +89,14 @@ namespace fires
   bool ObjectProperties::set( const std::string& label,
                               const Property& property )
   {
-    ObjectProperties::const_iterator it = this->find( label );
+    auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+
+    ObjectProperties::const_iterator it = this->find( propertyGID );
 
     if ( it == this->end( ))
       return false;
 
-    ( * this )[label] = property;
+    ( * this )[ propertyGID ] = property;
     return true;
   }
 
@@ -95,7 +106,7 @@ namespace fires
   {
   }
 
-  Object::Object( Object& object )
+  Object::Object( const Object& object )
     : _properties( object._properties )
     , _label( object._label )
   {
@@ -103,6 +114,9 @@ namespace fires
 
   Object::~Object( void )
   {
+    ObserverManager::removeObserver( this );
+    ObserverManager::removeNotifier( this );
+    DependenciesManager::removeObject( this );
   }
 
 
@@ -114,23 +128,30 @@ namespace fires
 
   Property& Object::getProperty( const std::string& propertyLabel )
   {
+    DependenciesManager::updateProperty( this, propertyLabel );
     return _properties.get( propertyLabel );
   }
 
-  const Property& Object::getProperty( const std::string& propertyLabel ) const
-  {
-    return _properties.get( propertyLabel );
-  }
-  
+  // const Property& Object::getProperty( const std::string& propertyLabel ) const
+  // {
+  //   DependenciesManager::updateProperty( this, propertyLabel );
+  //   return _properties.get( propertyLabel );
+  // }
+
   Property& Object::operator[]( const std::string& propertyLabel )
   {
+    DependenciesManager::updateProperty( this, propertyLabel );
     return this->getProperty( propertyLabel );
   }
 
   bool Object::setProperty( const std::string& propertyLabel,
                             const Property& property)
   {
-    return _properties.set( propertyLabel, property );
+    auto ret = _properties.set( propertyLabel, property );
+    ObserverManager::trigger( this, propertyLabel );
+    ObserverManager::trigger( this, FIRES_ANY );
+    DependenciesManager::setDependentsDirty( this, propertyLabel );
+    return ret;
   }
 
   bool Object::unregisterProperty( const std::string& propertyLabel )
@@ -145,7 +166,8 @@ namespace fires
 
   bool Object::hasProperty( const std::string& label_ ) const
   {
-    return _properties.find( label_ ) != _properties.end( );
+    return _properties.find( PropertyGIDsManager::getPropertyGID( label_ )) !=
+                             _properties.end( );
   }
 
   ObjectProperties& Object::properties( void )

@@ -107,12 +107,12 @@ namespace fires
 
   };
 
-  /*! \class System::SearchConfig
-      \brief Container of the properties for query
-
-      It holds a map for the properties. The key of the map is a string
-      which represents the name of the property
-  */
+  /**
+   * Container of the properties for query
+   *
+   *  It holds a map for the properties. The key of the map is a string
+   *  which represents the name of the property
+   */
   class SearchConfig
     : public TaskConfig
   {
@@ -145,15 +145,18 @@ namespace fires
      * Adds a new property to the container
      * @param label is the name of the property and the key to be
      *        used afterwards
+     * @param comparer pointer to comparer to ve used
+     * @param averager pointer to averager to ve used
+     * @param normalizer pointer to the normalizer to ve used
      * @param weight weight of this property
      * @param comparer pointer to the comparer object to be used
      *        with this property
      */
     FIRES_API
     void add( const std::string& label,
-              Comparer* comparer_ = nullptr,
-              Averager* averager_ = nullptr,
-              Normalizer* normalizer_ = nullptr,
+              Comparer* comparer = nullptr,
+              Averager* averager = nullptr,
+              Normalizer* normalizer = nullptr,
               float weight = 1.0f );
     FIRES_API
     Comparer* comparer( const std::string& label )
