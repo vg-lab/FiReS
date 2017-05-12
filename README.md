@@ -1,3 +1,5 @@
+[![build status](https://gitlab.gmrv.es/retrieval/FiReS/badges/master/build.svg)](https://gitlab.gmrv.es/retrieval/FiReS/commits/master)
+
 # FiReS - property management for Filtering, Retrieval and Search
 (c) 2015. GMRV / URJC
 
