@@ -132,11 +132,14 @@ namespace fires
     return _properties.get( propertyLabel );
   }
 
-  // const Property& Object::getProperty( const std::string& propertyLabel ) const
-  // {
-  //   DependenciesManager::updateProperty( this, propertyLabel );
-  //   return _properties.get( propertyLabel );
-  // }
+  const Property& Object::getProperty( const std::string& propertyLabel ) const
+  {
+    //WAR to have a const getter
+    Object* nonConstObj = const_cast< Object* >( this );
+
+    DependenciesManager::updateProperty( nonConstObj, propertyLabel );
+    return _properties.get( propertyLabel );
+  }
 
   Property& Object::operator[]( const std::string& propertyLabel )
   {

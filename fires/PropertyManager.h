@@ -139,40 +139,60 @@ namespace fires
       }
     }
 
-    static fires::PropertySorter* getSorter( const std::string& label )
+    static fires::PropertySorter* getSorter( PropertyGID propertyGID )
     {
-      auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
 
       return _properties[ propertyGID ].sorter;
     }
 
-    static fires::Filter* getFilter( const std::string& label )
+    static fires::PropertySorter* getSorter( const std::string& label )
     {
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      return getSorter( propertyGID );
+    }
+
+    static fires::Filter* getFilter( PropertyGID propertyGID )
+    {
       if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
 
       return _properties[ propertyGID ].filter;
     }
 
-    static fires::PropertyAggregator* getAggregator( const std::string& label )
+    static fires::Filter* getFilter( const std::string& label )
     {
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      return getFilter( propertyGID );
+    }
+
+    static fires::PropertyAggregator* getAggregator( PropertyGID propertyGID )
+    {
       if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
 
       return _properties[ propertyGID ].aggregator;
     }
 
-    static fires::PropertyCaster* getPropertyCaster( const std::string& label )
+    static fires::PropertyAggregator* getAggregator( const std::string& label )
     {
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      return getAggregator( propertyGID );
+    }
+
+    static fires::PropertyCaster* getPropertyCaster( PropertyGID propertyGID )
+    {
       if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
 
       return _properties[ propertyGID ].caster;
+    }
+
+    static fires::PropertyCaster* getPropertyCaster( const std::string& label )
+    {
+      auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      return getPropertyCaster( propertyGID );
     }
 
     static void setFilterRange( fires::Filter* filter,
