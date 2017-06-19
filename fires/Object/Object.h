@@ -32,18 +32,23 @@
 namespace fires
 {
 
-  class FIRES_API ObjectProperties
+  class ObjectProperties
     : public std::map< PropertyGID, Property >
   {
 
   public:
-
+    FIRES_API
     ObjectProperties( void );
+    FIRES_API
     void registerProperty( const std::string& label,
                            const Property& property );
+    FIRES_API
     bool unregisterProperty( const std::string& label );
+    FIRES_API
     Property& get( const std::string& label );
+    FIRES_API
     const Property& get( const std::string& label ) const;
+    FIRES_API
     bool set( const std::string& label, const Property& property );
 
   }; // class ObjectProperties
