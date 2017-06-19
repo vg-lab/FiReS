@@ -7,8 +7,8 @@
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 cmake_minimum_required( VERSION 3.1 FATAL_ERROR )
-project( FiReS VERSION 0.1.3 )
-set( FiReS_VERSION_ABI 3 )
+project( FiReS VERSION 0.1.4 )
+set( FiReS_VERSION_ABI 4 )
 
 list( APPEND CMAKE_MODULE_PATH
   ${PROJECT_SOURCE_DIR}/CMake
@@ -32,9 +32,6 @@ set( COMMON_PROJECT_DOMAIN es.gmrv )
 common_find_package( Boost REQUIRED COMPONENTS unit_test_framework )
 common_find_package( OpenMP )
 common_find_package_post( )
-
-# Allow warnings
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 
 set( FIRES_DEPENDENT_LIBRARIES Boost )
 
