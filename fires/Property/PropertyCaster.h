@@ -80,10 +80,14 @@ namespace fires
     {
       std::ostringstream iss;
 // Avoiding choose int over unsigned int for enum types
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-promo"
+#ifdef __GNUC__
+      #pragma GCC diagnostic push
+      #pragma GCC diagnostic ignored "-Wsign-promo"
+#endif
       iss << (( T ) property.value< T >( ));
-#pragma GCC diagnostic pop
+#ifdef __GNUC__
+      #pragma GCC diagnostic pop
+#endif
       return std::string( iss.str( ));
     }
   };
