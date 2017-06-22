@@ -64,7 +64,7 @@ namespace fires
       fires::Object* obj,
       const std::string& label,
       T value,
-      typename std::enable_if< std::is_scalar< T >::value >::type* = 0 )
+      typename std::enable_if< std::is_arithmetic< T >::value >::type* = 0 )
     {
       obj->registerProperty( label, fires::Property( ( T ) value ));
       registerProperty( label, value );
@@ -75,7 +75,7 @@ namespace fires
     static void registerProperty(
       const std::string& label,
       T /* value */,
-      typename std::enable_if< std::is_scalar< T >::value >::type* = 0 )
+      typename std::enable_if< std::is_arithmetic< T >::value >::type* = 0 )
     {
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
@@ -138,6 +138,93 @@ namespace fires
 
       }
     }
+
+
+    template < typename T >
+    static void registerProperty(
+      fires::Object* obj,
+      const std::string& label,
+      T value,
+      const std::map< T, std::string >& enumToString =
+      std::map< T, std::string >( ),
+      typename std::enable_if< std::is_enum< T >::value >::type* = 0 )
+    {
+      obj->registerProperty( label, fires::Property( ( T ) value ));
+      registerProperty( label, value, enumToString );
+    }
+
+    //! Specialization for scalars
+    template < typename T >
+    static void registerProperty(
+      const std::string& label,
+      T /* value */,
+      const std::map< T, std::string >& enumToString =
+      std::map< T, std::string >( ),
+      typename std::enable_if< std::is_enum< T >::value >::type* = 0 )
+    {
+      auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      if ( _properties.find( propertyGID ) == _properties.end( ))
+      {
+        fires::ScalarPropertySorter< T >* sorter = nullptr;
+        fires::ScalarPropertyAggregator< T >* aggregator = nullptr;
+        fires::EnumPropertyCaster< T >* caster = nullptr;
+
+        // Sorters
+        if ( _sorters.find( std::type_index( typeid( T ))) == _sorters.end( ))
+        {
+          sorter = new fires::ScalarPropertySorter< T >;
+          _sorters[ std::type_index( typeid( T )) ] = sorter;
+        }
+        else
+        {
+          sorter =
+            dynamic_cast< fires::ScalarPropertySorter< T >* >(
+              _sorters.find( std::type_index( typeid( T )))->second );
+        }
+
+        // Aggregatorrs
+        if ( _aggregators.find( std::type_index( typeid( T ))) ==
+             _aggregators.end( ))
+        {
+          aggregator = new fires::ScalarPropertyAggregator< T >;
+          _aggregators[ std::type_index( typeid( T )) ] = aggregator;
+        }
+        else
+        {
+          aggregator =
+            dynamic_cast< fires::ScalarPropertyAggregator< T >* >(
+              _aggregators.find( std::type_index( typeid( T )))->second );
+        }
+
+        // Casters
+        if ( _casters.find( std::type_index( typeid( T ))) ==
+             _casters.end( ))
+        {
+          caster = new fires::EnumPropertyCaster< T >( enumToString );
+          _casters[ std::type_index( typeid( T )) ] = caster;
+        }
+        else
+        {
+          caster =
+            dynamic_cast< fires::EnumPropertyCaster< T >* >(
+              _casters.find( std::type_index( typeid( T )))->second );
+        }
+
+
+        _properties[ propertyGID ] = {
+          sorter,
+          aggregator,
+          new fires::FilterScalarRange< T >(
+            T( ), T( ),
+            fires::FilterRange::CLOSED_ENDPOINT,
+            fires::FilterRange::CLOSED_ENDPOINT ),
+          caster,
+        };
+
+      }
+    }
+
+
 
     static fires::PropertySorter* getSorter( PropertyGID propertyGID )
     {

@@ -25,6 +25,8 @@
 #include "Property.h"
 #include <sstream>
 #include <math.h>
+#include <map>
+#include <vector>
 
 namespace fires
 {
@@ -46,11 +48,25 @@ namespace fires
 
     virtual int toInt( const Property&, TIntCasting casting = ROUND ) = 0;
     virtual std::string toString( const Property& property ) = 0;
+    virtual void fromString(
+      Property& property, const std::string& str ) = 0;
 
+    virtual std::vector< std::string > categories( void )
+    {
+      return std::vector< std::string >( );
+    }
+  };
+
+  template < typename T,  class Enable = void >
+  class ScalarPropertyCaster
+    : public PropertyCaster
+  {
   };
 
   template < typename T >
-  class ScalarPropertyCaster : public PropertyCaster
+  class ScalarPropertyCaster
+  < T, typename std::enable_if< std::is_arithmetic< T >::value >::type >
+    : public PropertyCaster
   {
   public:
 
@@ -90,7 +106,84 @@ namespace fires
 #endif
       return std::string( iss.str( ));
     }
+
+    virtual void fromString( Property& property, const std::string& str )
+    {
+      property.set( ( T ) std::stod( str ));
+    }
+
   };
+
+  template < typename T,  class Enable = void >
+  class EnumPropertyCaster
+  {
+  };
+
+  template < typename T >
+  class EnumPropertyCaster
+  < T, typename std::enable_if< std::is_enum< T >::value >::type >
+    : public PropertyCaster
+  {
+  public:
+
+    EnumPropertyCaster( const std::map< T, std::string >& scalarToString )
+    {
+      _scalarToString = scalarToString;
+      for ( const auto pair : _scalarToString )
+        _stringToScalar[ pair.second ] = pair.first;
+    }
+    virtual ~EnumPropertyCaster( void )
+    {
+    }
+
+    virtual int toInt( const Property& property, TIntCasting casting = ROUND )
+    {
+      switch ( casting )
+      {
+      case ROUND:
+        return int( round( double( property.value< T >( ))));
+        break;
+      case CEIL:
+        return int( ceil( double( property.value< T >( ))));
+        break;
+      case FLOOR:
+        return int( floor( double( property.value< T >( ))));
+        break;
+      default:
+        throw std::runtime_error( "Invalid casting type" );
+      }
+    }
+
+    virtual std::string toString( const Property& property )
+    {
+      return _scalarToString.at( property.value< T >( ));
+    }
+
+    virtual void fromString( Property& property, const std::string& str )
+    {
+      property.set( ( T ) _stringToScalar.at( str ));
+    }
+
+    virtual std::vector< std::string > categories( void ) final
+    {
+      std::vector< std::string > categories_;
+      categories_.reserve( _scalarToString.size( ));
+      for ( const auto catPair : _scalarToString )
+        categories_.push_back( catPair.second );
+      return categories_;
+    }
+
+    const std::map< T, std::string>& scalarToString( void )
+    {
+      return _scalarToString;
+    }
+
+  protected:
+
+    std::map< T, std::string > _scalarToString;
+    std::map< std::string, T > _stringToScalar;
+  };
+
 
 } // namespace fires
 

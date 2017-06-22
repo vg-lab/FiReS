@@ -21,7 +21,7 @@ Test Framework are optional.
 ## Building
 
 FiReS has been succesfully built and used on Ubuntu 16.04, Mac OSX
-Yosemite and Windows 7/8/10 (Visual Studio 2013 Win64). The following steps
+Yosemite and Windows 7/8/10 (Visual Studio 2015 Win64). The following steps
 should be enough to build it:
 
 ```bash

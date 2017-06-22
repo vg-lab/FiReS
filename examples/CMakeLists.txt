@@ -30,3 +30,6 @@ target_link_libraries( FiReSObserver FiReS )
 
 add_executable( FiReSDependencies dependencies.cpp )
 target_link_libraries( FiReSDependencies FiReS )
+
+add_executable( FiReSCaster caster.cpp )
+target_link_libraries( FiReSCaster FiReS )

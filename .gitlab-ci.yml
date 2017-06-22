@@ -26,13 +26,13 @@ OSX:
  tags:
   - osx
 
-Win7:
+Win7-vs14:
  stage: build
  script:
-  - call %ENVFILESDIR%\Boost-1.56-vs12-x64.bat
+  - call %ENVFILESDIR%\Boost-1.64-vs14-x64.bat
   - set CMAKE_EXTRA_TARGETS=RUN_TESTS
   - set RUN_TESTS=1
-  - set BUILD_GENERATOR=Visual Studio 12 Win64
+  - set BUILD_GENERATOR=Visual Studio 14 Win64
   - set PATH=%PATH%;"c:\\Program Files (x86)\\Git\\bin"
   - bash.exe --login .gitlabci.sh
  tags:
