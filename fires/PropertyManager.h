@@ -84,45 +84,48 @@ namespace fires
         fires::ScalarPropertyAggregator< T >* aggregator = nullptr;
         fires::ScalarPropertyCaster< T >* caster = nullptr;
 
+        const auto typeIdx = std::type_index( typeid( T ));
+
         // Sorters
-        if ( _sorters.find( std::type_index( typeid( T ))) == _sorters.end( ))
+        const auto& sorterIt = _sorters.find( typeIdx );
+        if ( sorterIt == _sorters.end( ))
         {
           sorter = new fires::ScalarPropertySorter< T >;
-          _sorters[ std::type_index( typeid( T )) ] = sorter;
+          _sorters[ typeIdx ] = sorter;
         }
         else
         {
           sorter =
             dynamic_cast< fires::ScalarPropertySorter< T >* >(
-              _sorters.find( std::type_index( typeid( T )))->second );
+              sorterIt->second );
         }
 
-        // Aggregatorrs
-        if ( _aggregators.find( std::type_index( typeid( T ))) ==
-             _aggregators.end( ))
+        // Aggregators
+        const auto& aggregatorIt = _aggregators.find( typeIdx );
+        if ( aggregatorIt == _aggregators.end( ))
         {
           aggregator = new fires::ScalarPropertyAggregator< T >;
-          _aggregators[ std::type_index( typeid( T )) ] = aggregator;
+          _aggregators[ typeIdx ] = aggregator;
         }
         else
         {
           aggregator =
             dynamic_cast< fires::ScalarPropertyAggregator< T >* >(
-              _aggregators.find( std::type_index( typeid( T )))->second );
+              aggregatorIt->second );
         }
 
         // Casters
-        if ( _casters.find( std::type_index( typeid( T ))) ==
-             _casters.end( ))
+        const auto& casterIt = _casters.find( typeIdx );
+        if ( casterIt == _casters.end( ))
         {
           caster = new fires::ScalarPropertyCaster< T >;
-          _casters[ std::type_index( typeid( T )) ] = caster;
+          _casters[ typeIdx  ] = caster;
         }
         else
         {
           caster =
             dynamic_cast< fires::ScalarPropertyCaster< T >* >(
-              _casters.find( std::type_index( typeid( T )))->second );
+              casterIt->second );
         }
 
 
@@ -169,47 +172,48 @@ namespace fires
         fires::ScalarPropertyAggregator< T >* aggregator = nullptr;
         fires::EnumPropertyCaster< T >* caster = nullptr;
 
+        const auto typeIdx = std::type_index( typeid( T ));
+
         // Sorters
-        if ( _sorters.find( std::type_index( typeid( T ))) == _sorters.end( ))
+        const auto& sorterIt = _sorters.find( typeIdx );
+        if ( sorterIt == _sorters.end( ))
         {
           sorter = new fires::ScalarPropertySorter< T >;
-          _sorters[ std::type_index( typeid( T )) ] = sorter;
+          _sorters[ typeIdx ] = sorter;
         }
         else
         {
           sorter =
             dynamic_cast< fires::ScalarPropertySorter< T >* >(
-              _sorters.find( std::type_index( typeid( T )))->second );
+              sorterIt->second );
         }
 
-        // Aggregatorrs
-        if ( _aggregators.find( std::type_index( typeid( T ))) ==
-             _aggregators.end( ))
+        // Aggregators
+        const auto& aggregatorIt = _aggregators.find( typeIdx );
+        if ( aggregatorIt == _aggregators.end( ))
         {
           aggregator = new fires::ScalarPropertyAggregator< T >;
-          _aggregators[ std::type_index( typeid( T )) ] = aggregator;
+          _aggregators[ typeIdx ] = aggregator;
         }
         else
         {
           aggregator =
             dynamic_cast< fires::ScalarPropertyAggregator< T >* >(
-              _aggregators.find( std::type_index( typeid( T )))->second );
+              aggregatorIt->second );
         }
 
         // Casters
-        if ( _casters.find( std::type_index( typeid( T ))) ==
-             _casters.end( ))
+        const auto casterIt = _casters.find( typeIdx );
+        if ( casterIt == _casters.end( ))
         {
           caster = new fires::EnumPropertyCaster< T >( enumToString );
-          _casters[ std::type_index( typeid( T )) ] = caster;
+          _casters[ typeIdx ] = caster;
         }
         else
         {
           caster =
-            dynamic_cast< fires::EnumPropertyCaster< T >* >(
-              _casters.find( std::type_index( typeid( T )))->second );
+            dynamic_cast< fires::EnumPropertyCaster< T >* >( casterIt->second );
         }
-
 
         _properties[ propertyGID ] = {
           sorter,
