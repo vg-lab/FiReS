@@ -19,43 +19,49 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  */
-#ifndef __FIRES__OBJECTS_H__
-#define __FIRES__OBJECTS_H__
+#ifndef __FIRES__SLICE_H__
+#define __FIRES__SLICE_H__
 
-#include "Object.h"
-#include <vector>
-#include <boost/variant.hpp>
+#include "../Property/Property.h"
+#include "Task.h"
+#include "../Object/Objects.h"
 
 namespace fires
 {
-  class Object;
-  /**
-   * Simple class used as a container of objects based on std::vector
-   *
-   */
-  class Objects : public std::vector< Object* >
+
+
+  class SliceConfig : public TaskConfig
   {
 
   public:
-    /**
-     * Add an object to the container
-     * @param object pointer to the object to be added
-     */
-    FIRES_API
-    void add( Object* object );
 
-    FIRES_API
-    void del( Object* object );
+    typedef struct
+    {
+      std::string label;
+      // If categorical slicing this vector holds the categories idxs
+      std::vector< int > categoriesIdxs;
+      // If numerical-based slicing this vector holds the cutting points
+      std::vector< float > cuts;
+    } TSliceConfig;
 
-    FIRES_API
-    void addList( std::initializer_list<Object*> objects );
+    TSliceConfig& config( void ) { return _config; };
+    const TSliceConfig& config( void ) const { return _config; };
+  protected:
 
-    FIRES_API
-    void clearAdds( std::initializer_list<Object*> objects );
+    TSliceConfig _config;
 
-  }; // class Objects
+  };
 
-  typedef std::vector< Objects > GroupsOfObjects;
+  class Slice : public Task
+  {
+
+  public:
+
+    FIRES_API virtual Objects& eval( Objects &objs, TaskConfig& config );
+    FIRES_API virtual void eval( GroupsOfObjects &groups, TaskConfig &config );
+
+  };
+
 
 } // namespace fires
 

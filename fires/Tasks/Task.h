@@ -44,6 +44,8 @@ namespace fires
     }
 
     virtual Objects& eval( Objects &objs, TaskConfig &config ) = 0;
+    virtual void eval( GroupsOfObjects& /* groups */, TaskConfig& /* config */ )
+    {}
 
   };
 

@@ -20,6 +20,7 @@ set(FIRES_PUBLIC_HEADERS
   Tasks/Filter.h
   Tasks/SearchConfig.h
   Tasks/Search.h
+  Tasks/Slice.h
   Tasks/Sort.h
   Tasks/Task.h
 )
@@ -40,6 +41,7 @@ set(FIRES_SOURCES
   Tasks/Filter.cpp
   Tasks/SearchConfig.cpp
   Tasks/Search.cpp
+  Tasks/Slice.cpp
   Tasks/Sort.cpp
 )
 
