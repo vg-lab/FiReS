@@ -50,7 +50,7 @@ namespace fires
     for ( auto propertyIt = _properties.cbegin( );
           propertyIt != _properties.cend( ); ++propertyIt )
     {
-      const std::string label = ( *propertyIt ).label;
+      const std::string& label = ( *propertyIt ).label;
 
       if ( !obj1->hasProperty( label ))
         return false;

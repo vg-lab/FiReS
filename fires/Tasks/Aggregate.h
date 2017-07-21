@@ -111,7 +111,7 @@ namespace fires
       Object& aggregatedObj = aggregateConfig->aggregatedObject( );
       aggregatedObj.clearProperties( );
 
-      auto properties = aggregateConfig->properties( );
+      const auto& properties = aggregateConfig->properties( );
 
       aggregatedObj.label( ) = "aggregated";
 
@@ -119,11 +119,15 @@ namespace fires
       {
         for ( auto f = properties.begin( ); f != properties.end( ); ++f )
         {
-          std::string label = ( *f ).label;
+          const std::string& label = ( *f ).label;
+
+          if ( !( *obj )->hasProperty( label ))
+            continue;
+
           if ( !aggregatedObj.hasProperty( label ))
           {
-            aggregatedObj.registerProperty( label, 0 );
-            aggregatedObj.getProperty( label ) = ( *obj )->getProperty( label );
+            aggregatedObj.registerProperty( label, ( *obj )->getProperty( label ));
+            //aggregatedObj.getProperty( label ) = ;
           }
           else
           {

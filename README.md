@@ -2,7 +2,7 @@
 [![coverage report](https://gitlab.gmrv.es/retrieval/FiReS/badges/master/coverage.svg)](https://gitlab.gmrv.es/retrieval/FiReS/commits/master)
 
 # FiReS - property management for Filtering, Retrieval and Search
-(c) 2015. GMRV / URJC
+(c) 2014 - 2017. GMRV / URJC / UPM
 
 www.gmrv.es
 gmrv@gmrv.es

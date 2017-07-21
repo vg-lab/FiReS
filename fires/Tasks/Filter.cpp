@@ -45,8 +45,10 @@ namespace fires
     for ( auto filter  = _filters.begin( );
           filter != _filters.end( ); ++filter )
     {
-      auto propertyLabel = ( *filter ).first;
+      const auto& propertyLabel = ( *filter ).first;
       auto filterObject = ( *filter ).second;
+      if ( !obj->hasProperty( propertyLabel ))
+        return false;
       bool fulfilsFilter =
         filterObject->eval(( obj->getProperty( propertyLabel )));
       if ( !fulfilsFilter )
