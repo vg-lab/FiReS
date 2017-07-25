@@ -1,6 +1,7 @@
 # FiReS
 
 ## git master
+* [!21] Bump CMake/common and use it as a submodule
 * [!20] Check if properties exist for tasks Sort, Filer and Aggregate.
 * [!19] Added casters for enum properties.
 * [!18] Fixed Visual Studio 14 compilation.
