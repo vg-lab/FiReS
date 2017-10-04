@@ -41,10 +41,12 @@ add_subdirectory( fires )
 add_subdirectory( tests )
 add_subdirectory( examples )
 
-include( CPackConfig )
-
+set( DOCS README.md LICENSE.txt )
+install( FILES ${DOCS} DESTINATION share/fires COMPONENT dev )
 
 set( DOXYGEN_MAINPAGE_MD README.md )
 set( DOXYGEN_EXTRA_INPUT ${PROJECT_SOURCE_DIR}/README.md )
-
 include( DoxygenRule )
+
+include( CPackConfig )
+include( CTest )
