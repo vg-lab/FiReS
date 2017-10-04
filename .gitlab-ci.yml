@@ -9,7 +9,7 @@ Ubuntu:
   - uname -a
   - export COVERAGE=ON
   - export CMAKE_EXTRA_TARGETS="test"
-  - export BUILD_GENERATOR="Unix Makefiles"
+  - export BUILD_GENERATOR="Ninja"
   - bash .gitlabci.sh
  tags:
   - ubuntu
@@ -21,10 +21,10 @@ OSX:
   - hostname
   - uname -a
   - export CMAKE_EXTRA_TARGETS="test"
-  - export BUILD_GENERATOR="Unix Makefiles"
+  - export BUILD_GENERATOR="Ninja"
   - bash .gitlabci.sh
  tags:
-  - osx
+  - osx-sierra
 
 Win7-vs14:
  stage: build
