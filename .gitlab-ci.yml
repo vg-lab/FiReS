@@ -20,7 +20,7 @@ OSX:
   - date
   - hostname
   - uname -a
-  - export CMAKE_EXTRA_TARGETS="FiReS-test"
+  - export CMAKE_EXTRA_TARGETS="FiReS-tests"
   - export BUILD_GENERATOR="Ninja"
   - bash .gitlabci.sh
  tags:
