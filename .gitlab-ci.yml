@@ -8,9 +8,27 @@ Ubuntu:
   - hostname
   - uname -a
   - export COVERAGE=ON
-  - export CMAKE_EXTRA_TARGETS="test"
+  - export CMAKE_EXTRA_TARGETS="FiReS-tests"
   - export BUILD_GENERATOR="Ninja"
   - bash .gitlabci.sh
+ except:
+  - master
+ tags:
+  - ubuntu
+
+Ubuntu-master:
+ stage: build
+ script:
+  - date
+  - hostname
+  - uname -a
+  - export COVERAGE=ON
+  - export CMAKE_EXTRA_TARGETS="FiReS-tests doxygen"
+  - export DEPLOY_DOC_REPO="git@github.com:gmrvvis/gmrvvis.github.io"
+  - export BUILD_GENERATOR="Ninja"
+  - bash .gitlabci.sh
+ only:
+  - master
  tags:
   - ubuntu
 
