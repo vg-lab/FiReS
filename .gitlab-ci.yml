@@ -25,6 +25,7 @@ Ubuntu-master:
   - export COVERAGE=ON
   - export CMAKE_EXTRA_TARGETS="FiReS-tests doxygen"
   - export DEPLOY_DOC_REPO="git@github.com:gmrvvis/gmrvvis.github.io"
+  - export GITHUB_MIRROR_URL="git@github.com:gmrvvis/FiReS"
   - export BUILD_GENERATOR="Ninja"
   - bash .gitlabci.sh
  only:
