@@ -126,9 +126,9 @@ namespace fires
   {
   public:
 
-    EnumPropertyCaster( const std::map< T, std::string >& scalarToString )
+    EnumPropertyCaster( const std::map< T, std::string >& scalarToString_ )
     {
-      _scalarToString = scalarToString;
+      _scalarToString = scalarToString_;
       for ( const auto pair : _scalarToString )
         _stringToScalar[ pair.second ] = pair.first;
     }
