@@ -66,7 +66,7 @@ namespace fires
   {
   public:
 
-    ScalarAverager( T resetValue_ = ( T ) 0 )
+    ScalarAverager( T resetValue_ =  T( 0 ))
       : _resetValue( resetValue_ )
     {
     }
@@ -113,7 +113,7 @@ namespace fires
   {
   public:
 
-    ScalarAverager( T resetValue_ = ( T ) 0 )
+    ScalarAverager( T resetValue_ = T( 0 ))
       : ScalarAverager< T >( resetValue_ )
     {
     }

@@ -124,6 +124,7 @@ namespace fires
                                  const Property& property )
   {
     _properties.registerProperty( propertyLabel, property );
+    DependenciesManager::updateProperty( this, propertyLabel );
   }
 
   Property& Object::getProperty( const std::string& propertyLabel )

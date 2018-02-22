@@ -86,6 +86,16 @@ int main( void )
 
   std::cout << std::endl;
 
+  std::cout << "Aggregation SUM" << std::endl;
+  objs = origObjects;
+  printObjects( objs );
+  aggregateConfig.clear( );
+  aggregateConfig.addProperty( "f1", &sfaf, fires::PropertyAggregator::SUM );
+  aggregate.eval( objs, aggregateConfig );
+  printObjects( objs );
+
+  std::cout << std::endl;
+
   std::cout << "Aggregation MEAN" << std::endl;
   objs = origObjects;
   printObjects( objs );

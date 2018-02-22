@@ -41,8 +41,9 @@ namespace fires
     auto dependentPropertyGID =
       PropertyGIDsManager::getPropertyGID( dependentPropLabel );
 
-    bool exists = ( _dependsOn[ dependent ].count( dependentPropertyGID ) == 1 );
+    bool exists = ( _dependsOn[ dependent ].count( dependentPropertyGID ) > 0 );
     auto& pair = _dependsOn[ dependent ][ dependentPropertyGID ];
+    // Sets the updater callback to null
     if ( !exists )
       pair.first = nullptr;
     pair.second.insert( std::make_pair( dependency, dependencyPropertyGID ));
@@ -91,12 +92,14 @@ namespace fires
   void DependenciesManager::updateProperty( Object* obj,
                                             const std::string& propLabel )
   {
-    // std::cout << std::endl << ".------------_" << std::endl;
-    // std::cout << propLabel << std::endl;
-    auto propertyGID = PropertyGIDsManager::getPropertyGID( propLabel );
+    if ( _dirtyProps.size( ) == 0 )
+      return;
+
+    const auto& propertyGID = PropertyGIDsManager::getPropertyGID( propLabel );
     const auto& objDirtyPropsIt = _dirtyProps.find( obj );
     if ( objDirtyPropsIt == _dirtyProps.end( ))
       return;
+
     auto dirtyPropIt = objDirtyPropsIt->second.find( propertyGID );
     if ( dirtyPropIt == objDirtyPropsIt->second.end( ))
       return;

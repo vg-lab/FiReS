@@ -36,7 +36,8 @@ namespace fires
 
     typedef enum
     {
-      MIN = 0,
+      SUM = 0,
+      MIN,
       MAX,
       MEAN
     } TAggregation;
@@ -86,6 +87,7 @@ namespace fires
             break;
 
       case MEAN:
+      case SUM:
         aggregatedObject.getProperty( propertyLabel ).set(
           T( objectToAggregator.getProperty( propertyLabel ).value< T >( )  +
              aggregatedObject.getProperty( propertyLabel ).value< T >( )));
