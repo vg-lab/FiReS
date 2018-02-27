@@ -74,15 +74,30 @@ public:
     fires::DependenciesManager::addDependency( this, "area",
                                                &edges[1], "length" );
     fires::DependenciesManager::setUpdater( this, "area",
-                                            this, &Rectangle::computeArea );
-  }
+                                            this, &Rectangle::computeAreaAndLength );
 
-  void computeArea( fires::Object*, const std::string& )
+    this->registerProperty( "total length", 0.0f );
+    fires::DependenciesManager::addDependency( this, "total length",
+                                               &edges[0], "length" );
+    fires::DependenciesManager::addDependency( this, "total length",
+                                               &edges[1], "length" );
+    fires::DependenciesManager::setUpdater( this, "total length",
+                                            this, &Rectangle::computeAreaAndLength );
+}
+
+  void computeAreaAndLength( fires::Object*, const std::string& prop )
   {
-    this->setProperty( "area",
-                       edges[0].getProperty( "length" ).value< float >( ) *
-                       edges[1].getProperty( "length" ).value< float >( ));
-    std::cout << "[ Rectangle: updated area ]" << std::endl;
+    if ( prop == "area" )
+      this->setProperty( "area",
+                         edges[0].getProperty( "length" ).value< float >( ) *
+                         edges[1].getProperty( "length" ).value< float >( ));
+    else if ( prop == "total length" )
+      this->setProperty(
+        "total length",
+        2.0f * ( edges[0].getProperty( "length" ).value< float >( ) +
+                 edges[1].getProperty( "length" ).value< float >( )));
+
+    std::cout << "[ Rectangle: updated " << prop << " ]" << std::endl;
   }
 
   Edge edges[2];
@@ -110,10 +125,21 @@ int main( void )
   // [ Edge: updating length ]
   // 2
 
+  std::cout << std::endl << "Requesting for total length for the first time"
+            << std::endl;
+  std::cout << rect.getProperty( "total length" ).value< float >( ) << std::endl;
+  // output:
+  // [ Rectangle: updated total length ]
+  // 6
+
   std::cout << std::endl << "Setting one dependency" << std::endl;
   rect.edges[0].points[1].setProperty( "y", 4.0f );
 
-  std::cout << std::endl << "Requesting for area needs updating dirty deps"
+  std::cout << std::endl << "Requesting for total length needs updating"
+            << std::endl;
+  std::cout << rect.getProperty( "total length" ).value< float >( ) << std::endl;
+
+  std::cout << std::endl << "Requesting for area needs updating"
             << std::endl;
   std::cout << rect.getProperty( "area" ).value< float >( ) << std::endl;
   // [ Rectangle: updating area ]
@@ -125,6 +151,12 @@ int main( void )
   std::cout << rect.getProperty( "area" ).value< float >( ) << std::endl;
   // output:
   // 6
+
+  std::cout << std::endl << "Requesting for total length needs updating"
+            << std::endl;
+  std::cout << rect.getProperty( "total length" ).value< float >( ) << std::endl;
+  // output:
+  // 10
 
   return 0;
 }
