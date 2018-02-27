@@ -23,6 +23,7 @@
 #define __FIRES__AGGREGATE_H__
 
 #include "../Object/Object.h"
+#include "../Property/Aggregator.h"
 #include "Task.h"
 
 
@@ -50,13 +51,13 @@ namespace fires
     {
     }
 
-    void addProperty( std::string propertyLabel_,
-                     PropertyAggregator* aggregateer_,
-                     PropertyAggregator::TAggregation type_ =
-                     PropertyAggregator::MAX )
+    void addProperty( const std::string& propertyLabel_,
+                      PropertyAggregator* aggregator_,
+                      PropertyAggregator::TAggregation type_ =
+                      PropertyAggregator::MAX )
     {
       _properties.push_back( TAggregatorProperty{ propertyLabel_,
-            aggregateer_, type_ });
+            aggregator_, type_ });
     }
 
     std::vector< TAggregatorProperty >& properties( void )
