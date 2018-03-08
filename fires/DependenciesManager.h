@@ -23,6 +23,7 @@
 #define __FIRES__DEPENDENCIES_MANAGER_H__
 
 #include <fires/api.h>
+#include <boost/functional/hash.hpp>
 #include <functional>
 #include <vector>
 #include <string>
@@ -52,7 +53,9 @@ namespace fires
     UpdatePropertyCallback;
 
     //! Type for holding the dependency or dependent pair of object and property
-    typedef std::set< std::pair< Object*, PropertyGID >> ObjectPropertyPairSet;
+    typedef std::unordered_set<
+      std::pair< Object*, PropertyGID >,
+      boost::hash< std::pair< Object*, PropertyGID > >> ObjectPropertyPairSet;
 
     //! Type for holding the links from dependent to dependencies and also the
     //! upater callbacks
@@ -119,7 +122,8 @@ namespace fires
      * @param propLabel the name of the property to be set dirty
      */
     FIRES_API
-    static void setDependentsDirty( Object* obj, const std::string& propLabel );
+    static void setDependentsDirty( Object* obj, const std::string& propLabel,
+                                    bool includeSelf = false );
 
     /**
      * Returns of a property of an object is dirty

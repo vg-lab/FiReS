@@ -54,9 +54,15 @@ namespace fires
   }
 
   void DependenciesManager::setDependentsDirty( Object* obj,
-                                                const std::string& propLabel )
+                                                const std::string& propLabel,
+                                                bool includeSelf )
   {
+
     auto propertyGID = PropertyGIDsManager::getPropertyGID( propLabel );
+
+    if ( includeSelf )
+      _dirtyProps[ obj ].insert( propertyGID );
+
     std::stack< std::pair< Object*, PropertyGID >> toProcess;
     toProcess.push( std::make_pair( obj, propertyGID ));
 
@@ -65,12 +71,13 @@ namespace fires
       auto currentDep = toProcess.top( );
       auto currentObj = currentDep.first;
       auto currentPropertyGID = currentDep.second;
+
       toProcess.pop( );
-      for ( const auto& dependent :
-              _isDependencyOf[ currentObj ][ currentPropertyGID ] )
+      if ( _isDependencyOf.count( currentObj ) > 0 ||
+           _isDependencyOf[ currentObj ].count( currentPropertyGID ) > 0 )
       {
-        if ( _dirtyProps.count( dependent.first ) == 0 ||
-             _dirtyProps.at( dependent.first ).size( ) == 0 )
+        for ( const auto& dependent :
+                _isDependencyOf[ currentObj ][ currentPropertyGID ] )
         {
           _dirtyProps[ dependent.first ].insert( dependent.second );
           toProcess.push( std::make_pair( dependent.first, dependent.second ));
@@ -100,12 +107,16 @@ namespace fires
     if ( objDirtyPropsIt == _dirtyProps.end( ))
       return;
 
-    auto dirtyPropIt = objDirtyPropsIt->second.find( propertyGID );
+    const auto& dirtyPropIt = objDirtyPropsIt->second.find( propertyGID );
     if ( dirtyPropIt == objDirtyPropsIt->second.end( ))
       return;
 
-    const auto dependencyIt = _dependsOn[ obj ].find( propertyGID );
-    if ( dependencyIt != _dependsOn[ obj ].end( ) &&
+    const auto& dependsOnObj = _dependsOn.find( obj );
+    if ( dependsOnObj == _dependsOn.end( ))
+      return;
+
+    const auto dependencyIt = dependsOnObj->second.find( propertyGID );
+    if ( dependencyIt != dependsOnObj->second.end( ) &&
          dependencyIt->second.first )
       ( dependencyIt->second.first )( obj, propLabel );
 
