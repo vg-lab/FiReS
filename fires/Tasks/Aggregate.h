@@ -124,6 +124,9 @@ namespace fires
           if ( !( *obj )->hasProperty( label ))
             continue;
 
+          if ( std::isnan( ( *obj )->getProperty( label ).value<float>( ) ) )
+            continue;
+
           if ( !aggregatedObj.hasProperty( label ))
           {
             aggregatedObj.registerProperty( label, ( *obj )->getProperty( label ));

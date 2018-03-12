@@ -19,6 +19,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  *
  */
+
 #include "Search.h"
 #include "../error.h"
 
@@ -62,6 +63,10 @@ namespace fires
           qfd != config.properties( ).end( ); ++qfd )
     {
         std::string featLabel = qfd->first;
+        if ( std::isnan( obj2->getProperty( featLabel ).value<float>( ) ) )
+        {
+          return std::numeric_limits<float>::quiet_NaN( );
+        }
         fires::Comparer* comparer = qfd->second.comparer( );
 
         float d;
@@ -158,28 +163,40 @@ namespace fires
     for ( Objects::iterator obj = objects.begin(); obj != objects.end(); ++obj )
     {
       float dist = std::numeric_limits< float >::max( );
-
-      if ( queryDistanceType == SearchConfig::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
-        dist = _distanceBetweenTwoObjects( &queryAvgObj, *obj, *searchConfig );
-      else
-        if (queryDistanceType ==
-            SearchConfig::MINIMUM_DISTANCE_TO_QUERY_OBJECTS )
+      bool isNaN = false;
+      for ( const auto& qfd : searchConfig->properties( ) )
+      {
+        if ( std::isnan( ( *obj )->getProperty( qfd.first ).value<float>( ) ) )
         {
-          for ( auto queryObjIt = queryObjects.begin( );
-                queryObjIt != queryObjects.end( ); ++queryObjIt )
-          {
-            dist =
-              std::min( dist,
-                        _distanceBetweenTwoObjects( *queryObjIt, *obj,
-                                                    *searchConfig ));
-            if ( dist == 0.0f )
-              break;
-          }
+          isNaN = true;
+          dist = std::numeric_limits<float>::quiet_NaN( );
+          break;
         }
-        else
-          throw std::runtime_error(
-            "fires::Search::query: no distance type known" );
+      }
 
+      if ( !isNaN )
+      {
+        if ( queryDistanceType == SearchConfig::DISTANCE_TO_AVERAGE_QUERY_OBJECT )
+          dist = _distanceBetweenTwoObjects( &queryAvgObj, *obj, *searchConfig );
+        else
+          if ( queryDistanceType ==
+            SearchConfig::MINIMUM_DISTANCE_TO_QUERY_OBJECTS )
+          {
+            for ( auto queryObjIt = queryObjects.begin( );
+              queryObjIt != queryObjects.end( ); ++queryObjIt )
+            {
+              dist =
+                std::min( dist,
+                  _distanceBetweenTwoObjects( *queryObjIt, *obj,
+                    *searchConfig ) );
+              if ( ( dist == 0.0f ) || ( dist == std::numeric_limits<float>::quiet_NaN( ) ) )
+                break;
+            }
+          }
+          else
+            throw std::runtime_error(
+              "fires::Search::query: no distance type known" );
+      }
 
       ( *obj )->registerProperty( resultsPropertyLabel, 0.0f );
       ( *obj )->setProperty( resultsPropertyLabel, Property( dist ));
