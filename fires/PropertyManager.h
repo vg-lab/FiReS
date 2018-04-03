@@ -31,10 +31,11 @@
 #include <typeindex>
 #include <map>
 #include <type_traits>
+#include <boost/spirit/home/support/string_traits.hpp>
+
 
 namespace fires
 {
-
   class PropertyManager
   {
 
@@ -48,16 +49,7 @@ namespace fires
       fires::PropertyCaster* caster;
     } TPropertyInfo;
 
-    template < typename T >
-    static
-    void registerProperty(
-      fires::Object* obj,
-      const std::string& label,
-      T value,
-      typename std::enable_if< std::is_class< T >::value >::type* = 0 )
-    {
-      obj->registerProperty( label, value );
-    }
+
 
     template < typename T >
     static void registerProperty(
@@ -66,6 +58,7 @@ namespace fires
       T value,
       typename std::enable_if< std::is_arithmetic< T >::value >::type* = 0 )
     {
+      std::cout<<"ARIT1 "<< label <<std::endl;
       obj->registerProperty( label, fires::Property( ( T ) value ));
       registerProperty( label, value );
     }
@@ -77,6 +70,7 @@ namespace fires
       T /* value */,
       typename std::enable_if< std::is_arithmetic< T >::value >::type* = 0 )
     {
+      std::cout<<"ARIT2"<< label <<std::endl;
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
       {
@@ -143,6 +137,20 @@ namespace fires
     }
 
 
+
+    template < typename T >
+
+    static void registerProperty(
+        fires::Object* obj,
+        const std::string& label,
+        T value,
+        typename std::enable_if< boost::spirit::traits::is_string< T >::value >::type* = 0)
+    {
+      std::cout<<"STRING "<< label <<std::endl;
+      obj->registerProperty( label, value );
+    }
+
+
     template < typename T >
     static void registerProperty(
       fires::Object* obj,
@@ -152,6 +160,8 @@ namespace fires
       std::map< T, std::string >( ),
       typename std::enable_if< std::is_enum< T >::value >::type* = 0 )
     {
+      std::cout<<"ENUM1 "<< label <<std::endl;
+
       obj->registerProperty( label, fires::Property( ( T ) value ));
       registerProperty( label, value, enumToString );
     }
@@ -165,6 +175,7 @@ namespace fires
       std::map< T, std::string >( ),
       typename std::enable_if< std::is_enum< T >::value >::type* = 0 )
     {
+      std::cout<<"ENUM2 "<< label <<std::endl;
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
       {
@@ -228,6 +239,17 @@ namespace fires
       }
     }
 
+    template < typename T >
+    static
+    void registerProperty(
+        fires::Object* obj,
+        const std::string& label,
+        T value,
+        typename std::enable_if< std::is_class< T >::value >::type* = 0 )
+    {
+      std::cout<<"CLASS "<< label <<std::endl;
+      obj->registerProperty( label, value );
+    }
 
 
     static fires::PropertySorter* getSorter( PropertyGID propertyGID )
