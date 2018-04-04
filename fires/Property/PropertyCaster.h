@@ -27,6 +27,7 @@
 #include <math.h>
 #include <map>
 #include <vector>
+#include <boost/spirit/home/support/string_traits.hpp>
 
 namespace fires
 {
@@ -61,6 +62,51 @@ namespace fires
   class ScalarPropertyCaster
     : public PropertyCaster
   {
+  };
+  template < typename T,  class Enable = void >
+  class StringPropertyCaster
+      : public PropertyCaster
+  {
+  };
+  template < typename T >
+  class StringPropertyCaster
+      < T, typename std::enable_if< boost::spirit::traits::is_string< T >::value >::type >
+      : public PropertyCaster
+  {
+    public:
+
+    virtual ~StringPropertyCaster( void )
+    {
+    }
+
+    virtual int toInt( const Property& property, TIntCasting casting = ROUND )
+    {
+      switch ( casting )
+      {
+        case ROUND:
+          return int( ( ( std::string ) property.value<T>( )).size( ));
+          break;
+        case CEIL:
+          return int( ( ( std::string ) property.value<T>( )).size( ));
+          break;
+        case FLOOR:
+          return int( ( ( std::string ) property.value<T>( )).size( ));
+          break;
+        default:
+          throw std::runtime_error( "Invalid casting type" );
+      }
+    }
+
+    virtual std::string toString( const Property& property )
+    {
+      return std::string( ( T ) property.value< T >( ) );
+    }
+
+    virtual void fromString( Property& property, const std::string& str )
+    {
+      property.set( str );
+    }
+
   };
 
   template < typename T >

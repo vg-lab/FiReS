@@ -56,6 +56,7 @@ namespace fires
 
   };
 
+
   template < typename T, class Enable = void >
   class ScalarPropertyAggregator : public PropertyAggregator
   {

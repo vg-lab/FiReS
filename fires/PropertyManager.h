@@ -70,7 +70,7 @@ namespace fires
       T /* value */,
       typename std::enable_if< std::is_arithmetic< T >::value >::type* = 0 )
     {
-      std::cout<<"ARIT2"<< label <<std::endl;
+      std::cout<<"ARIT2 "<< label <<std::endl;
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
       {
@@ -139,15 +139,73 @@ namespace fires
 
 
     template < typename T >
-
     static void registerProperty(
         fires::Object* obj,
         const std::string& label,
         T value,
         typename std::enable_if< boost::spirit::traits::is_string< T >::value >::type* = 0)
     {
-      std::cout<<"STRING "<< label <<std::endl;
+      std::cout<<"STRING1 "<< label <<std::endl;
       obj->registerProperty( label, value );
+      registerProperty( label, value );
+    }
+
+    //! Specialization for strings
+    template < typename T >
+    static void registerProperty(
+        const std::string& label,
+        T /* value */,
+        typename std::enable_if< boost::spirit::traits::is_string< T >::value >::type* = 0 )
+    {
+      std::cout<<"STRING2 "<< label <<std::endl;
+      auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      if ( _properties.find( propertyGID ) == _properties.end( ))
+      {
+        fires::StringPropertySorter< T >* sorter = nullptr;
+        fires::StringPropertyCaster< T >* caster = nullptr;
+
+        const auto typeIdx = std::type_index( typeid( T ));
+
+        // Sorters
+        const auto& sorterIt = _sorters.find( typeIdx );
+        if ( sorterIt == _sorters.end( ))
+        {
+          sorter = new fires::StringPropertySorter< T >;
+          _sorters[ typeIdx ] = sorter;
+        }
+        else
+        {
+          sorter = dynamic_cast< fires::StringPropertySorter< T >* >(
+            sorterIt->second );
+        }
+
+
+
+        // Casters
+        const auto& casterIt = _casters.find( typeIdx );
+        if ( casterIt == _casters.end( ))
+        {
+          caster  = new fires::StringPropertyCaster< T >;
+          _casters[ typeIdx  ] = caster;
+        }
+        else
+        {
+          caster = dynamic_cast< fires::StringPropertyCaster< T >* >(
+            casterIt->second );
+        }
+
+
+        _properties[ propertyGID ] = {
+            sorter,
+            nullptr,
+            new fires::FilterScalarRange< T >(
+                T( ), T( ),
+                fires::FilterRange::CLOSED_ENDPOINT,
+                fires::FilterRange::CLOSED_ENDPOINT ),
+            caster,
+        };
+
+      }
     }
 
 
@@ -245,7 +303,7 @@ namespace fires
         fires::Object* obj,
         const std::string& label,
         T value,
-        typename std::enable_if< std::is_class< T >::value >::type* = 0 )
+        typename std::enable_if< std::is_class< T >::value && ! boost::spirit::traits::is_string< T >::value >::type* = 0 )
     {
       std::cout<<"CLASS "<< label <<std::endl;
       obj->registerProperty( label, value );

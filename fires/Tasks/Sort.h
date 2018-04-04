@@ -66,6 +66,29 @@ namespace fires
 
   };
 
+  template < typename T >
+  class StringPropertySorter : public PropertySorter
+  {
+    public:
+
+    virtual ~StringPropertySorter( void )
+    {
+    }
+
+    virtual bool isLowerThan( Property& f1, Property& f2 )
+    {
+      return ( ( std::string ) f1.value<T>( ) ).compare(
+        ( std::string ) f2.value<T>( ) ) < 0;
+    }
+
+    virtual bool isEqual( Property& f1, Property& f2 )
+    {
+      return ( ( std::string ) f1.value<T>( ) ).compare(
+        ( std::string ) f2.value<T>( ) ) == 0;
+    }
+
+  };
+
 
 
   class SortConfig : public TaskConfig
