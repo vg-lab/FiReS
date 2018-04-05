@@ -83,8 +83,8 @@ namespace fires
 
     virtual bool isEqual( Property& f1, Property& f2 )
     {
-      return ( ( std::string ) f1.value<T>( ) ).compare(
-        ( std::string ) f2.value<T>( ) ) == 0;
+      return ( ( std::string ) f1.value<T>( ) ) ==
+        ( std::string ) f2.value<T>( );
     }
 
   };

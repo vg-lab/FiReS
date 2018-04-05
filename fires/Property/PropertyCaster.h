@@ -59,11 +59,6 @@ namespace fires
   };
 
   template < typename T,  class Enable = void >
-  class ScalarPropertyCaster
-    : public PropertyCaster
-  {
-  };
-  template < typename T,  class Enable = void >
   class StringPropertyCaster
       : public PropertyCaster
   {
@@ -84,11 +79,7 @@ namespace fires
       switch ( casting )
       {
         case ROUND:
-          return int( ( ( std::string ) property.value<T>( )).size( ));
-          break;
         case CEIL:
-          return int( ( ( std::string ) property.value<T>( )).size( ));
-          break;
         case FLOOR:
           return int( ( ( std::string ) property.value<T>( )).size( ));
           break;
@@ -108,7 +99,11 @@ namespace fires
     }
 
   };
-
+  template < typename T,  class Enable = void >
+  class ScalarPropertyCaster
+      : public PropertyCaster
+  {
+  };
   template < typename T >
   class ScalarPropertyCaster
   < T, typename std::enable_if< std::is_arithmetic< T >::value >::type >

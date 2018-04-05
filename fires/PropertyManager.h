@@ -58,7 +58,6 @@ namespace fires
       T value,
       typename std::enable_if< std::is_arithmetic< T >::value >::type* = 0 )
     {
-      std::cout<<"ARIT1 "<< label <<std::endl;
       obj->registerProperty( label, fires::Property( ( T ) value ));
       registerProperty( label, value );
     }
@@ -70,7 +69,6 @@ namespace fires
       T /* value */,
       typename std::enable_if< std::is_arithmetic< T >::value >::type* = 0 )
     {
-      std::cout<<"ARIT2 "<< label <<std::endl;
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
       {
@@ -145,7 +143,6 @@ namespace fires
         T value,
         typename std::enable_if< boost::spirit::traits::is_string< T >::value >::type* = 0)
     {
-      std::cout<<"STRING1 "<< label <<std::endl;
       obj->registerProperty( label, value );
       registerProperty( label, value );
     }
@@ -157,7 +154,6 @@ namespace fires
         T /* value */,
         typename std::enable_if< boost::spirit::traits::is_string< T >::value >::type* = 0 )
     {
-      std::cout<<"STRING2 "<< label <<std::endl;
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
       {
@@ -179,8 +175,6 @@ namespace fires
             sorterIt->second );
         }
 
-
-
         // Casters
         const auto& casterIt = _casters.find( typeIdx );
         if ( casterIt == _casters.end( ))
@@ -193,7 +187,6 @@ namespace fires
           caster = dynamic_cast< fires::StringPropertyCaster< T >* >(
             casterIt->second );
         }
-
 
         _properties[ propertyGID ] = {
             sorter,
@@ -218,8 +211,6 @@ namespace fires
       std::map< T, std::string >( ),
       typename std::enable_if< std::is_enum< T >::value >::type* = 0 )
     {
-      std::cout<<"ENUM1 "<< label <<std::endl;
-
       obj->registerProperty( label, fires::Property( ( T ) value ));
       registerProperty( label, value, enumToString );
     }
@@ -233,7 +224,6 @@ namespace fires
       std::map< T, std::string >( ),
       typename std::enable_if< std::is_enum< T >::value >::type* = 0 )
     {
-      std::cout<<"ENUM2 "<< label <<std::endl;
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
       {
@@ -293,7 +283,6 @@ namespace fires
             fires::FilterRange::CLOSED_ENDPOINT ),
           caster,
         };
-
       }
     }
 
@@ -305,7 +294,6 @@ namespace fires
         T value,
         typename std::enable_if< std::is_class< T >::value && ! boost::spirit::traits::is_string< T >::value >::type* = 0 )
     {
-      std::cout<<"CLASS "<< label <<std::endl;
       obj->registerProperty( label, value );
     }
 
