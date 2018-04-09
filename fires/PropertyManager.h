@@ -33,7 +33,6 @@
 #include <type_traits>
 #include <boost/spirit/home/support/string_traits.hpp>
 
-
 namespace fires
 {
 
@@ -131,8 +130,6 @@ namespace fires
 
       }
     }
-
-
 
     template < typename T >
     static void registerProperty(
@@ -280,6 +277,7 @@ namespace fires
             fires::FilterRange::CLOSED_ENDPOINT ),
           caster,
         };
+
       }
     }
 
