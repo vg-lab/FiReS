@@ -53,9 +53,7 @@ namespace fires
     virtual void divide( Object&, const std::string& propertyLabel,
                          unsigned int size ) = 0;
 
-
   };
-
 
   template < typename T, class Enable = void >
   class ScalarPropertyAggregator : public PropertyAggregator

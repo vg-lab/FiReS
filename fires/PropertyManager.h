@@ -36,6 +36,7 @@
 
 namespace fires
 {
+
   class PropertyManager
   {
 
@@ -48,8 +49,6 @@ namespace fires
       fires::Filter* filter;
       fires::PropertyCaster* caster;
     } TPropertyInfo;
-
-
 
     template < typename T >
     static void registerProperty(
@@ -119,7 +118,6 @@ namespace fires
             dynamic_cast< fires::ScalarPropertyCaster< T >* >(
               casterIt->second );
         }
-
 
         _properties[ propertyGID ] = {
           sorter,
@@ -200,7 +198,6 @@ namespace fires
 
       }
     }
-
 
     template < typename T >
     static void registerProperty(
