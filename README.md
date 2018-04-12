@@ -15,7 +15,7 @@ filtering, search, sorting operations over a set of objects.
 
 ## Dependencies
 
-Boost.Any is the only required dependency. OpenMP and Boost's Unit
+Boost.Any, Boost.Lexical_Cast and Boost.Spirit are the only required dependencies. OpenMP and Boost's Unit
 Test Framework are optional.
 
 ## Building

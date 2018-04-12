@@ -27,6 +27,8 @@
 #include <math.h>
 #include <map>
 #include <vector>
+#include <boost/spirit/home/support/string_traits.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace fires
 {
@@ -44,9 +46,9 @@ namespace fires
       ROUND = 0,
       CEIL,
       FLOOR
-    } TIntCasting;
+    } TIntRounding;
 
-    virtual int toInt( const Property&, TIntCasting casting = ROUND ) = 0;
+    virtual int toInt( const Property&, TIntRounding rounding = ROUND ) = 0;
     virtual std::string toString( const Property& property ) = 0;
     virtual void fromString(
       Property& property, const std::string& str ) = 0;
@@ -55,6 +57,54 @@ namespace fires
     {
       return std::vector< std::string >( );
     }
+  };
+
+  template < typename T,  class Enable = void >
+  class StringPropertyCaster
+    : public PropertyCaster
+  {
+  };
+
+  template < typename T >
+  class StringPropertyCaster
+    < T, typename std::enable_if< boost::spirit::traits::is_string < T >::value >::type >
+    : public PropertyCaster
+  {
+    public:
+
+    virtual ~StringPropertyCaster( void )
+    {
+    }
+
+    virtual int toInt( const Property& property, TIntRounding rounding = ROUND )
+    {
+      float value = boost::lexical_cast<float> ( ( std::string ) property.value<T>( ));
+      switch ( rounding )
+      {
+        case ROUND:
+          return int( round( value ));
+          break;
+        case CEIL:
+          return int( ceil(value ));
+          break;
+        case FLOOR:
+          return int( floor( value ));
+          break;
+        default:
+          throw std::runtime_error( "Invalid rounding type" );
+      }
+    }
+
+    virtual std::string toString( const Property& property )
+    {
+      return std::string( ( T ) property.value< T >( ) );
+    }
+
+    virtual void fromString( Property& property, const std::string& str )
+    {
+      property.set( str );
+    }
+
   };
 
   template < typename T,  class Enable = void >
@@ -74,9 +124,9 @@ namespace fires
     {
     }
 
-    virtual int toInt( const Property& property, TIntCasting casting = ROUND )
+    virtual int toInt( const Property& property, TIntRounding rounding = ROUND )
     {
-      switch ( casting )
+      switch ( rounding )
       {
       case ROUND:
         return int( round( double( property.value< T >( ))));
@@ -88,7 +138,7 @@ namespace fires
         return int( floor( double( property.value< T >( ))));
         break;
       default:
-        throw std::runtime_error( "Invalid casting type" );
+        throw std::runtime_error( "Invalid rounding type" );
       }
     }
 
@@ -136,9 +186,9 @@ namespace fires
     {
     }
 
-    virtual int toInt( const Property& property, TIntCasting casting = ROUND )
+    virtual int toInt( const Property& property, TIntRounding rounding = ROUND )
     {
-      switch ( casting )
+      switch ( rounding )
       {
       case ROUND:
         return int( round( double( property.value< T >( ))));
@@ -150,7 +200,7 @@ namespace fires
         return int( floor( double( property.value< T >( ))));
         break;
       default:
-        throw std::runtime_error( "Invalid casting type" );
+        throw std::runtime_error( "Invalid rounding type" );
       }
     }
 
