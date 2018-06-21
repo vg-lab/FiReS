@@ -26,7 +26,7 @@
 #include "../ObserverManager.h"
 
 #include <map>
-
+#include <istream>
 #include <boost/any.hpp>
 
 namespace fires
@@ -199,6 +199,245 @@ namespace fires
     this->_properties = other.properties( );
     _label = other.label( );
     return *this;
+  }
+
+  void Object::serialize( std::ostream& stream )
+  {
+    FIRES_CHECK_THROW( !this-> _properties.empty( ),
+      "ERROR: Exporting object without properties." );
+    stream << "{" << std::endl
+      << "  \"objectLabel\": \""<< this->_label << "\"," << std::endl
+      << "  \"properties\":"<< std::endl << "    [" << std::endl;
+    //std::cout << "Num Properties: "<<this->_properties.size()<<std::endl;
+    auto prop = this-> _properties.begin( );
+    std::string propertyValue = PropertyManager::getPropertyCaster(
+      prop->first )->toString( prop->second );
+
+    stream << "      {" << std::endl
+       << "        \"label\": \""
+       << PropertyGIDsManager::getPropertyLabel( prop->first )
+       << "\"," << std::endl
+       << "        \"type\": \"" << prop->second.type( ) << "\"," << std::endl
+       << "        \"value\": \"" << propertyValue << '"' << std::endl;
+    prop++;
+    while (prop != _properties.end( )){
+      propertyValue = PropertyManager::getPropertyCaster(
+        prop->first )->toString( prop->second );
+      stream << "      }," << std::endl << "      {" << std::endl
+        << "        \"label\": \""
+        << PropertyGIDsManager::getPropertyLabel( prop->first )
+        << "\"," << std::endl
+        << "        \"type\": \"" << prop->second.type( ) << "\"," << std::endl
+        << "        \"value\": \"" << propertyValue << '"' << std::endl;
+      prop++;
+    }
+    stream << "      }" << std::endl << "    ]" << std::endl << "}";
+  }
+
+  void Object::deserialize( std::istream &stream )
+  {
+    //Parsing first line: {
+    std::string line;
+    FIRES_CHECK_THROW( std::getline( stream, line ),
+      "ERROR parsing object: Empty File." );
+
+    auto firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+
+    FIRES_CHECK_THROW( line[ firstNotWhiteSpace ] == '{',
+      "ERROR parsing object: First line must be a '{' for start the JSONobject,"
+      " instead does: \"" + line + "\"." );
+    FIRES_CHECK_THROW( firstNotWhiteSpace == line.find_last_not_of( "  \r\t" ),
+      "ERROR parsing object: in line \"" + line +
+      "\" nothing must come after '{'." );
+
+    FIRES_CHECK_THROW( std::getline( stream, line ),
+       "ERROR parsing object: next line after initial '{' must"
+       " specify the objectLabel but it doesn't exist" );
+
+
+    //Parsing second line, objectLabe declartion: "objectLabel": "exampleValue",
+    std::string labelString = std::string( "\"objectLabel\": \"" );
+
+    firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+    FIRES_CHECK_THROW( firstNotWhiteSpace == line.find( labelString ),
+       "\"ERROR parsing object: next line after initial '{'"
+       " must specify the objectLabel, instead does: " +
+                       line );
+    auto startString = firstNotWhiteSpace + labelString.size( );
+    auto endString = line.rfind( "\"," );
+
+    FIRES_CHECK_THROW( line.find_last_not_of( "  \r\t" ) - 1 == endString,
+      "ERROR parsing object: line: \"" + line +
+      "\", it must end in: '\",'." );
+    std::string objectLabel =
+      line.substr( startString, endString - startString );
+
+    this->_label=objectLabel;
+
+    //Parsing third line, properties declartion: "properties":
+    FIRES_CHECK_THROW( std::getline( stream, line ),
+      "ERROR parsing object: next line after the declaration of objectLabel "
+      "must declare the properties, but it doesn't exist" );
+
+    labelString = std::string( "\"properties\":" );
+
+    firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+
+    FIRES_CHECK_THROW( firstNotWhiteSpace == line.find( labelString ),
+      "\"ERROR parsing object: next line after the declaration of "
+      "objectLabel must declare the properties, instead does: " + line );
+
+    FIRES_CHECK_THROW( line.find_last_not_of( "  \r\t" ) +1  ==
+                         firstNotWhiteSpace + labelString.size( ),
+                       "ERROR parsing object: line: \"" + line +
+                       "\", it must end in: '\"properties\":'." );
+
+     //Parsing fourth line, properties array declartion: [
+    FIRES_CHECK_THROW( std::getline( stream, line ),
+      "ERROR parsing object: Next line after the declaration of properties must"
+      " declare the  JSONarray of the properties, instead it doesn't exit." );
+
+    firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+
+    FIRES_CHECK_THROW( line[ firstNotWhiteSpace ] == '[',
+      "ERROR parsing object: Next line after the declaration of properties must"
+      " declare the  JSONarray of the properties, instead does: \""
+      + line + "\"." );
+    FIRES_CHECK_THROW( firstNotWhiteSpace == line.find_last_not_of( "  \r\t" ),
+      "ERROR parsing object: in line \"" + line +
+      "\" nothing must come after '['." );
+
+
+    //Properties parse bucle
+    while( std::getline(stream,line) )
+    {
+      //Parsing property first line: {
+      firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+      FIRES_CHECK_THROW( line[ firstNotWhiteSpace ] == '{',
+        "ERROR parsing object: this line must be a '{' for start the JSONobject"
+        " of the property, instead does: \"" + line + "\"." );
+      FIRES_CHECK_THROW( firstNotWhiteSpace ==
+        line.find_last_not_of( "  \r\t" ),
+        "ERROR parsing object: in line \"" + line +
+        "\" nothing must come after '{'." );
+
+      //Property second line, label declaration: "label": "exampleLabel",
+      FIRES_CHECK_THROW( std::getline(stream,line ),
+        "\"ERROR parsing object: next line after the property '{'"
+        " must specify the label, instead it doesn't exit.");
+      labelString = std::string( "\"label\": \"" );
+      firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+      FIRES_CHECK_THROW( firstNotWhiteSpace == line.find( labelString ),
+        "\"ERROR parsing object: this line must specify the label,"
+        " instead it does: " + line );
+      startString = firstNotWhiteSpace + labelString.size( );
+      endString = line.rfind( "\"," );
+
+      FIRES_CHECK_THROW( line.find_last_not_of( "  \r\t" ) - 1 == endString,
+                         "ERROR parsing object: line: \"" + line +
+                         "\", it must end in: '\",'." );
+      std::string propertyLabel =
+        line.substr( startString, endString - startString );
+
+
+      //Parsing property third line, type declaration: "type": "c++ExampleType",
+      FIRES_CHECK_THROW( std::getline(stream,line ),
+        "\"ERROR parsing object: next line after the declaration fo the label"
+        " must specify the type, instead it doesn't exit.");
+      labelString = std::string( "\"type\": \"" );
+      firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+      FIRES_CHECK_THROW( firstNotWhiteSpace == line.find( labelString ),
+         "\"ERROR parsing object: this line must specify the type,"
+         " instead it does: " + line );
+      startString = firstNotWhiteSpace + labelString.size( );
+      endString = line.rfind( "\"," );
+
+      FIRES_CHECK_THROW( line.find_last_not_of( "  \r\t" ) - 1 == endString,
+        "ERROR parsing object: line: \"" + line +
+        "\", it must end in: '\",'." );
+      std::string typeLabel =
+        line.substr( startString, endString - startString );
+
+      //Parsing property fourth line, value declaration: "value": "casterValue",
+      FIRES_CHECK_THROW( std::getline(stream,line ),
+        "\"ERROR parsing object: next line after the declaration fo the type "
+        "must specify the value, instead it doesn't exit.");
+      labelString = std::string( "\"value\": \"" );
+      firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+      FIRES_CHECK_THROW( firstNotWhiteSpace == line.find( labelString ),
+        "\"ERROR parsing object: this line must specify the value,"
+        " instead it does: " + line );
+      startString = firstNotWhiteSpace + labelString.size( );
+      endString = line.rfind( "\"" );
+
+      FIRES_CHECK_THROW( line.find_last_not_of( "  \r\t" ) == endString,
+        "ERROR parsing object: line: \"" + line + "\", it must end in: '\"'." );
+      std::string valueLabel =
+        line.substr( startString, endString - startString );
+
+
+      Property property;
+      std::type_index* serializeInfo =
+        PropertyManager::getSerializeIndex(typeLabel);
+      auto caster = PropertyManager::getTypeCaster(*serializeInfo);
+
+      caster->fromString(property,valueLabel);
+      this->registerProperty(propertyLabel,property);
+      PropertyManager::registerProperty(propertyLabel,*serializeInfo, caster,
+        PropertyManager::getTypeAggregator(*serializeInfo),
+        PropertyManager::getTypeSorter(*serializeInfo), nullptr);
+
+      //std::cout << "label: " << propertyLabel << " type: " << typeLabel
+      //  << " value: " << valueLabel << std::endl;
+
+      //Parsing property final line, close JSONObject
+      FIRES_CHECK_THROW( std::getline(stream,line ),
+         "\"ERROR parsing object: next line after the declaration fo the value"
+         " must close the property JSONObject, instead it doesn't exit.");
+
+      firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+      FIRES_CHECK_THROW( line[ firstNotWhiteSpace ] == '}',
+        "ERROR parsing object: this line must close the JSONobject "
+        "of the property, instead does: \"" + line + "\"." );
+      if( line[ firstNotWhiteSpace + 1 ] == ',' ){
+        FIRES_CHECK_THROW(
+          firstNotWhiteSpace + 1 == line.find_last_not_of( "  \r\t" ),
+          "ERROR parsing object: in line \"" + line +
+          "\" nothing must come after '},'." );
+      }else
+      {
+        FIRES_CHECK_THROW(
+          firstNotWhiteSpace == line.find_last_not_of( "  \r\t" ),
+          "ERROR parsing object: in line \"" + line +
+          "\" nothing must come after '}'." );
+        break;
+      }
+    }
+    FIRES_CHECK_THROW( std::getline( stream, line ),
+      "ERROR parsing object: this line must close the JSONArray"
+      " but instead it doesn't exit" );
+
+    firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+
+    FIRES_CHECK_THROW( line[ firstNotWhiteSpace ] == ']',
+      "ERROR parsing object: this line must be a ']' for close the JSONArray,"
+      " instead does: \"" + line + "\"." );
+    FIRES_CHECK_THROW( firstNotWhiteSpace == line.find_last_not_of( "  \r\t" ),
+      "ERROR parsing object: in line \"" + line
+      +  "\" nothing must come after ']'." );
+
+    FIRES_CHECK_THROW( std::getline( stream, line ),
+       "ERROR parsing object: this line must close the JSONObject"
+       " but instead it doesn't exit" );
+
+    firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
+
+    FIRES_CHECK_THROW( line[ firstNotWhiteSpace ] == '}',
+      "ERROR parsing object: this line must be a '}' for close the JSONArray"
+      ", instead does: \"" + line + "\"." );
+    FIRES_CHECK_THROW( firstNotWhiteSpace == line.find_last_not_of( "  \r\t" ),
+       "ERROR parsing object: in line \"" + line +
+       "\" nothing must come after '}'." );
   }
 
  } // namespace fires

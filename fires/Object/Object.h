@@ -187,6 +187,17 @@ namespace fires
     Object& operator= ( const Object& other );
     ///@}
 
+    /**Serialize this object properties
+    * @return label of the object as const
+    */
+    FIRES_API
+    void serialize( std::ostream& stream );
+
+    /**Reads this object properties
+    * @stream stream containing JSON from which data will be loaded
+    */
+    FIRES_API
+    void deserialize( std::istream& stream );
 
   protected:
 
