@@ -109,7 +109,7 @@ int main( void ){
     {{ TEnum::A, "enum-A" }, { TEnum::B, "enum-B" }} );
 
   //Register property with a custom caster
-  fires::PropertyManager::setPropertyTypeCaster( typeid( ExampleObject ),
+  fires::PropertyManager::setTypePropertyCaster( typeid( ExampleObject ),
     new MyPropertyCaster( ));
   fires::PropertyManager::registerProperty( &originalObject, "objectProperty",
     ExampleObject( "Example Object using custom caster" ) );
@@ -122,13 +122,26 @@ int main( void ){
   //Clear the property manager to start over
   fires::PropertyManager::clear( );
 
-  //Sets the custom properties
-  fires::PropertyManager::setPropertyTypeCaster(
+  //Re-register the properties
+  fires::PropertyManager::registerProperty(
+     "floatProperty", float( ));
+  fires::PropertyManager::registerProperty(
+    "doubleProperty", double( ));
+  fires::PropertyManager::registerProperty(
+    "u_intProperty", ( unsigned int ) 0);
+  fires::PropertyManager::registerProperty(
+    "intProperty", 1 );
+  fires::PropertyManager::registerProperty(
+    "stringProperty", std::string( ));
+
+  fires::PropertyManager::setTypePropertyCaster(
     typeid( ExampleObject ), new MyPropertyCaster( ));
-  fires::PropertyManager::setPropertyTypeCaster( typeid( TEnum ),
-    new fires::EnumPropertyCaster<TEnum>(
-    {{ TEnum::A, "enum-A" }, { TEnum::B, "enum-B" }}  ));
-  fires::PropertyManager::addBasicTypes( );
+  fires::PropertyManager::registerProperty(
+    "objectProperty", ExampleObject( ));
+
+  fires::PropertyManager::registerProperty(
+    &originalObject, "enum1", TEnum( ),
+    {{ TEnum::A, "enum-A" }, { TEnum::B, "enum-B" }} );
 
   //Creates a new object from the old object serialization
   FiresTestObject newObject;

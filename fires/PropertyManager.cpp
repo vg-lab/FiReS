@@ -40,8 +40,4 @@ namespace fires
   PropertyManager::_casters =
     std::map< std::type_index, PropertyCaster* >( );
 
-  std::map< std::string, std::type_index >
-    PropertyManager::_serializeMap =
-    std::map< std::string, std::type_index > ( );
-
 }

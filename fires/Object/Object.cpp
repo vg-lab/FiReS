@@ -217,7 +217,6 @@ namespace fires
        << "        \"label\": \""
        << PropertyGIDsManager::getPropertyLabel( prop->first )
        << "\"," << std::endl
-       << "        \"type\": \"" << prop->second.type( ) << "\"," << std::endl
        << "        \"value\": \"" << propertyValue << '"' << std::endl;
     prop++;
     while (prop != _properties.end( )){
@@ -227,7 +226,6 @@ namespace fires
         << "        \"label\": \""
         << PropertyGIDsManager::getPropertyLabel( prop->first )
         << "\"," << std::endl
-        << "        \"type\": \"" << prop->second.type( ) << "\"," << std::endl
         << "        \"value\": \"" << propertyValue << '"' << std::endl;
       prop++;
     }
@@ -288,9 +286,9 @@ namespace fires
       "objectLabel must declare the properties, instead does: " + line );
 
     FIRES_CHECK_THROW( line.find_last_not_of( "  \r\t" ) +1  ==
-                         firstNotWhiteSpace + labelString.size( ),
-                       "ERROR parsing object: line: \"" + line +
-                       "\", it must end in: '\"properties\":'." );
+      firstNotWhiteSpace + labelString.size( ),
+      "ERROR parsing object: line: \"" + line +
+       "\", it must end in: '\"properties\":'." );
 
      //Parsing fourth line, properties array declartion: [
     FIRES_CHECK_THROW( std::getline( stream, line ),
@@ -339,26 +337,7 @@ namespace fires
       std::string propertyLabel =
         line.substr( startString, endString - startString );
 
-
-      //Parsing property third line, type declaration: "type": "c++ExampleType",
-      FIRES_CHECK_THROW( std::getline(stream,line ),
-        "\"ERROR parsing object: next line after the declaration fo the label"
-        " must specify the type, instead it doesn't exit.");
-      labelString = std::string( "\"type\": \"" );
-      firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
-      FIRES_CHECK_THROW( firstNotWhiteSpace == line.find( labelString ),
-         "\"ERROR parsing object: this line must specify the type,"
-         " instead it does: " + line );
-      startString = firstNotWhiteSpace + labelString.size( );
-      endString = line.rfind( "\"," );
-
-      FIRES_CHECK_THROW( line.find_last_not_of( "  \r\t" ) - 1 == endString,
-        "ERROR parsing object: line: \"" + line +
-        "\", it must end in: '\",'." );
-      std::string typeLabel =
-        line.substr( startString, endString - startString );
-
-      //Parsing property fourth line, value declaration: "value": "casterValue",
+      //Parsing property third line, value declaration: "value": "casterValue",
       FIRES_CHECK_THROW( std::getline(stream,line ),
         "\"ERROR parsing object: next line after the declaration fo the type "
         "must specify the value, instead it doesn't exit.");
@@ -377,18 +356,12 @@ namespace fires
 
 
       Property property;
-      std::type_index* serializeInfo =
-        PropertyManager::getSerializeIndex(typeLabel);
-      auto caster = PropertyManager::getTypeCaster(*serializeInfo);
+      PropertyManager::getPropertyCaster( propertyLabel )
+        ->fromString( property,valueLabel );
+      this->registerProperty( propertyLabel,property );
 
-      caster->fromString(property,valueLabel);
-      this->registerProperty(propertyLabel,property);
-      PropertyManager::registerProperty(propertyLabel,*serializeInfo, caster,
-        PropertyManager::getTypeAggregator(*serializeInfo),
-        PropertyManager::getTypeSorter(*serializeInfo), nullptr);
-
-      //std::cout << "label: " << propertyLabel << " type: " << typeLabel
-      //  << " value: " << valueLabel << std::endl;
+      //std::cout << "label: " << propertyLabel
+      // << ", value: " << valueLabel << std::endl;
 
       //Parsing property final line, close JSONObject
       FIRES_CHECK_THROW( std::getline(stream,line ),
