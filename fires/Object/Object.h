@@ -41,7 +41,7 @@ namespace fires
     ObjectProperties( void );
     FIRES_API
     void registerProperty( const std::string& label,
-                           const Property& property );
+       const Property& property );
     FIRES_API
     bool unregisterProperty( const std::string& label );
     FIRES_API
@@ -188,12 +188,14 @@ namespace fires
     ///@}
 
     /**Serialize this object properties
-    * @return label of the object as const
+    * @param stream to write the object
+    * @param linePrefix prefix at the start of every line
     */
     FIRES_API
-    void serialize( std::ostream& stream );
+    void serialize( std::ostream& stream,
+      const std::string& linePrefix = "" ) const;
 
-    /**Reads this object properties
+    /**Reads and loads this object properties
     * @stream stream containing JSON from which data will be loaded
     */
     FIRES_API

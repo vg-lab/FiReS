@@ -201,35 +201,38 @@ namespace fires
     return *this;
   }
 
-  void Object::serialize( std::ostream& stream )
+  void Object::serialize( std::ostream& stream,
+    const std::string& linePrefix ) const
   {
     FIRES_CHECK_THROW( !this-> _properties.empty( ),
       "ERROR: Exporting object without properties." );
-    stream << "{" << std::endl
-      << "  \"objectLabel\": \""<< this->_label << "\"," << std::endl
-      << "  \"properties\":"<< std::endl << "    [" << std::endl;
+    stream << linePrefix << "{" << std::endl
+      << linePrefix << "  \"objectLabel\": \""<< this->_label << "\","
+      << std::endl << linePrefix << "  \"properties\":"<< std::endl
+      << linePrefix << "    [" << std::endl;
     //std::cout << "Num Properties: "<<this->_properties.size()<<std::endl;
     auto prop = this-> _properties.begin( );
     std::string propertyValue = PropertyManager::getPropertyCaster(
       prop->first )->toString( prop->second );
 
-    stream << "      {" << std::endl
-       << "        \"label\": \""
-       << PropertyGIDsManager::getPropertyLabel( prop->first )
-       << "\"," << std::endl
-       << "        \"value\": \"" << propertyValue << '"' << std::endl;
-    prop++;
-    while (prop != _properties.end( )){
+    stream << linePrefix << "      {" << std::endl << linePrefix
+      << "        \"label\": \""
+      << PropertyGIDsManager::getPropertyLabel( prop->first ) << "\","
+      << std::endl << linePrefix << "        \"value\": \""
+      << propertyValue << '"' << std::endl;
+
+    while (++prop != _properties.end( )){
       propertyValue = PropertyManager::getPropertyCaster(
         prop->first )->toString( prop->second );
-      stream << "      }," << std::endl << "      {" << std::endl
+      stream << linePrefix << "      }," << std::endl
+        << linePrefix << "      {" << std::endl << linePrefix
         << "        \"label\": \""
-        << PropertyGIDsManager::getPropertyLabel( prop->first )
-        << "\"," << std::endl
-        << "        \"value\": \"" << propertyValue << '"' << std::endl;
-      prop++;
+        << PropertyGIDsManager::getPropertyLabel( prop->first ) << "\","
+        << std::endl << linePrefix << "        \"value\": \""
+        << propertyValue << '"' << std::endl;
     }
-    stream << "      }" << std::endl << "    ]" << std::endl << "}";
+    stream << linePrefix << "      }" << std::endl
+      << linePrefix << "    ]" << std::endl  << linePrefix << "}" << std::endl;
   }
 
   void Object::deserialize( std::istream &stream )
@@ -406,7 +409,7 @@ namespace fires
     firstNotWhiteSpace = line.find_first_not_of( "  \r\t" );
 
     FIRES_CHECK_THROW( line[ firstNotWhiteSpace ] == '}',
-      "ERROR parsing object: this line must be a '}' for close the JSONArray"
+      "ERROR parsing object: this line must be a '}' for close the JSONObject"
       ", instead does: \"" + line + "\"." );
     FIRES_CHECK_THROW( firstNotWhiteSpace == line.find_last_not_of( "  \r\t" ),
        "ERROR parsing object: in line \"" + line +
