@@ -105,11 +105,6 @@ int main( void )
   printObjects( objs );
 
 
-  // aggregateConfig.clear( );
-  // aggregateConfig.addProperty( "f1", &sfsf, fires::AggregatorConfig::DESCENDING );
-  // aggregateer.eval( objs, aggregateConfig  );
-  // printObjects( objs );
-
   o1.registerProperty( "f2", 1.3f );
   o2.registerProperty( "f2", 2.5f );
   o3.registerProperty( "f2", 7.6f );
@@ -126,68 +121,18 @@ int main( void )
   aggregate.eval( objs, aggregateConfig );
   printObjects( objs );
 
+  std::cout << std::endl << "Selecting the name of the aggregated property" << std::endl;
 
-  // aggregateConfig.clear( );
-  // aggregateConfig.addProperty( "f1", &sfsf );
-  // aggregateConfig.addProperty( "f2", &sfsi );
-  // aggregateer.eval( objs, aggregateConfig  );
-  // printObjects( objs );
-
-  // aggregateConfig.clear( );
-  // aggregateConfig.addProperty( "f1", &sfsf );
-  // aggregateConfig.addProperty( "f2", &sfsi, fires::AggregatorConfig::DESCENDING );
-  // aggregateer.eval( objs, aggregateConfig  );
-  // printObjects( objs );
+  std::cout << "Aggregation MEAN f1, MEAN f2" << std::endl;
+  objs = origObjects;
+  printObjects( objs );
+  aggregateConfig.clear( );
+  aggregateConfig.addProperty( "f1", &sfaf, fires::PropertyAggregator::MEAN, "f1Mean" );
+  aggregateConfig.addProperty( "f2", &sfaf, fires::PropertyAggregator::MEAN, "f2Mean" );
+  aggregate.eval( objs, aggregateConfig );
+  printObjects( objs );
 
 
-  // aggregateConfig.clear( );
-  // aggregateConfig.addProperty( "f1", &sfsf, fires::AggregatorConfig::DESCENDING );
-  // aggregateConfig.addProperty( "f2", &sfsi, fires::AggregatorConfig::DESCENDING );
-  // aggregateer.eval( objs, aggregateConfig  );
-  // printObjects( objs );
-
-  // aggregateConfig.clear( );
-  // aggregateConfig.addProperty( "f1", &sfsf, fires::AggregatorConfig::DESCENDING );
-  // aggregateConfig.addProperty( "f2", &sfsi, fires::AggregatorConfig::ASCENDING );
-  // aggregateer.eval( objs, aggregateConfig  );
-  // printObjects( objs );
-
-
-  // TestObject o5;
-  // o5.label( ) = "o5";
-  // objs.add( &o5 );
-
-  // std::cout << std::endl
-  //           << "Adding object without properties being aggregateed" << std::endl;
-
-  // printObjects( objs );
-
-
-  // aggregateConfig.clear( );
-  // aggregateConfig.addProperty( "f1", &sfsf, fires::AggregatorConfig::ASCENDING );
-  // aggregateConfig.addProperty( "f2", &sfsi, fires::AggregatorConfig::DESCENDING );
-  // aggregateer.eval( objs, aggregateConfig  );
-
-  // printObjects( objs );
-
-
-  // objs.clear( );
-  // objs.add( &o5 );
-  // objs.add( &o1 );
-  // objs.add( &o2 );
-  // objs.add( &o3 );
-  // objs.add( &o4 );
-
-
-  // printObjects( objs );
-
-
-  // aggregateConfig.clear( );
-  // aggregateConfig.addProperty( "f1", &sfsf, fires::AggregatorConfig::ASCENDING );
-  // aggregateConfig.addProperty( "f2", &sfsi, fires::AggregatorConfig::DESCENDING );
-  // aggregateer.eval( objs, aggregateConfig  );
-
-  // printObjects( objs );
 
 
 }

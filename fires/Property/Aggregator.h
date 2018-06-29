@@ -48,6 +48,7 @@ namespace fires
 
     virtual void add( Object&, Object&,
                       const std::string& propertyLabel,
+                      const std::string& destPropertyLabel,
                       TAggregation type = TAggregation::MAX ) = 0;
 
     virtual void divide( Object&, const std::string& propertyLabel,
@@ -66,6 +67,7 @@ namespace fires
 
     virtual void add( Object& aggregatedObject, Object& objectToAggregator,
                       const std::string& propertyLabel,
+                      const std::string& destPropertyLabel,
                       TAggregation type = TAggregation::MAX )
     {
 
@@ -73,23 +75,23 @@ namespace fires
       {
       case MAX:
         if ( objectToAggregator.getProperty( propertyLabel ).value< T >( ) >
-             aggregatedObject.getProperty( propertyLabel ).value< T >( ))
-          aggregatedObject.getProperty( propertyLabel ) =
+             aggregatedObject.getProperty( destPropertyLabel ).value< T >( ))
+          aggregatedObject.getProperty( destPropertyLabel ) =
             objectToAggregator.getProperty( propertyLabel );
             break;
 
       case MIN:
         if ( objectToAggregator.getProperty( propertyLabel ).value< T >( ) <
-             aggregatedObject.getProperty( propertyLabel ).value< T >( ))
-          aggregatedObject.getProperty( propertyLabel ) =
+             aggregatedObject.getProperty( destPropertyLabel ).value< T >( ))
+          aggregatedObject.getProperty( destPropertyLabel ) =
             objectToAggregator.getProperty( propertyLabel );
             break;
 
       case MEAN:
       case SUM:
-        aggregatedObject.getProperty( propertyLabel ).set(
+        aggregatedObject.getProperty( destPropertyLabel ).set(
           T( objectToAggregator.getProperty( propertyLabel ).value< T >( )  +
-             aggregatedObject.getProperty( propertyLabel ).value< T >( )));
+             aggregatedObject.getProperty( destPropertyLabel ).value< T >( )));
             break;
 
       default:
@@ -124,6 +126,7 @@ namespace fires
     virtual void add( Object& /* aggregatedObject */,
                       Object& /* objectToAggregator */,
                       const std::string& /* propertyLabel */,
+                      const std::string& /* destPropertyLabel */,
                       TAggregation type = TAggregation::MAX )
     {
       ( void ) type;

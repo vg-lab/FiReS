@@ -38,6 +38,7 @@ namespace fires
     typedef struct
     {
       std::string label;
+      std::string destLabel;
       PropertyAggregator* aggregate;
       PropertyAggregator::TAggregation type;
     } TAggregatorProperty;
@@ -54,10 +55,15 @@ namespace fires
     void addProperty( const std::string& propertyLabel_,
                       PropertyAggregator* aggregator_,
                       PropertyAggregator::TAggregation type_ =
-                      PropertyAggregator::MAX )
+                      PropertyAggregator::MAX,
+                      const std::string& destPropertyLabel_ = "" )
     {
-      _properties.push_back( TAggregatorProperty{ propertyLabel_,
-            aggregator_, type_ });
+      _properties.push_back(
+        TAggregatorProperty
+        {
+          propertyLabel_, destPropertyLabel_,
+          aggregator_, type_
+        });
     }
 
     std::vector< TAggregatorProperty >& properties( void )
@@ -121,18 +127,19 @@ namespace fires
         for ( auto f = properties.begin( ); f != properties.end( ); ++f )
         {
           const std::string& label = ( *f ).label;
+          const std::string& destLabel =
+            (( *f ).destLabel.empty( ) ? label : ( *f ).destLabel);
 
           if ( !( *obj )->hasProperty( label ))
             continue;
 
-          if ( !aggregatedObj.hasProperty( label ))
+          if ( !aggregatedObj.hasProperty( destLabel ))
           {
-            aggregatedObj.registerProperty( label, ( *obj )->getProperty( label ));
-            //aggregatedObj.getProperty( label ) = ;
+            aggregatedObj.registerProperty( destLabel, ( *obj )->getProperty( label ));
           }
           else
           {
-            ( *f ).aggregate->add( aggregatedObj, **obj, label, ( *f ).type );
+            ( *f ).aggregate->add( aggregatedObj, **obj, label, destLabel, ( *f ).type );
           }
         }
       }
@@ -141,7 +148,10 @@ namespace fires
       {
         if (( *f ).type == PropertyAggregator::MEAN )
         {
-          ( *f ).aggregate->divide( aggregatedObj, ( *f ).label,
+          const std::string& label = ( *f ).label;
+          const std::string& destLabel =
+            (( *f ).destLabel.empty( ) ? label : ( *f ).destLabel);
+          ( *f ).aggregate->divide( aggregatedObj, destLabel,
                                     ( unsigned int ) objs.size( ));
         }
       }
