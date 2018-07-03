@@ -25,6 +25,7 @@
 #include <fires/api.h>
 #include "../Property/Property.h"
 #include "../PropertyGIDsManager.h"
+#include <boost/property_tree/json_parser.hpp>
 
 #include <string>
 #include <map>
@@ -192,7 +193,7 @@ namespace fires
     * @param linePrefix prefix at the start of every line
     */
     FIRES_API
-    void serialize( std::ostream& stream, const bool& minimizeStream = true,
+    void serialize( std::ostream& stream, bool minimizeStream = true,
       const std::string& linePrefix = "" ) const;
 
     /**Reads and loads this object properties
@@ -200,6 +201,12 @@ namespace fires
     */
     FIRES_API
     void deserialize( std::istream& stream );
+
+    /**Reads and loads this object properties
+    * @root boost JSON root object from which data will be loaded
+    */
+    FIRES_API
+    void deserialize( const boost::property_tree::ptree& root );
 
   protected:
 

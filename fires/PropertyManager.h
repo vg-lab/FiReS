@@ -81,7 +81,7 @@ namespace fires
         if ( sorterIt == _sorters.end( ))
         {
           sorter = new ScalarPropertySorter< T >;
-          _sorters.insert( sorterIt, std::make_pair(typeIdx,sorter ));
+          _sorters.insert( std::make_pair( typeIdx, sorter ));
         }
         else
         {
@@ -95,8 +95,7 @@ namespace fires
         if ( aggregatorIt == _aggregators.end( ))
         {
           aggregator = new ScalarPropertyAggregator< T >;
-          _aggregators.insert( aggregatorIt,
-            std::make_pair(typeIdx,aggregator ));
+          _aggregators.insert( std::make_pair( typeIdx, aggregator ));
         }
         else
         {
@@ -110,7 +109,7 @@ namespace fires
         if ( casterIt == _casters.end( ))
         {
           caster = new ScalarPropertyCaster< T >;
-          _casters.insert( casterIt, std::make_pair( typeIdx, caster ));
+          _casters.insert( std::make_pair( typeIdx, caster ));
         }
         else
         {
@@ -162,7 +161,7 @@ namespace fires
         if ( sorterIt == _sorters.end( ))
         {
           sorter = new StringPropertySorter< T >;
-          _sorters.insert( sorterIt,std::make_pair( typeIdx, sorter ));
+          _sorters.insert( std::make_pair( typeIdx, sorter ));
         }
         else
         {
@@ -175,7 +174,7 @@ namespace fires
         if ( casterIt == _casters.end( ))
         {
           caster = new StringPropertyCaster< T >;
-          _casters.insert( casterIt, std::make_pair( typeIdx, caster ));
+          _casters.insert( std::make_pair( typeIdx, caster ));
         }
         else
         {
@@ -229,7 +228,7 @@ namespace fires
         if ( sorterIt == _sorters.end( ))
         {
           sorter = new ScalarPropertySorter< T >;
-          _sorters.insert( sorterIt,std::make_pair( typeIdx, sorter ));
+          _sorters.insert( std::make_pair( typeIdx, sorter ));
         }
         else
         {
@@ -243,8 +242,7 @@ namespace fires
         if ( aggregatorIt == _aggregators.end( ))
         {
           aggregator = new ScalarPropertyAggregator< T >;
-          _aggregators.insert( aggregatorIt,
-            std::make_pair( typeIdx, aggregator ));
+          _aggregators.insert( std::make_pair( typeIdx, aggregator ));
         }
         else
         {
@@ -258,7 +256,7 @@ namespace fires
         if ( casterIt == _casters.end( ))
         {
           caster = new EnumPropertyCaster< T >( enumToString );
-          _casters.insert( casterIt, std::make_pair( typeIdx, caster ));
+          _casters.insert( std::make_pair( typeIdx, caster ));
         }
         else
         {
@@ -346,7 +344,7 @@ namespace fires
       const auto& sorterIt = _sorters.find( typeIdx );
       if ( sorterIt == _sorters.end( ))
       {
-        _sorters.insert( sorterIt, std::make_pair( typeIdx,sorter ));
+        _sorters.insert( std::make_pair( typeIdx,sorter ));
       }
       else
       {
@@ -357,7 +355,7 @@ namespace fires
       const auto& aggregatorIt = _aggregators.find( typeIdx );
       if ( aggregatorIt == _aggregators.end( ))
       {
-        _aggregators.insert( aggregatorIt,std::make_pair( typeIdx,aggregator ));
+        _aggregators.insert( std::make_pair( typeIdx,aggregator ));
       }
       else
       {
@@ -368,7 +366,7 @@ namespace fires
       const auto casterIt = _casters.find( typeIdx );
       if ( casterIt == _casters.end( ))
       {
-        _casters.insert( casterIt,std::make_pair( typeIdx,caster ));
+        _casters.insert( std::make_pair( typeIdx,caster ));
       }
       else
       {
@@ -440,7 +438,7 @@ namespace fires
     {
       auto iteratorCaster = _casters.find( typeIndex );
       if ( iteratorCaster == _casters.end( )){
-        _casters.insert(iteratorCaster, std::make_pair( typeIndex, caster ));
+        _casters.insert( std::make_pair( typeIndex, caster ));
       }
       else{
         iteratorCaster->second = caster;
@@ -453,8 +451,7 @@ namespace fires
       auto iteratorAgregator = _aggregators.find( typeIndex );
       if ( iteratorAgregator == _aggregators.end( ))
       {
-        _aggregators.insert( iteratorAgregator,
-          std::make_pair( typeIndex, agregator ));
+        _aggregators.insert( std::make_pair( typeIndex, agregator ));
       }
       else
       {
@@ -468,7 +465,7 @@ namespace fires
       auto iteratorSorter = _sorters.find( typeIndex );
       if ( iteratorSorter == _sorters.end( ))
       {
-        _sorters.insert( iteratorSorter, std::make_pair( typeIndex, sorter ) );
+        _sorters.insert( std::make_pair( typeIndex, sorter ));
       }
       else
       {
