@@ -192,7 +192,7 @@ namespace fires
     * @param linePrefix prefix at the start of every line
     */
     FIRES_API
-    void serialize( std::ostream& stream,
+    void serialize( std::ostream& stream, const bool& minimizeStream = true,
       const std::string& linePrefix = "" ) const;
 
     /**Reads and loads this object properties

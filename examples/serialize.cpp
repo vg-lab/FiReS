@@ -116,7 +116,7 @@ int main( void ){
 
   //Serialization of first object and showing it by console
   std::stringstream stream;
-  originalObject.serialize( stream );
+  originalObject.serialize( stream, false );
   std::cout << "Original object: " << std::endl << stream.str( ) << std::endl;
 
   //Clear the property manager to start over
@@ -149,7 +149,7 @@ int main( void ){
 
   //Shows the newObject from console
   std::stringstream newStream;
-  newObject.serialize( newStream );
+  newObject.serialize( newStream, false );
   std::cout << "New imported object: "<<std::endl
     << newStream.str( ) << std::endl;
 

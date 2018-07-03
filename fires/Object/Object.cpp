@@ -201,38 +201,82 @@ namespace fires
     return *this;
   }
 
-  void Object::serialize( std::ostream& stream,
+  void Object::serialize( std::ostream& stream, const bool& minimizeStream,
     const std::string& linePrefix ) const
   {
-    FIRES_CHECK_THROW( !this-> _properties.empty( ),
-      "ERROR: Exporting object without properties." );
-    stream << linePrefix << "{" << std::endl
-      << linePrefix << "  \"objectLabel\": \""<< this->_label << "\","
-      << std::endl << linePrefix << "  \"properties\":"<< std::endl
-      << linePrefix << "    [" << std::endl;
-    //std::cout << "Num Properties: "<<this->_properties.size()<<std::endl;
-    auto prop = this-> _properties.begin( );
-    std::string propertyValue = PropertyManager::getPropertyCaster(
-      prop->first )->toString( prop->second );
+    std::string endLine;
+    std::string objectLabel;
+    std::string properties;
+    std::string label;
+    std::string value;
+    std::string continueBracket;
 
-    stream << linePrefix << "      {" << std::endl << linePrefix
-      << "        \"label\": \""
-      << PropertyGIDsManager::getPropertyLabel( prop->first ) << "\","
-      << std::endl << linePrefix << "        \"value\": \""
-      << propertyValue << '"' << std::endl;
-
-    while (++prop != _properties.end( )){
-      propertyValue = PropertyManager::getPropertyCaster(
-        prop->first )->toString( prop->second );
-      stream << linePrefix << "      }," << std::endl
-        << linePrefix << "      {" << std::endl << linePrefix
-        << "        \"label\": \""
-        << PropertyGIDsManager::getPropertyLabel( prop->first ) << "\","
-        << std::endl << linePrefix << "        \"value\": \""
-        << propertyValue << '"' << std::endl;
+    if ( minimizeStream )
+    {
+      endLine = std::string( "" );
+      objectLabel = std::string( "\"objectLabel\":\"" );
+      properties = std::string( "\"properties\":[" );
+      label = std::string( "{\"label\":\"" );
+      value = std::string( "\"value\":\"" );
+      continueBracket = std::string( "}," ) + label;
     }
-    stream << linePrefix << "      }" << std::endl
-      << linePrefix << "    ]" << std::endl  << linePrefix << "}" << std::endl;
+    else
+    {
+      endLine = std::string( "\n" ) + linePrefix;
+      objectLabel = endLine + std::string( "  \"objectLabel\": \"" );
+      properties = endLine + std::string( "  \"properties\": [" );
+      label = endLine + std::string( "    {" ) + endLine +
+              std::string( "      \"label\": \"" );
+      value = endLine + std::string( "      \"value\": \"" );
+      continueBracket = std::string( "    }," ) + label;
+      stream << linePrefix;
+    }
+
+    stream << "{" << objectLabel << this->_label << "\"," << properties;
+
+    if( _properties.empty( ))
+    {
+      Log::log("Exporting object without properties.",LOG_LEVEL_WARNING );
+    }
+    else
+    {
+      auto prop = this->_properties.begin( );
+      std::string propertyValue =
+        PropertyManager::getPropertyCaster( prop->first )
+        ->toString( prop->second );
+      std::string propertyLabel =
+        PropertyGIDsManager::getPropertyLabel( prop->first );
+
+
+      stream << label << propertyLabel << "\"," << value
+        << propertyValue << '"' << endLine;
+
+      while ( ++prop != _properties.end( ))
+      {
+        propertyValue = PropertyManager::getPropertyCaster( prop->first )
+          ->toString( prop->second );
+        propertyLabel = PropertyGIDsManager::getPropertyLabel( prop->first );
+
+        stream << continueBracket << propertyLabel << "\"," << value
+          << propertyValue << '"' << endLine;
+      }
+      if( minimizeStream )
+      {
+        stream << "}";
+      }
+      else
+      {
+        stream << "    }" << endLine;
+      }
+    }
+    if( minimizeStream )
+    {
+      stream << "]}";
+    }
+    else
+    {
+      stream << "  ]" << endLine << "}";
+    }
   }
 
   void Object::deserialize( std::istream &stream )
@@ -416,6 +460,6 @@ namespace fires
        "\" nothing must come after '}'." );
   }
 
- } // namespace fires
+} // namespace fires
 
 // EOF
