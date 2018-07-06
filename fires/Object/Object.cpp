@@ -26,7 +26,7 @@
 #include "../ObserverManager.h"
 
 #include <map>
-
+#include <istream>
 #include <boost/any.hpp>
 
 namespace fires
@@ -201,6 +201,146 @@ namespace fires
     return *this;
   }
 
- } // namespace fires
+  void Object::serialize( std::ostream& stream, bool minimizeStream,
+    const std::string& linePrefix ) const
+  {
+    std::string endLine;
+    std::string objectLabel;
+    std::string properties;
+    std::string label;
+    std::string value;
+    std::string continueBracket;
+
+    if ( minimizeStream )
+    {
+      endLine = std::string( "" );
+      objectLabel = std::string( "\"objectLabel\":\"" );
+      properties = std::string( "\"properties\":[" );
+      label = std::string( "{\"label\":\"" );
+      value = std::string( "\"value\":\"" );
+      continueBracket = std::string( "}," ) + label;
+    }
+    else
+    {
+      endLine = std::string( "\n" ) + linePrefix;
+      objectLabel = endLine + std::string( "  \"objectLabel\": \"" );
+      properties = endLine + std::string( "  \"properties\": [" );
+      label = endLine + std::string( "    {" ) + endLine +
+              std::string( "      \"label\": \"" );
+      value = endLine + std::string( "      \"value\": \"" );
+      continueBracket = std::string( "    }," ) + label;
+      stream << linePrefix;
+    }
+
+    stream << "{" << objectLabel << this->_label << "\"," << properties;
+
+    if( _properties.empty( ))
+    {
+      Log::log("Exporting object without properties.",LOG_LEVEL_WARNING );
+    }
+    else
+    {
+      auto prop = this->_properties.begin( );
+      std::string propertyValue =
+        PropertyManager::getPropertyCaster( prop->first )
+        ->toString( prop->second );
+      std::string propertyLabel =
+        PropertyGIDsManager::getPropertyLabel( prop->first );
+
+
+      stream << label << propertyLabel << "\"," << value
+        << propertyValue << '"' << endLine;
+
+      while ( ++prop != _properties.end( ))
+      {
+        propertyValue = PropertyManager::getPropertyCaster( prop->first )
+          ->toString( prop->second );
+        propertyLabel = PropertyGIDsManager::getPropertyLabel( prop->first );
+
+        stream << continueBracket << propertyLabel << "\"," << value
+          << propertyValue << '"' << endLine;
+      }
+      if( minimizeStream )
+      {
+        stream << "}";
+      }
+      else
+      {
+        stream << "    }" << endLine;
+      }
+    }
+    if( minimizeStream )
+    {
+      stream << "]}";
+    }
+    else
+    {
+      stream << "  ]" << endLine << "}";
+    }
+  }
+
+  void Object::deserialize( std::istream &stream )
+  {
+    boost::property_tree::ptree root;
+    try
+    {
+      boost::property_tree::read_json( stream, root );
+    }
+    catch ( std::exception const& ex )
+    {
+      FIRES_THROW( "ERROR: reading JSON: "+std::string( ex.what( )));
+    };
+
+    deserialize( root );
+  }
+
+  void Object::deserialize( const boost::property_tree::ptree &root )
+  {
+    FIRES_CHECK_THROW( !root.empty( ), "ERROR: empty JSON file" )
+    try
+    {
+      std::string objectLabel = root.get< std::string >( "objectLabel" );
+      this->_label = objectLabel;
+    }
+    catch ( std::exception const& ex )
+    {
+      FIRES_THROW( "ERROR: getting objectLabel from JSON: "
+        + std::string( ex.what( )));
+    };
+
+    boost::property_tree::ptree properties;
+    try
+    {
+      properties = root.get_child( "properties" );
+    }
+    catch ( std::exception const& ex )
+    {
+      FIRES_THROW( "ERROR: getting properties Array from JSON: "
+        + std::string( ex.what( )));
+    };
+
+    for ( const auto& propertyJSON : properties )
+    {
+      try
+      {
+        const std::string propertyLabel =
+          propertyJSON.second.get< std::string >( "label" );
+        const std::string propertyValue =
+          propertyJSON.second.get< std::string >( "value" );
+
+        Property property;
+        PropertyManager::getPropertyCaster( propertyLabel )
+          ->fromString( property, propertyValue );
+        this->registerProperty( propertyLabel,property );
+      }
+      catch ( std::exception const& ex )
+      {
+        FIRES_THROW( "ERROR: getting property from JSON: "
+          +std::string( ex.what( )));
+      };
+    }
+  }
+
+} // namespace fires
 
 // EOF

@@ -43,10 +43,10 @@ namespace fires
 
     typedef struct
     {
-      fires::PropertySorter* sorter;
-      fires::PropertyAggregator* aggregator;
-      fires::Filter* filter;
-      fires::PropertyCaster* caster;
+      PropertySorter* sorter;
+      PropertyAggregator* aggregator;
+      Filter* filter;
+      PropertyCaster* caster;
     } TPropertyInfo;
 
     template < typename T >
@@ -56,7 +56,7 @@ namespace fires
       T value,
       typename std::enable_if< std::is_arithmetic< T >::value >::type* = 0 )
     {
-      obj->registerProperty( label, fires::Property( ( T ) value ));
+      obj->registerProperty( label, Property( ( T ) value ));
       registerProperty( label, value );
     }
 
@@ -70,9 +70,9 @@ namespace fires
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
       {
-        fires::ScalarPropertySorter< T >* sorter = nullptr;
-        fires::ScalarPropertyAggregator< T >* aggregator = nullptr;
-        fires::ScalarPropertyCaster< T >* caster = nullptr;
+        ScalarPropertySorter< T >* sorter = nullptr;
+        ScalarPropertyAggregator< T >* aggregator = nullptr;
+        ScalarPropertyCaster< T >* caster = nullptr;
 
         const auto typeIdx = std::type_index( typeid( T ));
 
@@ -80,13 +80,13 @@ namespace fires
         const auto& sorterIt = _sorters.find( typeIdx );
         if ( sorterIt == _sorters.end( ))
         {
-          sorter = new fires::ScalarPropertySorter< T >;
-          _sorters[ typeIdx ] = sorter;
+          sorter = new ScalarPropertySorter< T >;
+          _sorters.insert( std::make_pair( typeIdx, sorter ));
         }
         else
         {
           sorter =
-            dynamic_cast< fires::ScalarPropertySorter< T >* >(
+            dynamic_cast< ScalarPropertySorter< T >* >(
               sorterIt->second );
         }
 
@@ -94,13 +94,13 @@ namespace fires
         const auto& aggregatorIt = _aggregators.find( typeIdx );
         if ( aggregatorIt == _aggregators.end( ))
         {
-          aggregator = new fires::ScalarPropertyAggregator< T >;
-          _aggregators[ typeIdx ] = aggregator;
+          aggregator = new ScalarPropertyAggregator< T >;
+          _aggregators.insert( std::make_pair( typeIdx, aggregator ));
         }
         else
         {
           aggregator =
-            dynamic_cast< fires::ScalarPropertyAggregator< T >* >(
+            dynamic_cast< ScalarPropertyAggregator< T >* >(
               aggregatorIt->second );
         }
 
@@ -108,23 +108,22 @@ namespace fires
         const auto& casterIt = _casters.find( typeIdx );
         if ( casterIt == _casters.end( ))
         {
-          caster = new fires::ScalarPropertyCaster< T >;
-          _casters[ typeIdx  ] = caster;
+          caster = new ScalarPropertyCaster< T >;
+          _casters.insert( std::make_pair( typeIdx, caster ));
         }
         else
         {
-          caster =
-            dynamic_cast< fires::ScalarPropertyCaster< T >* >(
-              casterIt->second );
+          caster = dynamic_cast< ScalarPropertyCaster< T >* >(
+            casterIt->second );
         }
 
         _properties[ propertyGID ] = {
           sorter,
           aggregator,
-          new fires::FilterScalarRange< T >(
+          new FilterScalarRange< T >(
             T( ), T( ),
-            fires::FilterRange::CLOSED_ENDPOINT,
-            fires::FilterRange::CLOSED_ENDPOINT ),
+            FilterRange::CLOSED_ENDPOINT,
+            FilterRange::CLOSED_ENDPOINT ),
           caster,
         };
 
@@ -152,8 +151,8 @@ namespace fires
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
       {
-        fires::StringPropertySorter< T >* sorter = nullptr;
-        fires::StringPropertyCaster< T >* caster = nullptr;
+        StringPropertySorter< T >* sorter = nullptr;
+        StringPropertyCaster< T >* caster = nullptr;
 
         const auto typeIdx = std::type_index( typeid( T ));
 
@@ -161,12 +160,12 @@ namespace fires
         const auto& sorterIt = _sorters.find( typeIdx );
         if ( sorterIt == _sorters.end( ))
         {
-          sorter = new fires::StringPropertySorter< T >;
-          _sorters[ typeIdx ] = sorter;
+          sorter = new StringPropertySorter< T >;
+          _sorters.insert( std::make_pair( typeIdx, sorter ));
         }
         else
         {
-          sorter = dynamic_cast< fires::StringPropertySorter< T >* >(
+          sorter = dynamic_cast< StringPropertySorter< T >* >(
             sorterIt->second );
         }
 
@@ -174,22 +173,19 @@ namespace fires
         const auto& casterIt = _casters.find( typeIdx );
         if ( casterIt == _casters.end( ))
         {
-          caster  = new fires::StringPropertyCaster< T >;
-          _casters[ typeIdx  ] = caster;
+          caster = new StringPropertyCaster< T >;
+          _casters.insert( std::make_pair( typeIdx, caster ));
         }
         else
         {
-          caster = dynamic_cast< fires::StringPropertyCaster< T >* >(
+          caster = dynamic_cast< StringPropertyCaster< T >* >(
             casterIt->second );
         }
 
         _properties[ propertyGID ] = {
             sorter,
             nullptr,
-            new fires::FilterScalarRange< T >(
-                T( ), T( ),
-                fires::FilterRange::CLOSED_ENDPOINT,
-                fires::FilterRange::CLOSED_ENDPOINT ),
+            nullptr,
             caster,
         };
 
@@ -198,7 +194,7 @@ namespace fires
 
     template < typename T >
     static void registerProperty(
-      fires::Object* obj,
+      Object* obj,
       const std::string& label,
       T value,
       const std::map< T, std::string >& enumToString =
@@ -221,9 +217,9 @@ namespace fires
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       if ( _properties.find( propertyGID ) == _properties.end( ))
       {
-        fires::ScalarPropertySorter< T >* sorter = nullptr;
-        fires::ScalarPropertyAggregator< T >* aggregator = nullptr;
-        fires::EnumPropertyCaster< T >* caster = nullptr;
+        ScalarPropertySorter< T >* sorter = nullptr;
+        ScalarPropertyAggregator< T >* aggregator = nullptr;
+        EnumPropertyCaster< T >* caster = nullptr;
 
         const auto typeIdx = std::type_index( typeid( T ));
 
@@ -231,13 +227,13 @@ namespace fires
         const auto& sorterIt = _sorters.find( typeIdx );
         if ( sorterIt == _sorters.end( ))
         {
-          sorter = new fires::ScalarPropertySorter< T >;
-          _sorters[ typeIdx ] = sorter;
+          sorter = new ScalarPropertySorter< T >;
+          _sorters.insert( std::make_pair( typeIdx, sorter ));
         }
         else
         {
           sorter =
-            dynamic_cast< fires::ScalarPropertySorter< T >* >(
+            dynamic_cast< ScalarPropertySorter< T >* >(
               sorterIt->second );
         }
 
@@ -245,13 +241,13 @@ namespace fires
         const auto& aggregatorIt = _aggregators.find( typeIdx );
         if ( aggregatorIt == _aggregators.end( ))
         {
-          aggregator = new fires::ScalarPropertyAggregator< T >;
-          _aggregators[ typeIdx ] = aggregator;
+          aggregator = new ScalarPropertyAggregator< T >;
+          _aggregators.insert( std::make_pair( typeIdx, aggregator ));
         }
         else
         {
           aggregator =
-            dynamic_cast< fires::ScalarPropertyAggregator< T >* >(
+            dynamic_cast< ScalarPropertyAggregator< T >* >(
               aggregatorIt->second );
         }
 
@@ -259,22 +255,22 @@ namespace fires
         const auto casterIt = _casters.find( typeIdx );
         if ( casterIt == _casters.end( ))
         {
-          caster = new fires::EnumPropertyCaster< T >( enumToString );
-          _casters[ typeIdx ] = caster;
+          caster = new EnumPropertyCaster< T >( enumToString );
+          _casters.insert( std::make_pair( typeIdx, caster ));
         }
         else
         {
           caster =
-            dynamic_cast< fires::EnumPropertyCaster< T >* >( casterIt->second );
+            dynamic_cast< EnumPropertyCaster< T >* >( casterIt->second );
         }
 
         _properties[ propertyGID ] = {
           sorter,
           aggregator,
-          new fires::FilterScalarRange< T >(
+          new FilterScalarRange< T >(
             T( ), T( ),
-            fires::FilterRange::CLOSED_ENDPOINT,
-            fires::FilterRange::CLOSED_ENDPOINT ),
+            FilterRange::CLOSED_ENDPOINT,
+            FilterRange::CLOSED_ENDPOINT ),
           caster,
         };
 
@@ -290,10 +286,96 @@ namespace fires
         typename std::enable_if< std::is_class< T >::value && ! boost::spirit::traits::is_string< T >::value >::type* = 0 )
     {
       obj->registerProperty( label, value );
+      registerProperty( label, value );
     }
 
+    template < typename T >
+    static void registerProperty(
+      const std::string& label,
+      T /* value */,
+      typename std::enable_if< std::is_class< T >::value &&
+        ! boost::spirit::traits::is_string< T >::value >::type* = 0 )
+    {
+      auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
+      if ( _properties.find( propertyGID ) == _properties.end( ))
+      {
+        PropertySorter* sorter = nullptr;
+        PropertyAggregator* aggregator = nullptr;
+        PropertyCaster* caster = nullptr;
 
-    static fires::PropertySorter* getSorter( PropertyGID propertyGID )
+        const auto typeIdx = std::type_index( typeid( T ));
+
+        // Sorters
+        const auto& sorterIt = _sorters.find( typeIdx );
+        if ( sorterIt != _sorters.end( ))
+        {
+          sorter = sorterIt->second ;
+        }
+
+        // Aggregators
+        const auto& aggregatorIt = _aggregators.find( typeIdx );
+        if ( aggregatorIt != _aggregators.end( ))
+        {
+          aggregator = aggregatorIt->second;
+        }
+
+        // Casters
+        const auto casterIt = _casters.find( typeIdx );
+        if ( casterIt != _casters.end( ))
+        {
+          caster = casterIt->second;
+        }
+
+        _properties[ propertyGID ] = {
+          sorter,
+          aggregator,
+          nullptr,
+          caster,
+        };
+
+      }
+    }
+
+    static void addType(const std::type_index typeIdx,
+       PropertyCaster* caster, PropertyAggregator* aggregator,
+       PropertySorter* sorter )
+    {
+      // Sorters
+      const auto& sorterIt = _sorters.find( typeIdx );
+      if ( sorterIt == _sorters.end( ))
+      {
+        _sorters.insert( std::make_pair( typeIdx,sorter ));
+      }
+      else
+      {
+        sorterIt->second = sorter;
+      }
+
+      // Aggregators
+      const auto& aggregatorIt = _aggregators.find( typeIdx );
+      if ( aggregatorIt == _aggregators.end( ))
+      {
+        _aggregators.insert( std::make_pair( typeIdx,aggregator ));
+      }
+      else
+      {
+        aggregatorIt->second = aggregator;
+      }
+
+      // Casters
+      const auto casterIt = _casters.find( typeIdx );
+      if ( casterIt == _casters.end( ))
+      {
+        _casters.insert( std::make_pair( typeIdx,caster ));
+      }
+      else
+      {
+        casterIt->second = caster;
+      }
+
+    }
+
+    static PropertySorter* getSorter( PropertyGID propertyGID )
     {
       if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
@@ -301,13 +383,13 @@ namespace fires
       return _properties[ propertyGID ].sorter;
     }
 
-    static fires::PropertySorter* getSorter( const std::string& label )
+    static PropertySorter* getSorter( const std::string& label )
     {
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       return getSorter( propertyGID );
     }
 
-    static fires::Filter* getFilter( PropertyGID propertyGID )
+    static Filter* getFilter( PropertyGID propertyGID )
     {
       if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
@@ -315,13 +397,13 @@ namespace fires
       return _properties[ propertyGID ].filter;
     }
 
-    static fires::Filter* getFilter( const std::string& label )
+    static Filter* getFilter( const std::string& label )
     {
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       return getFilter( propertyGID );
     }
 
-    static fires::PropertyAggregator* getAggregator( PropertyGID propertyGID )
+    static PropertyAggregator* getAggregator( PropertyGID propertyGID )
     {
       if ( _properties.find( propertyGID ) == _properties.end( ))
         return nullptr;
@@ -329,48 +411,91 @@ namespace fires
       return _properties[ propertyGID ].aggregator;
     }
 
-    static fires::PropertyAggregator* getAggregator( const std::string& label )
+    static PropertyAggregator* getAggregator( const std::string& label )
     {
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       return getAggregator( propertyGID );
     }
 
-    static fires::PropertyCaster* getPropertyCaster( PropertyGID propertyGID )
+    static PropertyCaster* getPropertyCaster( PropertyGID propertyGID )
     {
       if ( _properties.find( propertyGID ) == _properties.end( ))
+      {
         return nullptr;
+      }
 
       return _properties[ propertyGID ].caster;
     }
 
-    static fires::PropertyCaster* getPropertyCaster( const std::string& label )
+    static PropertyCaster* getPropertyCaster( const std::string& label )
     {
       auto propertyGID = PropertyGIDsManager::getPropertyGID( label );
       return getPropertyCaster( propertyGID );
     }
 
-    static void setFilterRange( fires::Filter* filter,
-                                int minValue, int maxValue )
+    static void setTypePropertyCaster( std::type_index typeIndex,
+      PropertyCaster* caster )
     {
-      if ( dynamic_cast< fires::FilterScalarRange< float >* >( filter ))
+      auto iteratorCaster = _casters.find( typeIndex );
+      if ( iteratorCaster == _casters.end( )){
+        _casters.insert( std::make_pair( typeIndex, caster ));
+      }
+      else{
+        iteratorCaster->second = caster;
+      }
+    }
+
+    static void setTypeAgregator( std::type_index typeIndex,
+       PropertyAggregator* agregator )
+    {
+      auto iteratorAgregator = _aggregators.find( typeIndex );
+      if ( iteratorAgregator == _aggregators.end( ))
+      {
+        _aggregators.insert( std::make_pair( typeIndex, agregator ));
+      }
+      else
+      {
+        iteratorAgregator->second = agregator;
+      }
+    }
+
+    static void setTypeSorter( std::type_index typeIndex,
+      PropertySorter* sorter )
+    {
+      auto iteratorSorter = _sorters.find( typeIndex );
+      if ( iteratorSorter == _sorters.end( ))
+      {
+        _sorters.insert( std::make_pair( typeIndex, sorter ));
+      }
+      else
+      {
+        iteratorSorter->second = sorter;
+      }
+    }
+
+
+    static void setFilterRange( Filter* filter,
+      int minValue, int maxValue )
+    {
+      if ( dynamic_cast< FilterScalarRange< float >* >( filter ))
       {
         auto fsrf =
-          dynamic_cast< fires::FilterScalarRange< float >* >( filter );
+          dynamic_cast< FilterScalarRange< float >* >( filter );
         fsrf->min( ) = ( float ) minValue;
         fsrf->max( ) = ( float ) maxValue;
       }
-      else if ( dynamic_cast< fires::FilterScalarRange< int >* >( filter ))
+      else if ( dynamic_cast< FilterScalarRange< int >* >( filter ))
       {
         auto fsri =
-          dynamic_cast< fires::FilterScalarRange< int >* >( filter );
+          dynamic_cast< FilterScalarRange< int >* >( filter );
         fsri->min( ) = ( int ) minValue;
         fsri->max( ) = ( int ) maxValue;
       }
-      else if ( dynamic_cast< fires::FilterScalarRange< unsigned int >* >(
+      else if ( dynamic_cast< FilterScalarRange< unsigned int >* >(
                   filter ))
       {
         auto fsrui =
-          dynamic_cast< fires::FilterScalarRange< unsigned int >* >( filter );
+          dynamic_cast< FilterScalarRange< unsigned int >* >( filter );
         fsrui->min( ) = ( unsigned int ) minValue;
         fsrui->max( ) = ( unsigned int ) maxValue;
       }
@@ -408,7 +533,6 @@ namespace fires
       _casters.clear( );
     }
 
-
   protected:
 
     FIRES_API static std::map< PropertyGID, TPropertyInfo > _properties;
@@ -416,7 +540,6 @@ namespace fires
     FIRES_API
     static std::map< std::type_index, PropertyAggregator* > _aggregators;
     FIRES_API static std::map< std::type_index, PropertyCaster* > _casters;
-
 
   };
 

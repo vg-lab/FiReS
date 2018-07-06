@@ -40,5 +40,4 @@ namespace fires
   PropertyManager::_casters =
     std::map< std::type_index, PropertyCaster* >( );
 
-
 }
