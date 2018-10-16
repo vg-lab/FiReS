@@ -53,6 +53,23 @@ namespace fires
 
   }
 
+  void DependenciesManager::removeDependency(
+      Object* dependent, const std::string& dependentPropLabel,
+      Object* dependency, const std::string& dependencyPropLabel )
+  {
+    auto dependencyPropertyGID = PropertyGIDsManager::getPropertyGID(
+        dependencyPropLabel );
+    auto dependentPropertyGID =
+        PropertyGIDsManager::getPropertyGID( dependentPropLabel );
+
+    auto& pair = _dependsOn[ dependent ][ dependentPropertyGID ];
+    // Sets the updater callback to null
+    pair.second.erase( std::make_pair( dependency, dependencyPropertyGID ));
+
+    _isDependencyOf[ dependency ][ dependencyPropertyGID ].erase(
+        std::make_pair( dependent, dependentPropertyGID ));
+  }
+
   void DependenciesManager::setDependentsDirty( Object* obj,
                                                 const std::string& propLabel,
                                                 bool includeSelf )
