@@ -116,6 +116,24 @@ namespace fires
       Object* dependency, const std::string& dependencyPropLabel );
 
     /**
+     * Removes a dependency between a property of an object and another
+     * property of the same or another object
+     *
+     * @param dependent object that depends on
+     *                  ( dependency, dependencyPropLabel )
+     * @param dependentPropLabel property that depends on
+     *                           ( dependent, propLabel )
+     * @param dependency object which is a dependency of
+     *                   ( dependent, propLabel )
+     * @param dependencyPropLabel property that is a dependency of
+     *                            ( dependent, propLabel )
+     */
+    FIRES_API
+    static void removeDependency(
+        Object* dependent, const std::string& dependentPropLabel,
+        Object* dependency, const std::string& dependencyPropLabel );
+
+    /**
      * Sets a property of an object to be dirty
      *
      * @param obj the object that holds the property to be set dirty
