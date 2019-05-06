@@ -124,6 +124,40 @@ namespace fires
     const Property& getProperty( const std::string& label ) const;
 
     /**
+     * Get a property value of this object
+     * @param label label string to retrieve the property
+     * @param defaultValue return value if property not found
+     * @return the property value if found else the defaultValue
+     */
+
+    template < class ValueType >
+    ValueType getPropertyValue( const std::string& propertyLabel,
+      const ValueType defaultValue ) const
+    {
+      if ( this->hasProperty( propertyLabel ))
+      {
+        auto property = this->getProperty( propertyLabel );
+        return property.value< ValueType >( );
+      }
+      else
+      {
+        return defaultValue;
+      }
+    }
+
+    /**
+     * Get a property value of this object
+     * @param label label string to retrieve the property
+     * @return the property value
+     */
+    template < class ValueType >
+    ValueType getPropertyValue( const std::string& propertyLabel ) const
+    {
+      auto property = this->getProperty( propertyLabel );
+      return property.value< ValueType >( );
+    }
+
+    /**
      * Get a property of this object
      * @param label label string to retrieve the property
      * @return the property if found and throw exception otherwise
@@ -132,7 +166,7 @@ namespace fires
     Property& operator[]( const std::string& label );
 
     /**
-     * Get a property of this object
+     * Set a property of this object
      * @param label label string to retrieve the property
      * @param property property to be setted
      * @return true in case property was setted, false otherwise
