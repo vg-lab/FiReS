@@ -288,7 +288,8 @@ namespace fires
     }
     catch ( std::exception const& ex )
     {
-      FIRES_THROW( "ERROR: reading JSON: "+std::string( ex.what( )));
+      Log::log( "ERROR: reading JSON: " + std::string( ex.what( )),
+        LOG_LEVEL_ERROR );
     };
 
     deserialize( root );
@@ -296,7 +297,11 @@ namespace fires
 
   void Object::deserialize( const boost::property_tree::ptree &root )
   {
-    FIRES_CHECK_THROW( !root.empty( ), "ERROR: empty JSON file" )
+    if ( !root.empty( ))
+    {
+      Log::log( "ERROR: empty JSON file" ,
+        LOG_LEVEL_ERROR );
+    }
     try
     {
       std::string objectLabel = root.get< std::string >( "objectLabel" );
@@ -304,8 +309,8 @@ namespace fires
     }
     catch ( std::exception const& ex )
     {
-      FIRES_THROW( "ERROR: getting objectLabel from JSON: "
-        + std::string( ex.what( )));
+      Log::log( "ERROR: getting objectLabel from JSON: "
+        + std::string( ex.what( )), LOG_LEVEL_ERROR );
     };
 
     boost::property_tree::ptree properties;
@@ -315,8 +320,9 @@ namespace fires
     }
     catch ( std::exception const& ex )
     {
-      FIRES_THROW( "ERROR: getting properties Array from JSON: "
-        + std::string( ex.what( )));
+      Log::log( "ERROR: getting properties Array from JSON: "
+        + std::string( ex.what( )), LOG_LEVEL_ERROR );
+      return;
     };
 
     for ( const auto& propertyJSON : properties )
@@ -335,8 +341,8 @@ namespace fires
       }
       catch ( std::exception const& ex )
       {
-        FIRES_THROW( "ERROR: getting property from JSON: "
-          +std::string( ex.what( )));
+        Log::log( "ERROR: getting property from JSON: "
+          +std::string( ex.what( )), LOG_LEVEL_ERROR );
       };
     }
   }
