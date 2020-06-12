@@ -1,9 +1,10 @@
-[![build status](https://gitlab.gmrv.es/retrieval/FiReS/badges/master/build.svg)](https://gitlab.gmrv.es/retrieval/FiReS/commits/master)
-[![coverage report](https://gitlab.gmrv.es/retrieval/FiReS/badges/master/coverage.svg)](https://gitlab.gmrv.es/retrieval/FiReS/commits/master)
+[![build status](https://gitlab.vglab.es/retrieval/FiReS/badges/master/build.svg)](https://gitlab.vglab.es/retrieval/FiReS/commits/master)
+[![coverage report](https://gitlab.vglab.es/retrieval/FiReS/badges/master/coverage.svg)](https://gitlab.vglab.es/retrieval/FiReS/commits/master)
 
 # FiReS - property management for Filtering, Retrieval and Search
-(c) 2014 - 2017. GMRV / URJC / UPM
+(c) 2014 - 2020. VGLAB / GMRV / URJC / UPM
 
+www.vglab.es
 www.gmrv.es
 gmrv@gmrv.es
 
@@ -27,7 +28,7 @@ Yosemite and Windows 7/8/10 (Visual Studio 2015 Win64). The following steps
 should be enough to build it:
 
 ```bash
-git clone https://github.com/gmrvvis/FiReS.git
+git clone https://github.com/vg-lab/FiReS.git
 mkdir FiReS/build && cd FiReS/build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make
