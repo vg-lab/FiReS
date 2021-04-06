@@ -105,7 +105,7 @@ int main( void )
       if ( categories.size( ) > 0 )
       {
         std::cout << prop << ": ";
-        for ( const auto value : categories )
+        for ( const auto& value : categories )
           std::cout << value << " ";
         std::cout << std::endl;
       }

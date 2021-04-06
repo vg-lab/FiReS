@@ -179,7 +179,7 @@ namespace fires
     EnumPropertyCaster( const std::map< T, std::string >& scalarToString_ )
     {
       _scalarToString = scalarToString_;
-      for ( const auto pair : _scalarToString )
+      for ( const auto& pair : _scalarToString )
         _stringToScalar[ pair.second ] = pair.first;
     }
     virtual ~EnumPropertyCaster( void )
@@ -218,7 +218,7 @@ namespace fires
     {
       std::vector< std::string > categories_;
       categories_.reserve( _scalarToString.size( ));
-      for ( const auto catPair : _scalarToString )
+      for ( const auto& catPair : _scalarToString )
         categories_.push_back( catPair.second );
       return categories_;
     }
