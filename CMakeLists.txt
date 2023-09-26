@@ -1,9 +1,9 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
 #   FiReS - Filter, Retrieval and Search
-#   2014 - 2017 (c) GMRV / URJC / UPM
-#   gmrv@gmrv.es
-#   www.gmrv.es
+#   2014 - 2017 (c) VG-Lab / URJC / UPM
+#   vg-lab@vg-lab.es
+#   www.vg-lab.es
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 cmake_minimum_required( VERSION 3.1 FATAL_ERROR )
@@ -29,7 +29,7 @@ set( FIRES_DEB_DEPENDS libboost-dev )
 set( FIRES_DESCRIPTION "FiReS - Filter, Retrieval and Search" )
 set( FIRES_LICENSE LGPL )
 set( FIRES_MAINTAINER "Pablo Toharia <pablo.toharia@upm.es>" )
-set( COMMON_PROJECT_DOMAIN es.gmrv )
+set( COMMON_PROJECT_DOMAIN es.vg-lab )
 
 common_find_package( Boost REQUIRED COMPONENTS unit_test_framework )
 common_find_package( OpenMP )

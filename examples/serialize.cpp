@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2014-2016 GMRV/URJC.
+ * Copyright (c) 2014-2016 VG-Lab/URJC.
  *
  * Authors: Iago Calvo Lista <i.calvol@alumnos.urjc.es>
  *
- * This file is part of FiReS <https://github.com/gmrvvis/FiReS>
+ * This file is part of FiReS <https://github.com/vg-lab/FiReS>
  *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License version 3.0 as published

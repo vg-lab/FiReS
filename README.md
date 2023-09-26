@@ -2,11 +2,11 @@
 [![coverage report](https://gitlab.vglab.es/retrieval/FiReS/badges/master/coverage.svg)](https://gitlab.vglab.es/retrieval/FiReS/commits/master)
 
 # FiReS - property management for Filtering, Retrieval and Search
-(c) 2014 - 2020. VGLAB / GMRV / URJC / UPM
+(c) 2014 - 2020. VGLAB / VG-Lab / URJC / UPM
 
 www.vglab.es
-www.gmrv.es
-gmrv@gmrv.es
+www.vg-lab.es
+vg-lab@vg-lab.es
 
 ## Introduction
 
