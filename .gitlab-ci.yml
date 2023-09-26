@@ -33,17 +33,17 @@ Ubuntu-master:
  tags:
   - ubuntu
 
-OSX:
- stage: build
- script:
-  - date
-  - hostname
-  - uname -a
-  - export CMAKE_EXTRA_TARGETS="FiReS-tests"
-  - export BUILD_GENERATOR="Ninja"
-  - bash .gitlabci.sh
- tags:
-  - osx-sierra
+#OSX:
+# stage: build
+# script:
+#  - date
+#  - hostname
+#  - uname -a
+#  - export CMAKE_EXTRA_TARGETS="FiReS-tests"
+#  - export BUILD_GENERATOR="Ninja"
+#  - bash .gitlabci.sh
+# tags:
+#  - osx-sierra
 
 Win7-vs14:
  stage: build

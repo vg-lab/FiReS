@@ -3,7 +3,7 @@
  *          types of scalar properties.
  * @author  Pablo Toharia <pablo.toharia@urjc.es>
  * @date
- * @remarks Copyright (c) GMRV/URJC. All rights reserved.
+ * @remarks Copyright (c) VG-Lab/URJC. All rights reserved.
  *          Do not distribute without further notice.
  */
 #include <fires/fires.h>
