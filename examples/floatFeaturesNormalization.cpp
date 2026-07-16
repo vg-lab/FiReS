@@ -22,9 +22,9 @@ public:
 
   TestObject ()
   {
-    this->addProperty(std::string("property1"),
+    this->setProperty(std::string("property1"),
                      new fires::PropertyPtrToScalar< float >(&this->attr1));
-    this->addProperty(std::string("property2"),
+    this->setProperty(std::string("property2"),
                      new fires::PropertyPtrToScalar< float >(&this->attr2));
   }
 

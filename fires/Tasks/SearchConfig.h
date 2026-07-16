@@ -36,7 +36,7 @@ namespace fires
   {
   public:
 
-    FIRES_API
+    FIRES_EXPORT
     QueryPropertyData( Comparer* comparer_ = 0,
                       Averager* averager_ = 0,
                       Normalizer* normalizer_ = 0,
@@ -48,50 +48,50 @@ namespace fires
     {
     }
 
-    FIRES_API
+    FIRES_EXPORT
     Comparer* comparer( void )
     {
       return _comparer;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     void comparer( Comparer* comparer_ )
     {
       _comparer = comparer_;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     Averager* averager( void )
     {
       return _averager;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     void averager( Averager* averager_ )
     {
       _averager = averager_;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     Normalizer* normalizer( void )
     {
       return _normalizer;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     void normalizer( Normalizer* normalizer_ )
     {
       _normalizer = normalizer_;
     }
 
 
-    FIRES_API
+    FIRES_EXPORT
     const float& weight( void )
     {
       return _weight;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     void weight( const float weight_ )
     {
       _weight = weight_;
@@ -129,7 +129,7 @@ namespace fires
       MINIMUM_DISTANCE_TO_QUERY_OBJECTS
     } TDistanceToQuerySet;
 
-    FIRES_API
+    FIRES_EXPORT
     SearchConfig( TDistanceToQuerySet distanceToQueryType_ =
                   DISTANCE_TO_AVERAGE_QUERY_OBJECT )
       : _distanceToQueryType( distanceToQueryType_ )
@@ -152,68 +152,68 @@ namespace fires
      * @param comparer pointer to the comparer object to be used
      *        with this property
      */
-    FIRES_API
+    FIRES_EXPORT
     void add( const std::string& label,
               Comparer* comparer = nullptr,
               Averager* averager = nullptr,
               Normalizer* normalizer = nullptr,
               float weight = 1.0f );
-    FIRES_API
+    FIRES_EXPORT
     Comparer* comparer( const std::string& label )
     {
       return _propertiesConfig[ label ].comparer( );
     }
 
-    FIRES_API
+    FIRES_EXPORT
     Averager* averager( const std::string& label )
     {
       return _propertiesConfig[ label ].averager( );
     }
 
-    FIRES_API
+    FIRES_EXPORT
     Normalizer* normalizer( const std::string& label )
     {
       return _propertiesConfig[ label ].normalizer( );
     }
 
 
-    FIRES_API
+    FIRES_EXPORT
     TDistanceToQuerySet& distanceToQueryType( void )
     {
       return _distanceToQueryType;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     std::map< std::string, QueryPropertyData >& properties( void )
     {
       return _propertiesConfig;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     Objects& queryObjects( void )
     {
       return _queryObjects;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     std::string& resultsPropertyLabel( void )
     {
       return _resultsPropertyLabel;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     void clearQueryObjects( void )
     {
       return _queryObjects.clear( );
     }
 
-    FIRES_API
+    FIRES_EXPORT
     void clearProperties( void )
     {
       return _propertiesConfig.clear( );
     }
 
-    FIRES_API
+    FIRES_EXPORT
     void clear( void )
     {
       clearQueryObjects( );

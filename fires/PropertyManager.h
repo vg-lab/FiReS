@@ -22,7 +22,7 @@
 #ifndef __FIRES_PROPERTY_MANAGER__
 #define __FIRES_PROPERTY_MANAGER__
 
-#include <fires/api.h>
+#include <fires/fires_export.h>
 #include "PropertyGIDsManager.h"
 #include "Tasks/Sort.h"
 #include "Tasks/Filter.h"
@@ -535,11 +535,11 @@ namespace fires
 
   protected:
 
-    FIRES_API static std::map< PropertyGID, TPropertyInfo > _properties;
-    FIRES_API static std::map< std::type_index, PropertySorter* > _sorters;
-    FIRES_API
+    FIRES_EXPORT static std::map< PropertyGID, TPropertyInfo > _properties;
+    FIRES_EXPORT static std::map< std::type_index, PropertySorter* > _sorters;
+    FIRES_EXPORT
     static std::map< std::type_index, PropertyAggregator* > _aggregators;
-    FIRES_API static std::map< std::type_index, PropertyCaster* > _casters;
+    FIRES_EXPORT static std::map< std::type_index, PropertyCaster* > _casters;
 
   };
 

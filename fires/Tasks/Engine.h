@@ -22,7 +22,7 @@
 #ifndef __FIRES__ENGINE_H__
 #define __FIRES__ENGINE_H__
 
-#include <fires/api.h>
+#include <fires/fires_export.h>
 #include "../Object/Objects.h"
 #include "Task.h"
 
@@ -42,11 +42,11 @@ namespace fires
     /**
      * Default destructor
      **/
-    FIRES_API
+    FIRES_EXPORT
     virtual ~Engine( );
 
 
-    FIRES_API
+    FIRES_EXPORT
     virtual void run( Objects& objects, Tasks& tasks );
 
   };

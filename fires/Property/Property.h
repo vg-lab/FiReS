@@ -22,7 +22,7 @@
 #ifndef __FIRES__PROPERTY_H__
 #define __FIRES__PROPERTY_H__
 
-#include <fires/api.h>
+#include <fires/fires_export.h>
 #include <boost/any.hpp>
 #include <iostream>
 
@@ -35,10 +35,10 @@ namespace fires
   {
   public:
 
-    FIRES_API
+    FIRES_EXPORT
     Property( void );
 
-    FIRES_API
+    FIRES_EXPORT
     ~Property( void );
 
     Property& operator= ( const Property& other )
@@ -116,10 +116,10 @@ namespace fires
     }
 
 
-    FIRES_API
+    FIRES_EXPORT
     std::string type( void ) const;
 
-    FIRES_API
+    FIRES_EXPORT
     bool empty( void ) const;
 
   protected:

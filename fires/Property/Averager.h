@@ -36,23 +36,23 @@ namespace fires
   class Averager
   {
   public:
-    FIRES_API
+    FIRES_EXPORT
     virtual ~Averager( )
     {
     }
 
-    FIRES_API
+    FIRES_EXPORT
     virtual void accum( const Property& /* f1 */ ) = 0;
 
-    FIRES_API
+    FIRES_EXPORT
     virtual void divide( const unsigned int /* f1 */ ) = 0;
 
-    FIRES_API
+    FIRES_EXPORT
     virtual void reset( void ) = 0;
 
     // Altough this method should be const then property constructed as
     // const and breaks
-    FIRES_API
+    FIRES_EXPORT
     virtual Property property( void ) = 0;
   };
 

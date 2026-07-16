@@ -24,8 +24,6 @@
 #include <string>
 #include <iostream>
 
-#include <fires/defines.h>
-
 
 namespace fires
 {

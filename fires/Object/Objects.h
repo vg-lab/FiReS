@@ -40,16 +40,16 @@ namespace fires
      * Add an object to the container
      * @param object pointer to the object to be added
      */
-    FIRES_API
+    FIRES_EXPORT
     void add( Object* object );
 
-    FIRES_API
+    FIRES_EXPORT
     void del( Object* object );
 
-    FIRES_API
+    FIRES_EXPORT
     void addList( std::initializer_list<Object*> objects );
 
-    FIRES_API
+    FIRES_EXPORT
     void clearAdds( std::initializer_list<Object*> objects );
 
   }; // class Objects

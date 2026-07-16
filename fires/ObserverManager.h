@@ -22,7 +22,7 @@
 #ifndef __FIRES__OBSERVERMANAGER_H__
 #define __FIRES__OBSERVERMANAGER_H__
 
-#include <fires/api.h>
+#include <fires/fires_export.h>
 #include <functional>
 #include <vector>
 #include <string>
@@ -60,15 +60,15 @@ namespace fires
                                              notifier, propLabel )));
     }
 
-    FIRES_API
+    FIRES_EXPORT
     static void trigger( Object* notifier, const std::string& propLabel );
-    FIRES_API
+    FIRES_EXPORT
     static void removeObserver( void* observer );
-    FIRES_API
+    FIRES_EXPORT
     static void removeNotifier( Object* notifier );
 
   protected:
-    FIRES_API
+    FIRES_EXPORT
     static ObserverCallbacksMap _callbacksMap;
 
   };

@@ -22,7 +22,7 @@
 #ifndef __FIRES__OBJECT_H__
 #define __FIRES__OBJECT_H__
 
-#include <fires/api.h>
+#include <fires/fires_export.h>
 #include "../Property/Property.h"
 #include "../PropertyGIDsManager.h"
 #include <boost/property_tree/json_parser.hpp>
@@ -38,18 +38,18 @@ namespace fires
   {
 
   public:
-    FIRES_API
+    FIRES_EXPORT
     ObjectProperties( void );
-    FIRES_API
+    FIRES_EXPORT
     void registerProperty( const std::string& label,
        const Property& property );
-    FIRES_API
+    FIRES_EXPORT
     bool unregisterProperty( const std::string& label );
-    FIRES_API
+    FIRES_EXPORT
     Property& get( const std::string& label );
-    FIRES_API
+    FIRES_EXPORT
     const Property& get( const std::string& label ) const;
-    FIRES_API
+    FIRES_EXPORT
     bool set( const std::string& label, const Property& property );
 
   }; // class ObjectProperties
@@ -68,22 +68,22 @@ namespace fires
     /**
      * Default constructor
      */
-    FIRES_API
+    FIRES_EXPORT
     Object( );
 
     /**
      * Copy constructor
      */
-    FIRES_API
+    FIRES_EXPORT
     Object( const Object& object );
 
     /**
      * Destructor
      */
-    FIRES_API
+    FIRES_EXPORT
     virtual ~Object( );
 
-    // FIRES_API
+    // FIRES_EXPORT
     // template< typename ValueType >
     // void registerProperty( const std::string& label, ValueType value )
     // {
@@ -96,7 +96,7 @@ namespace fires
      * @param label label string for the property
      * @param property property to be added
      */
-    FIRES_API
+    FIRES_EXPORT
     void registerProperty( const std::string& label, const Property& property );
 
     /**
@@ -104,7 +104,7 @@ namespace fires
      * @param label label of the property to be deleted
      * @return true if the property could be deleted
      */
-    FIRES_API
+    FIRES_EXPORT
     bool unregisterProperty( const std::string& label );
 
     /**
@@ -112,7 +112,7 @@ namespace fires
      * @param label label string to retrieve the property
      * @return the property if found and throw exception otherwise
      */
-    FIRES_API
+    FIRES_EXPORT
     Property& getProperty( const std::string& label );
 
     /**
@@ -120,7 +120,7 @@ namespace fires
      * @param label label string to retrieve the property
      * @return the property if found and throw exception otherwise
      */
-    FIRES_API
+    FIRES_EXPORT
     const Property& getProperty( const std::string& label ) const;
 
     /**
@@ -162,7 +162,7 @@ namespace fires
      * @param label label string to retrieve the property
      * @return the property if found and throw exception otherwise
      */
-    FIRES_API
+    FIRES_EXPORT
     Property& operator[]( const std::string& label );
 
     /**
@@ -171,7 +171,7 @@ namespace fires
      * @param property property to be setted
      * @return true in case property was setted, false otherwise
      */
-    FIRES_API
+    FIRES_EXPORT
     bool setProperty( const std::string& label, const Property& property);
 
     /**
@@ -179,46 +179,46 @@ namespace fires
      * @param label label string to retrieve the property
      * @return true if found
      */
-    FIRES_API
+    FIRES_EXPORT
     bool hasProperty( const std::string& label ) const;
 
     /**
      * Clears the properties of this object (no memory freeing)
      */
-    FIRES_API
+    FIRES_EXPORT
     void clearProperties( void );
 
     /**
      * Get all properties
      * @return all properties
      */
-    FIRES_API
+    FIRES_EXPORT
     ObjectProperties& properties( void );
 
     /**
      * Get all properties as const
      * @return all properties
      */
-    FIRES_API
+    FIRES_EXPORT
     const ObjectProperties& properties( void ) const;
 
     /**
      * Get a reference to the label of the object
      * @return reference to label
      */
-    FIRES_API
+    FIRES_EXPORT
     std::string& label( void );
 
     /**
      * Get the label of the object as const
      * @return label of the object as const
      */
-    FIRES_API
+    FIRES_EXPORT
     const std::string& label( void ) const;
 
     /** @name Operators */
     ///@{
-    FIRES_API
+    FIRES_EXPORT
     Object& operator= ( const Object& other );
     ///@}
 
@@ -226,20 +226,20 @@ namespace fires
     * @param stream to write the object
     * @param linePrefix prefix at the start of every line
     */
-    FIRES_API
+    FIRES_EXPORT
     void serialize( std::ostream& stream, bool minimizeStream = true,
       const std::string& linePrefix = "" ) const;
 
     /**Reads and loads this object properties
     * @stream stream containing JSON from which data will be loaded
     */
-    FIRES_API
+    FIRES_EXPORT
     void deserialize( std::istream& stream );
 
     /**Reads and loads this object properties
     * @root boost JSON root object from which data will be loaded
     */
-    FIRES_API
+    FIRES_EXPORT
     void deserialize( const boost::property_tree::ptree& root );
 
   protected:

@@ -48,19 +48,19 @@ namespace fires
     /**
      * Default destructor
      **/
-    FIRES_API
+    FIRES_EXPORT
     virtual ~Search( );
 
-    FIRES_API
+    FIRES_EXPORT
     virtual Objects& eval( Objects &objs, TaskConfig& config );
 
 
   protected:
 
-    FIRES_API
+    FIRES_EXPORT
     float _distanceBetweenTwoObjects( Object* obj1, Object* obj2,
                                       SearchConfig& config );
-    FIRES_API
+    FIRES_EXPORT
     virtual void _computeAverageQueryObject( Object& avgObj,
                                              Objects& queryObjects,
                                              SearchConfig& config );

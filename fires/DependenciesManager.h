@@ -22,7 +22,7 @@
 #ifndef __FIRES__DEPENDENCIES_MANAGER_H__
 #define __FIRES__DEPENDENCIES_MANAGER_H__
 
-#include <fires/api.h>
+#include <fires/fires_export.h>
 #include <boost/functional/hash.hpp>
 #include <functional>
 #include <vector>
@@ -110,7 +110,7 @@ namespace fires
      * @param dependencyPropLabel property that will be a dependency of
      *                            ( dependent, propLabel )
      */
-    FIRES_API
+    FIRES_EXPORT
     static void addDependency(
       Object* dependent, const std::string& dependentPropLabel,
       Object* dependency, const std::string& dependencyPropLabel );
@@ -128,7 +128,7 @@ namespace fires
      * @param dependencyPropLabel property that is a dependency of
      *                            ( dependent, propLabel )
      */
-    FIRES_API
+    FIRES_EXPORT
     static void removeDependency(
         Object* dependent, const std::string& dependentPropLabel,
         Object* dependency, const std::string& dependencyPropLabel );
@@ -139,7 +139,7 @@ namespace fires
      * @param obj the object that holds the property to be set dirty
      * @param propLabel the name of the property to be set dirty
      */
-    FIRES_API
+    FIRES_EXPORT
     static void setDependentsDirty( Object* obj, const std::string& propLabel,
                                     bool includeSelf = false );
 
@@ -150,7 +150,7 @@ namespace fires
      * @param propLabel the name of the property to test if dirty
      * @return true if the property is dirty
      */
-    FIRES_API
+    FIRES_EXPORT
     static bool getDirtiness( Object* obj, const std::string& propLabel );
 
     /**
@@ -162,7 +162,7 @@ namespace fires
      * @param obj the object that holds the property to be updated
      * @param propLabel the name of the property to be updated
      */
-    FIRES_API
+    FIRES_EXPORT
     static void updateProperty( Object* obj, const std::string& propLabel );
 
     /**
@@ -172,19 +172,19 @@ namespace fires
      * @param obj the object that will be removed from dependents and
      *            depencendies
      */
-    FIRES_API
+    FIRES_EXPORT
     static void removeObject( Object* obj );
 
   protected:
 
     //! Holds the links from dependents to depdendencies and also the updaters
-    FIRES_API static DependsOn _dependsOn;
+    FIRES_EXPORT static DependsOn _dependsOn;
 
     //! Holds the links from depdendenciesgg to dependents
-    FIRES_API static IsDependecyOf _isDependencyOf;
+    FIRES_EXPORT static IsDependecyOf _isDependencyOf;
 
     //! Hold the properties that are dirty
-    FIRES_API static DirtyProperties _dirtyProps;
+    FIRES_EXPORT static DirtyProperties _dirtyProps;
 
   };
 

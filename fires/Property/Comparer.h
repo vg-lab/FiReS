@@ -38,7 +38,7 @@ namespace fires
   class Comparer
   {
   public:
-    FIRES_API
+    FIRES_EXPORT
     virtual ~Comparer( )
     {
     }
@@ -51,7 +51,7 @@ namespace fires
      * @param f2 Second property to compare.
      * @return Distance between properties
      */
-    FIRES_API
+    FIRES_EXPORT
     virtual float distance( const Property& f1 ,
                             const Property& f2 ) const;
 

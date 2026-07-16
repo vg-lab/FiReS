@@ -24,7 +24,7 @@
 
 #include <map>
 #include <limits>
-#include <fires/api.h>
+#include <fires/fires_export.h>
 #include "error.h"
 #include "Log.h"
 
@@ -53,7 +53,7 @@ namespace fires
      * @param label Name of the property
      * @return GID of the property
      */
-    FIRES_API static PropertyGID getPropertyGID( const std::string& label );
+    FIRES_EXPORT static PropertyGID getPropertyGID( const std::string& label );
 
     /**
      * Converts from property property GID to property name.
@@ -61,7 +61,7 @@ namespace fires
      * @param gid GID of the property
      * @return  Name of the property
      */
-    FIRES_API static const std::string& getPropertyLabel( PropertyGID gid );
+    FIRES_EXPORT static const std::string& getPropertyLabel( PropertyGID gid );
 
   protected:
 

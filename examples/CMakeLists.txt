@@ -1,75 +1,119 @@
-# Include directories
-include_directories(
-  ${PROJECT_SOURCE_DIR}/
-  ${PROJECT_BINARY_DIR}
-)
+if(FIRES_WITH_EXAMPLES)
 
-set( FIRESPROPERTIES_HEADERS )
-set( FIRESPROPERTIES_SOURCES properties.cpp )
-set( FIRESPROPERTIES_LINK_LIBRARIES FiReS )
-common_application( FiReSProperties )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESPROPERTIES_SOURCES} )
+  # Function to create and install an example application
+  function(add_project_example)
+    set(options)
+    set(oneValueArgs TARGET_NAME)
+    set(multiValueArgs SOURCES LINK_LIBRARIES)
+    cmake_parse_arguments(PARSE_ARGV 0 ARG "${options}" "${oneValueArgs}" "${multiValueArgs}")
 
-set( FIRESSEARCHSCALAR_HEADERS )
-set( FIRESSEARCHSCALAR_SOURCES searchScalar.cpp )
-set( FIRESSEARCHSCALAR_LINK_LIBRARIES FiReS )
-common_application( FiReSSearchScalar )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESSEARCHSCALAR_SOURCES} )
+    if(NOT ARG_TARGET_NAME OR NOT ARG_SOURCES)
+      message(FATAL_ERROR "TARGET_NAME and SOURCES are required arguments")
+    endif()
 
-set( FIRESSEARCHLARGENUMBEROFOBJECTS_HEADERS )
-set( FIRESSEARCHLARGENUMBEROFOBJECTS_SOURCES searchLargeNumberOfObjects.cpp )
-set( FIRESSEARCHLARGENUMBEROFOBJECTS_LINK_LIBRARIES FiReS )
-common_application( FiReSSearchLargeNumberOfObjects )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESSEARCHLARGENUMBEROFOBJECTS_SOURCES} )
+    add_executable(${ARG_TARGET_NAME} ${ARG_SOURCES})
+    target_link_libraries(${ARG_TARGET_NAME} PRIVATE ${PROJECT_NAME} ${ARG_LINK_LIBRARIES})
 
-set( FIRESFILTER_HEADERS )
-set( FIRESFILTER_SOURCES filter.cpp )
-set( FIRESFILTER_LINK_LIBRARIES FiReS )
-common_application( FiReSFilter )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESFILTER_SOURCES} )
+    # Get current parent scope value and create a local copy
+    set(PROJECT_EXAMPLES_FILES_VAR "${${PROJECT_NAME}_EXAMPLES_FILES}")
+    set(current_examples ${PROJECT_EXAMPLES_FILES_VAR})
+    
+    # Convert to CMake list and append new sources
+    list(APPEND current_examples ${ARG_SOURCES})
+    
+    # Remove duplicates and update parent scope
+    list(REMOVE_DUPLICATES current_examples)
+    set(${PROJECT_NAME}_EXAMPLES_FILES "${current_examples}" PARENT_SCOPE)
 
-set( FIRESSORT_HEADERS )
-set( FIRESSORT_SOURCES sort.cpp )
-set( FIRESSORT_LINK_LIBRARIES FiReS )
-common_application( FiReSSort )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESSORT_SOURCES} )
+    # Create all examples target
+    if(NOT TARGET ${PROJECT_NAME}_all_examples)
+      add_custom_target(${PROJECT_NAME}_all_examples)
+    endif()
 
-set( FIRESAGGREGATE_HEADERS )
-set( FIRESAGGREGATE_SOURCES aggregate.cpp )
-set( FIRESAGGREGATE_LINK_LIBRARIES FiReS )
-common_application( FiReSAggregate )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESAGGREGATE_SOURCES} )
+    # Add example to global examples target
+    add_dependencies(${PROJECT_NAME}_all_examples ${ARG_TARGET_NAME})
+  endfunction()
 
-set( FIRESSERIALIZE_HEADERS )
-set( FIRESSERIALIZE_SOURCES serialize.cpp )
-set( FIRESSERIALIZE_LINK_LIBRARIES FiReS )
-common_application( FiReSSerialize )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESAGGREGATE_SOURCES} )
+  # Add examples
+  add_project_example(
+    TARGET_NAME firesExampleAggregate
+    SOURCES
+      aggregate.cpp
+  )
 
-set( FIRESTASKS_HEADERS )
-set( FIRESTASKS_SOURCES tasks.cpp )
-set( FIRESTASKS_LINK_LIBRARIES FiReS )
-common_application( FiReSTasks )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESTASKS_SOURCES} )
+  add_project_example(
+    TARGET_NAME firesExampleCaster
+    SOURCES
+      caster.cpp
+  )
 
-set( FIRESOBSERVER_HEADERS )
-set( FIRESOBSERVER_SOURCES observer.cpp )
-set( FIRESOBSERVER_LINK_LIBRARIES FiReS )
-common_application( FiReSObserver )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESOBSERVER_SOURCES} )
+  add_project_example(
+    TARGET_NAME firesExampleDependencies
+    SOURCES
+      dependencies.cpp
+  )
 
-set( FIRESDEPENDENCIES_HEADERS )
-set( FIRESDEPENDENCIES_SOURCES dependencies.cpp )
-set( FIRESDEPENDENCIES_LINK_LIBRARIES FiReS )
-common_application( FiReSDependencies )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESDEPENDENCIES_SOURCES} )
+  add_project_example(
+    TARGET_NAME firesExampleFilter
+    SOURCES
+      filter.cpp
+  )
 
-set( FIRESCASTER_HEADERS )
-set( FIRESCASTER_SOURCES caster.cpp )
-set( FIRESCASTER_LINK_LIBRARIES FiReS )
-common_application( FiReSCaster )
-list( APPEND FIRES_EXAMPLES_FILES ${FIRESCASTER_SOURCES} )
+  # add_project_example(
+  #   TARGET_NAME firesExampleFloatFeaturesNormalization
+  #   SOURCES
+  #     floatFeaturesNormalization.cpp
+  # )
 
-include(InstallFiles)
-install_files(share/fires/examples FILES ${FIRES_EXAMPLES_FILES} COMPONENT
-  examples )
+  add_project_example(
+    TARGET_NAME firesExampleObserver
+    SOURCES
+      observer.cpp
+  )
+
+  add_project_example(
+    TARGET_NAME firesExampleProperties
+    SOURCES
+      properties.cpp
+  )
+
+  add_project_example(
+    TARGET_NAME firesExampleSearchLargeNumberOfObjects
+    SOURCES
+      searchLargeNumberOfObjects.cpp
+  )
+
+  add_project_example(
+    TARGET_NAME firesExampleSearchScalar
+    SOURCES
+      searchScalar.cpp
+  )
+
+  add_project_example(
+    TARGET_NAME firesExampleSerialize
+    SOURCES
+      serialize.cpp
+  )
+
+  add_project_example(
+    TARGET_NAME firesExampleSort
+    SOURCES
+      sort.cpp
+  )
+
+  add_project_example(
+    TARGET_NAME firesExampleTask
+    SOURCES
+      tasks.cpp
+  )
+
+  # Define installation directory variables
+  include(GNUInstallDirs)
+
+  # Install examples source files
+  install(FILES ${${PROJECT_NAME}_EXAMPLES_FILES}
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME_LOWER}/examples
+    COMPONENT ${PROJECT_NAME}_examples
+  )
+
+endif()

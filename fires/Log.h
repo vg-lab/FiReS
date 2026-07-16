@@ -22,7 +22,7 @@
 #ifndef __FIRES__LOG__
 #define __FIRES__LOG__
 
-#include <fires/api.h>
+#include <fires/fires_export.h>
 #include <iostream>
 
 namespace fires
@@ -55,28 +55,28 @@ namespace fires
      * Set current log level
      * @param logLevel level to be set
      */
-    FIRES_API
+    FIRES_EXPORT
     static void setLogLevel( const TLogLevel logLevel );
 
     /**
      * Get current log level
      * @return current log level
      */
-    FIRES_API
+    FIRES_EXPORT
     static TLogLevel logLevel( void );
 
     /**
      * Set current output stream
      * @param stream output stream to be set
      */
-    FIRES_API
+    FIRES_EXPORT
     static void setStream( std::ostream& stream );
 
     /**
      * Get current output stream
      * @return current output stream
      */
-    FIRES_API
+    FIRES_EXPORT
     static const std::ostream& stream( void );
 
     /**
@@ -84,7 +84,7 @@ namespace fires
      * @param msg message to log
      * @param level level of the message
      */
-    FIRES_API
+    FIRES_EXPORT
     static void log( const std::string& msg,
                      const TLogLevel level = LOG_LEVEL_VERBOSE );
 
@@ -94,7 +94,7 @@ namespace fires
      * @param level level of the message
      * @param stream stream where log will be written
      */
-    FIRES_API
+    FIRES_EXPORT
     static void log( const std::string& msg,
                      std::ostream& stream,
                      const TLogLevel level = LOG_LEVEL_VERBOSE );

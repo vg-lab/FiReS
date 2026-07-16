@@ -36,32 +36,32 @@ namespace fires
   class Normalizer
   {
   public:
-    FIRES_API
+    FIRES_EXPORT
     virtual ~Normalizer( )
     {
     }
 
-    FIRES_API
+    FIRES_EXPORT
     virtual void reset( const std::string& label ) = 0;
 
-    FIRES_API
+    FIRES_EXPORT
     virtual void update( const std::string& label,
                          const Property& property_ ) = 0;
 
-    FIRES_API
+    FIRES_EXPORT
     virtual Property normalizeProperty( const std::string& /* label */,
                                       const Property& property_ ) const
     {
       return property_;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     virtual float normalizeDistance( const float distance )
     {
       return distance;
     }
 
-    FIRES_API
+    FIRES_EXPORT
     virtual void freeNormalizedProperty( Property& /* property_ */ ) { };
   };
 
@@ -322,7 +322,7 @@ namespace fires
 //     {
 //     }
 
-//     FIRES_API
+//     FIRES_EXPORT
 //     virtual void accum( const Property& property_ )
 //     {
 //       vector< M, T > v;
@@ -333,7 +333,7 @@ namespace fires
 //       this->_accumValue += v;
 //     }
 
-//     FIRES_API
+//     FIRES_EXPORT
 //     virtual Property property( void )
 //     {
 
@@ -365,7 +365,7 @@ namespace fires
 //     {
 //     }
 
-//     FIRES_API
+//     FIRES_EXPORT
 //     virtual void accum( const Property& property_ )
 //     {
 
@@ -378,7 +378,7 @@ namespace fires
 //       this->_accumValue += v;
 //     }
 
-//     FIRES_API
+//     FIRES_EXPORT
 //     virtual Property property( void )
 //     {
 //       for ( unsigned int i = 0; i < M ; i++ )
