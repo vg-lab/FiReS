@@ -2,6 +2,9 @@ include:
   - component: $CI_SERVER_FQDN/common/ci-shared/cmake@main
     inputs:
       job_prefix: debug
-      image: "ubuntu:26.04"
+      image: "debian:unstable"
+      before_script:
+        - apt update
+        - apt install -y g++ cmake ninja-build libboost-test-dev
       build_type: Debug
       cmake_options: "-DBUILD_DOCS=OFF"
