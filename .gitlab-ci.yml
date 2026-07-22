@@ -1,58 +1,7 @@
-stages:
- - build
-
-Ubuntu:
- stage: build
- script:
-  - date
-  - hostname
-  - uname -a
-  - export COVERAGE=ON
-  - export CMAKE_EXTRA_TARGETS="FiReS-tests"
-  - export BUILD_GENERATOR="Ninja"
-  - bash .gitlabci.sh
- except:
-  - master
- tags:
-  - ubuntu
-
-Ubuntu-master:
- stage: build
- script:
-  - date
-  - hostname
-  - uname -a
-  - export COVERAGE=ON
-  - export CMAKE_EXTRA_TARGETS="FiReS-tests doxygen"
-  - export DEPLOY_DOC_REPO="git@github.com:vg-lab/vg-lab.github.io"
-  - export GITHUB_MIRROR_URL="git@github.com:vg-lab/FiReS"
-  - export BUILD_GENERATOR="Ninja"
-  - bash .gitlabci.sh
- only:
-  - master
- tags:
-  - ubuntu
-
-#OSX:
-# stage: build
-# script:
-#  - date
-#  - hostname
-#  - uname -a
-#  - export CMAKE_EXTRA_TARGETS="FiReS-tests"
-#  - export BUILD_GENERATOR="Ninja"
-#  - bash .gitlabci.sh
-# tags:
-#  - osx-sierra
-
-Win7-vs14:
- stage: build
- script:
-  - call %ENVFILESDIR%\Boost-1.64-vs14-x64.bat
-  - set CMAKE_EXTRA_TARGETS=RUN_TESTS
-  - set RUN_TESTS=1
-  - set BUILD_GENERATOR=Visual Studio 14 Win64
-  - set PATH=%PATH%;"c:\\Program Files\\Git\\bin"
-  - bash.exe --login .gitlabci.sh
- tags:
-  - win7
+include:
+  - component: $CI_SERVER_FQDN/common/ci-shared/cmake@main
+    inputs:
+      job_prefix: debug
+      image: "ubuntu:26.04"
+      build_type: Debug
+      cmake_options: "-DBUILD_DOCS=OFF"
