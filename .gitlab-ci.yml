@@ -1,10 +1,12 @@
+stages: [run]
+
 include:
-  - component: $CI_SERVER_FQDN/common/ci-shared/cmake@main
+  - component: $CI_SERVER_FQDN/common/ci-shared/cmake-workflow@main
     inputs:
       job_prefix: debug
       image: "debian:unstable"
       before_script:
         - apt update
-        - apt install -y g++ cmake ninja-build libboost-test-dev
-      build_type: Debug
-      cmake_options: "-DBUILD_DOCS=OFF"
+        - apt install -y git doxygen g++ cmake ninja-build libboost-test-dev
+      workflow_preset: "debug-test"
+      build_dir: "build/debug"
