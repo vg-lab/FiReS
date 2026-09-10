@@ -4,9 +4,19 @@ include:
   - component: $CI_SERVER_FQDN/common/ci-shared/cmake-workflow@main
     inputs:
       job_prefix: debug
-      image: "debian:unstable"
+      image: "docker.io/ubuntu:24.04"
       before_script:
         - apt update
-        - apt install -y git doxygen g++ cmake ninja-build libboost-test-dev
+        - DEBIAN_FRONTEND=noninteractive apt install -y git doxygen g++ cmake ninja-build libboost-test-dev
+      workflow_preset: "debug-test"
+      build_dir: "build/debug"
+
+  - component: $CI_SERVER_FQDN/common/ci-shared/cmake-workflow@main
+    inputs:
+      job_prefix: debug-unstable
+      image: "docker.io/debian:unstable"
+      before_script:
+        - apt update
+        - DEBIAN_FRONTEND=noninteractive apt install -y git doxygen g++ cmake ninja-build libboost-test-dev
       workflow_preset: "debug-test"
       build_dir: "build/debug"
